@@ -1,0 +1,1149 @@
+<title>EAASI Ops Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Carlito:ital,wght@0,400;0,700;1,400&display=swap">
+<style>/*__LEAFLET_CSS__*/</style>
+<style>
+/* Layout: member app — rail + main on desktop, top bar + bottom tabs on phone. Freshness stamp on every record is the signature. */
+:root{
+  --bg:#EEF2F8; --surface:#FFFFFF; --surface-2:#F5F8FF; --ink:#1A2340; --text:#2C3E50; --muted:#56647E; --line:#D5DEEC;
+  --teal:#3DBFBF; --teal-ink:#1C7A7A; --teal-wash:#E0F4F4; --navy:#1A2340; --navy-2:#2B3A67;
+  --ok:#27702A; --ok-wash:#E4F1E4; --warn:#8C6200; --warn-wash:#FAF0D6; --bad:#A93628; --bad-wash:#F8E4E0;
+  --chat-bg:#E4EBF2; --bubble-in:#FFFFFF; --bubble-out:#D6F0F0; --plate:#FFFFFF; --sea:#DCE6F0; --land:#F8FAFD; --border-land:#B9C7DA;
+  --f-body:Calibri,"Carlito","Segoe UI",system-ui,sans-serif; --f-code:"Barlow Condensed","Arial Narrow",Calibri,sans-serif;
+  --r:10px; --shadow:0 1px 2px rgba(26,35,64,.06),0 4px 14px rgba(26,35,64,.06);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1528; --surface:#161F3A; --surface-2:#1C2747; --ink:#E9EEF8; --text:#CAD3E4; --muted:#93A1BC; --line:#2A3760;
+  --teal:#45C9C9; --teal-ink:#72D9D9; --teal-wash:#15384A; --navy:#0B1122; --navy-2:#22305A;
+  --ok:#74C274; --ok-wash:#16301F; --warn:#E3B650; --warn-wash:#382C10; --bad:#F08476; --bad-wash:#3B1C1A;
+  --chat-bg:#0B1122; --bubble-in:#1C2747; --bubble-out:#14424A; --plate:#FFFFFF; --sea:#0A1020; --land:#18223F; --border-land:#33436F;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1528; --surface:#161F3A; --surface-2:#1C2747; --ink:#E9EEF8; --text:#CAD3E4; --muted:#93A1BC; --line:#2A3760;
+  --teal:#45C9C9; --teal-ink:#72D9D9; --teal-wash:#15384A; --navy:#0B1122; --navy-2:#22305A;
+  --ok:#74C274; --ok-wash:#16301F; --warn:#E3B650; --warn-wash:#382C10; --bad:#F08476; --bad-wash:#3B1C1A;
+  --chat-bg:#0B1122; --bubble-in:#1C2747; --bubble-out:#14424A; --plate:#FFFFFF; --sea:#0A1020; --land:#18223F; --border-land:#33436F;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25); color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--f-body);font-size:15.5px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--teal-ink)}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+h1,h2,h3{color:var(--ink);margin:0;text-wrap:balance;line-height:1.2}
+h1{font-size:1.55rem} h2{font-size:1.15rem} h3{font-size:1rem}
+p{margin:0}
+.code{font-family:var(--f-code);font-weight:700;letter-spacing:.02em}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+.eyebrow{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-ink);font-weight:700}
+
+/* shell */
+.app{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100%}
+.rail{position:sticky;top:0;height:100vh;background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:18px 14px}
+.plate{background:var(--plate);border-radius:8px;display:inline-flex;align-items:center;padding:6px 10px}
+.plate img{height:34px;width:auto;display:block}
+.rail .product{margin:10px 4px 18px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{display:flex;align-items:center;gap:10px;background:none;border:0;text-align:left;padding:10px 12px;border-radius:8px;color:var(--text)}
+.nav button:hover{background:var(--surface-2)}
+.nav button[aria-current="page"]{background:var(--teal-wash);color:var(--ink);font-weight:700}
+.nav svg{width:19px;height:19px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav .badge{margin-left:auto}
+.rail .me{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 6px 0;border-top:1px solid var(--line);font-size:.86rem}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--navy-2);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.8rem;flex:none}
+.topbar{display:none}
+.tabbar{display:none}
+main{min-width:0;padding:28px 32px 60px;max-width:1080px;width:100%}
+.badge{min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--bad);color:#fff;font-size:.72rem;font-weight:700;display:inline-grid;place-items:center}
+
+@media (max-width:900px){
+  .app{display:block}
+  .rail{display:none}
+  .topbar{display:flex;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;align-items:center;gap:10px;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+  .topbar .plate img{height:24px}
+  .topbar .t{font-weight:700;color:var(--ink);font-size:.95rem}
+  .topbar .avatar{margin-left:auto;width:28px;height:28px}
+  main{padding:18px 16px 96px}
+  .tabbar{display:grid;grid-template-columns:repeat(6,1fr);position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+  .tabbar button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.66rem;color:var(--muted);padding:4px 0;position:relative}
+  .tabbar button[aria-current="page"]{color:var(--teal-ink);font-weight:700}
+  .tabbar svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .tabbar .badge{position:absolute;top:0;left:calc(50% + 6px);min-width:17px;height:17px;font-size:.65rem}
+}
+
+/* generic blocks */
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.head p{margin-top:4px;max-width:62ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.stack{display:flex;flex-direction:column;gap:12px}
+.section{margin-top:28px}
+.section>.eyebrow{display:block;margin-bottom:10px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--teal);background:var(--teal);color:#062C2C;font-weight:700;padding:8px 14px;border-radius:8px;font-size:.9rem}
+.btn:hover{filter:brightness(1.05)}
+.btn.ghost{background:transparent;color:var(--teal-ink)}
+.btn.quiet{background:var(--surface-2);border-color:var(--line);color:var(--text)}
+.btn.sm{padding:5px 10px;font-size:.82rem}
+.btn:disabled{opacity:.5;cursor:default}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:.84rem;color:var(--text)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg);font-weight:700}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:.74rem;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.tag.teal{background:var(--teal-wash);color:var(--teal-ink);border-color:transparent}
+.tag.ok{background:var(--ok-wash);color:var(--ok);border-color:transparent}
+.tag.warn{background:var(--warn-wash);color:var(--warn);border-color:transparent}
+.tag.bad{background:var(--bad-wash);color:var(--bad);border-color:transparent}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-width:0;flex:1 1 220px;max-width:340px}
+.search input{border:0;background:transparent;outline:0;font:inherit;color:var(--ink);width:100%;min-width:0}
+.search svg{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2;flex:none}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px;overflow-x:auto;margin-bottom:16px}
+.seg button{border:0;background:none;padding:8px 14px;border-radius:8px;white-space:nowrap;color:var(--muted);font-weight:700;font-size:.9rem}
+.seg button[aria-current="true"]{background:var(--ink);color:var(--bg)}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+
+/* freshness stamp — signature */
+.stamp{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);min-width:0}
+.ticks{display:grid;grid-template-columns:repeat(12,4px);gap:2px;flex:none}
+.ticks i{height:10px;border-radius:1px;background:var(--line)}
+.stamp.ok .ticks i.on{background:var(--ok)}
+.stamp.warn .ticks i.on{background:var(--warn)}
+.stamp.bad .ticks i.on{background:var(--bad)}
+.stamp.new .ticks i{background:transparent;border:1px dashed var(--line)}
+.stamp b{color:var(--text);font-weight:700}
+.stamp span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* home */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{padding:16px;display:flex;flex-direction:column;gap:6px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow)}
+.kpi .v{font-size:2rem;font-weight:700;color:var(--ink);line-height:1}
+.kpi.bad .v{color:var(--bad)} .kpi.warn .v{color:var(--warn)} .kpi.teal .v{color:var(--teal-ink)}
+.kpi .l{font-size:.86rem;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px;align-items:start}
+.qitem{padding:14px 16px;display:flex;flex-direction:column;gap:8px;border-left:3px solid var(--warn)}
+.qitem.sys{border-left-color:var(--bad)}
+.qitem .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.qitem .diff{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 10px;font-size:.88rem}
+.qitem .diff dt{color:var(--muted)} .qitem .diff dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.qitem .diff .new{color:var(--ok);font-weight:700}
+.wa{background:var(--chat-bg);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:8px}
+.wa .from{font-size:.74rem;color:var(--muted);text-align:center}
+.bub{max-width:88%;padding:8px 11px 6px;border-radius:10px;background:var(--bubble-in);box-shadow:0 1px 1px rgba(0,0,0,.08);font-size:.92rem;white-space:pre-wrap;overflow-wrap:anywhere}
+.bub.out{align-self:flex-end;background:var(--bubble-out)}
+.bub .meta{display:block;text-align:right;font-size:.7rem;color:var(--muted);margin-top:2px}
+.modgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.mod{padding:14px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:var(--r);display:flex;flex-direction:column;gap:4px}
+.mod:hover{border-color:var(--teal)}
+.mod b{color:var(--ink)}
+.mod .n{font-size:1.4rem;font-weight:700;color:var(--teal-ink)}
+
+/* lists */
+.list{display:flex;flex-direction:column}
+.list>.item{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 16px;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;width:100%}
+.list>.item:last-child{border-bottom:0}
+.list>.item:hover{background:var(--surface-2)}
+.cc{width:52px;height:40px;border-radius:6px;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:var(--f-code);font-weight:700;font-size:1.3rem;letter-spacing:.04em}
+.cc.icao{font-size:1.05rem;background:var(--navy-2)}
+.item .main{display:flex;flex-direction:column;gap:5px;min-width:0}
+.item .title{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.item .title b{color:var(--ink);font-size:1.02rem}
+.item .facts{display:flex;gap:6px;flex-wrap:wrap}
+.item .side{display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-align:right}
+.lead{font-size:1.15rem;font-weight:700;color:var(--ink)}
+@media (max-width:640px){
+  .list>.item{grid-template-columns:44px minmax(0,1fr);gap:12px}
+  .cc{width:44px;height:36px;font-size:1.1rem}
+  .item .side{grid-column:2;flex-direction:row;align-items:center;justify-content:flex-start;gap:8px;text-align:left}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .modgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:900px){.grid2{grid-template-columns:minmax(0,1fr)}}
+
+/* radar */
+.rad{padding:16px;display:flex;flex-direction:column;gap:8px}
+.rad.flag{border-color:var(--warn);box-shadow:0 0 0 1px var(--warn) inset,var(--shadow)}
+.rad .top{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.rad .date{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink);font-size:.86rem}
+.rad h3{font-size:1.02rem}
+.rad .impact{background:var(--surface-2);border-radius:8px;padding:8px 10px;font-size:.9rem}
+.rad .impact b{color:var(--ink)}
+.pipeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+.pipeline div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:.84rem}
+.pipeline b{display:block;color:var(--ink)}
+@media (max-width:640px){.pipeline{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(10,15,30,.45);z-index:40}
+.sheet{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--bg);z-index:41;display:flex;flex-direction:column;box-shadow:-8px 0 30px rgba(0,0,0,.2)}
+.sheet header{display:flex;gap:12px;align-items:center;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 14px;background:var(--surface);border-bottom:1px solid var(--line)}
+.sheet header .x{margin-left:auto;background:none;border:0;padding:6px;border-radius:6px}
+.sheet header .x svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none}
+.sheet .body>*{flex-shrink:0}
+.sheet .body{overflow-y:auto;padding:18px 18px calc(28px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px}
+.facts-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.facts-grid div{background:var(--surface);padding:10px 12px;min-width:0}
+.facts-grid dt{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.facts-grid dd{margin:2px 0 0;color:var(--ink);font-weight:700;overflow-wrap:anywhere}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.block h3{margin-bottom:8px;font-size:.95rem}
+.prose{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.93rem}
+.contacts{display:flex;flex-direction:column;gap:0}
+.contact{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+.contact:last-child{border-bottom:0}
+.contact span:first-child{color:var(--muted);font-size:.82rem}
+.contact .val{overflow-wrap:anywhere;user-select:all;color:var(--ink)}
+.callout{border-radius:var(--r);padding:12px 14px;font-size:.92rem;display:flex;flex-direction:column;gap:6px}
+.callout.warn{background:var(--warn-wash);color:var(--text);border:1px solid var(--warn)}
+.callout.bad{background:var(--bad-wash);border:1px solid var(--bad)}
+.callout.teal{background:var(--teal-wash);border:1px solid var(--teal)}
+.callout b{color:var(--ink)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.form{display:flex;flex-direction:column;gap:8px}
+.form label{font-size:.8rem;color:var(--muted);font-weight:700}
+.form select,.form input,.form textarea{font:inherit;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:100%}
+.zones{max-height:220px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
+.zones div{display:flex;gap:10px;padding:6px 10px;border-bottom:1px solid var(--line);font-size:.88rem}
+.zones div:last-child{border-bottom:0}
+.zones .code{color:var(--teal-ink);min-width:54px}
+.mapbox{border:1px solid var(--line);border-radius:8px;background:var(--surface-2);overflow:hidden}
+.mapbox svg{display:block;width:100%;height:auto}
+.srcs{display:flex;flex-direction:column;gap:4px;font-size:.86rem}
+.srcs a{overflow-wrap:anywhere}
+
+/* assistant */
+.chatwrap{max-width:520px;margin:0 auto;height:calc(100vh - 88px);display:flex;flex-direction:column;border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.chathead{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--navy);color:#fff}
+.chathead .dot{width:36px;height:36px;border-radius:50%;background:var(--plate);display:grid;place-items:center;flex:none;overflow:hidden}
+.chathead .dot img{width:30px;height:auto}
+.chathead small{display:block;color:#A9B6CF;font-size:.76rem}
+.chathead .mode{margin-left:auto;font-size:.72rem;background:rgba(255,255,255,.12);padding:3px 8px;border-radius:999px}
+.chat>*{flex-shrink:0}
+.chat{flex:1;overflow-y:auto;background:var(--chat-bg);padding:14px;display:flex;flex-direction:column;gap:8px}
+.refs{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.refs button{border:1px solid var(--teal);background:transparent;color:var(--teal-ink);border-radius:999px;font-size:.76rem;padding:2px 9px;font-weight:700}
+.sent{align-self:center;max-width:92%;background:var(--warn-wash);border:1px solid var(--warn);border-radius:10px;padding:8px 12px;font-size:.84rem}
+.typing{display:inline-flex;gap:4px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:b 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.suggest{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;background:var(--surface);border-top:1px solid var(--line)}
+.suggest button{flex:none;border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:5px 11px;font-size:.8rem;color:var(--text)}
+.composer{display:flex;gap:8px;padding:10px;background:var(--surface);border-top:1px solid var(--line)}
+.composer textarea{flex:1;resize:none;font:inherit;border:1px solid var(--line);border-radius:20px;padding:9px 14px;background:var(--surface-2);color:var(--ink);max-height:120px;min-width:0}
+.composer button{width:42px;height:42px;border-radius:50%;border:0;background:var(--teal);display:grid;place-items:center;flex:none}
+.composer button svg{width:20px;height:20px;fill:#062C2C}
+@media (max-width:900px){.chatwrap{height:calc(100vh - 150px);border-radius:12px}}
+
+/* map */
+.mapwrap{position:relative;height:calc(100vh - 170px);min-height:460px;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+#map{position:absolute;inset:0;background:var(--sea)}
+.leaflet-container{font-family:var(--f-body);background:var(--sea)}
+.leaflet-control-attribution{background:var(--surface)!important;color:var(--muted)!important;font-size:10px}
+.leaflet-control-attribution a{color:var(--teal-ink)!important}
+.leaflet-control-zoom a{background:var(--surface)!important;color:var(--ink)!important;border-color:var(--line)!important}
+.pin{font-family:var(--f-code);font-weight:700;font-size:12px;letter-spacing:.03em;background:var(--teal);color:#062C2C;border:1.5px solid var(--navy);border-radius:4px;padding:1px 4px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:translate(-50%,-50%);display:inline-block}
+.pin.sel{background:var(--ink);color:var(--bg);border-color:var(--teal)}
+.mropin{display:block;width:13px;height:13px;background:var(--navy-2);border:2px solid var(--plate);transform:translate(10px,4px) rotate(45deg);box-shadow:0 1px 3px rgba(0,0,0,.35)}
+.mropin.sel{background:var(--teal)}
+.ptpin{display:block;width:14px;height:14px;border-radius:50%;background:var(--warn);border:2px solid var(--plate);transform:translate(-50%,-50%)}
+.mlayers{position:absolute;top:10px;left:56px;right:10px;z-index:500;display:flex;gap:6px;flex-wrap:wrap;pointer-events:none}
+.mlayers .chip{pointer-events:auto;box-shadow:var(--shadow);display:inline-flex;align-items:center;gap:6px}
+.mlayers .chip:disabled{opacity:.55;cursor:not-allowed}
+.key{width:10px;height:10px;border-radius:2px;display:inline-block}
+.mstatus{position:absolute;left:10px;bottom:22px;z-index:500;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:.78rem;color:var(--muted);box-shadow:var(--shadow);max-width:calc(100% - 20px)}
+.mstatus b{color:var(--ink)}
+.mpanel{position:absolute;top:56px;right:10px;bottom:10px;width:360px;z-index:600;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);box-shadow:0 8px 30px rgba(0,0,0,.2);display:flex;flex-direction:column;overflow:hidden}
+.mpanel header{display:flex;gap:10px;align-items:center;padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--line)}
+.mpanel header .x{margin-left:auto;background:none;border:0;padding:4px}
+.mpanel header .x svg{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none}
+.mpanel .body{overflow-y:auto;padding:12px 14px 16px;display:flex;flex-direction:column;gap:12px}
+.mpanel .body>*{flex-shrink:0}
+@media (max-width:900px){
+  .mapwrap{height:calc(100vh - 200px);min-height:420px}
+  .mpanel{top:auto;left:0;right:0;bottom:0;width:auto;max-height:62%;border-radius:14px 14px 0 0}
+  .mlayers{left:52px}
+}
+.metar{font-family:ui-monospace,Consolas,monospace;font-size:.82rem;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;overflow-wrap:anywhere;color:var(--ink)}
+.fltcat{font-weight:700;font-size:.74rem;padding:2px 7px;border-radius:4px;color:#fff}
+.fltcat.VFR{background:#2A7A2A}.fltcat.MVFR{background:#2461B8}.fltcat.IFR{background:#B03A2E}.fltcat.LIFR{background:#8A2A8A}
+.days{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.day{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px;display:flex;flex-direction:column;gap:2px;font-size:.8rem}
+.day b{color:var(--ink);font-size:.84rem}
+.day .clear{font-size:1.35rem;font-weight:700;line-height:1.1}
+.day .clear.good{color:var(--ok)} .day .clear.some{color:var(--warn)} .day .clear.none{color:var(--bad)}
+.strip{display:grid;grid-template-columns:repeat(72,1fr);gap:1px;height:34px;align-items:end;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:3px}
+.strip i{display:block;border-radius:1px}
+.strip i.night{opacity:.25}
+.striplab{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-top:2px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:.72rem;color:var(--muted);align-items:center}
+.near{display:flex;flex-direction:column}
+.near button{display:flex;gap:8px;align-items:center;border:0;border-bottom:1px solid var(--line);background:none;padding:7px 0;text-align:left}
+.near button:last-child{border-bottom:0}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-size:.9rem;z-index:60;box-shadow:var(--shadow)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="app">
+  <aside class="rail" aria-label="Main">
+    <span class="plate"><img src="__LOGO__" alt="EAASI"></span>
+    <div class="product">Ops Hub · Aerial Operations</div>
+    <nav class="nav" id="nav"></nav>
+    <div class="me"><span class="avatar">MM</span><div><b style="color:var(--ink)">Marcos Martínez</b><div class="muted small">Validator · Secretary General</div></div></div>
+  </aside>
+  <header class="topbar">
+    <span class="plate"><img src="__LOGO__" alt="EAASI"></span>
+    <span class="t">Ops Hub</span>
+    <span class="avatar">MM</span>
+  </header>
+  <main id="main"></main>
+  <nav class="tabbar" id="tabbar" aria-label="Main"></nav>
+</div>
+<div id="sheetRoot"></div>
+<div id="toastRoot"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const DATA = /*__DATA__*/null;
+const LOGO = "__LOGO__";
+const ME = "Marcos Martínez";
+const NOW = new Date();
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const CCM = {Spain:"ES",Portugal:"PT",France:"FR",Italy:"IT",Germany:"DE",Austria:"AT",Switzerland:"CH",Netherlands:"NL",Denmark:"DK",Sweden:"SE",Norway:"NO",Finland:"FI",Poland:"PL",Czechia:"CZ",Croatia:"HR",Serbia:"RS",Greece:"GR","United Kingdom":"UK",Belgium:"BE"};
+const ccOf = c => CCM[c] || CCM[String(c).split(/\s*·\s*/)[0]] || String(c).slice(0,2).toUpperCase();
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function linkify(t){
+  return esc(t).replace(/(https?:\/\/[^\s<]+[^\s<.,;)])/g, u => `<a href="${u}" target="_blank" rel="noopener">${u}</a>`);
+}
+const host = u => { try { return new URL(u).hostname.replace(/^www\./,""); } catch(e){ return u; } };
+function monthsSince(d){ return (NOW - new Date(d)) / (30.44*864e5); }
+function ago(d){
+  const days = Math.floor((NOW - new Date(d))/864e5);
+  if (days <= 0) return "today";
+  if (days === 1) return "yesterday";
+  if (days < 45) return days + " days ago";
+  const m = Math.round(days/30.44);
+  return m + " months ago";
+}
+function fmtDate(d){ return new Date(d).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }
+const store = {
+  get(k,f){ try{ const v = localStorage.getItem("eaasi-ops:"+k); return v ? JSON.parse(v) : f; }catch(e){ return f; } },
+  set(k,v){ try{ localStorage.setItem("eaasi-ops:"+k, JSON.stringify(v)); }catch(e){} }
+};
+function toast(msg){
+  const r = $("#toastRoot"); r.innerHTML = `<div class="toast" role="status">${esc(msg)}</div>`;
+  clearTimeout(toast.t); toast.t = setTimeout(()=> r.innerHTML="", 2600);
+}
+const ICON = {
+  home:'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  permits:'<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h7M9 17h5"/>',
+  dir:'<path d="M2 16l20-7-3-2-6 2-6-5-2 1 4 6-5 2-2-1-1 1z"/><path d="M3 21h18"/>',
+  radar:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12l6-6"/>',
+  map:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  chat:'<path d="M4 20l1.6-4.2A8 8 0 1 1 9 19.4z"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>'
+};
+const svg = (n) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON[n]}</svg>`;
+
+/* ---------- state ---------- */
+const S = {
+  view: "home", dir: "airports",
+  permitFilter: "all", q: "",
+  verif: store.get("verif", {}),        // key -> {by, at}
+  queue: store.get("queue", null),
+  applied: store.get("applied", {}),    // "permit:ES:field" -> value
+  chat: [], busy: false
+};
+DATA.permits.forEach(p => {
+  for (const [k,v] of Object.entries(S.applied)) { const [m,id,f] = k.split(":"); if (m==="permit" && id===p.id) p[f]=v; }
+});
+if (!S.queue){
+  S.queue = [];
+  DATA.permits.forEach(p => (p.issues||[]).forEach(is => S.queue.push({
+    id:"sys-"+p.id+"-"+is.field, source:"system", module:"permit", recordId:p.id, recordName:p.country+" permit card",
+    field:is.field, current:p[is.field], proposed:null, evidence:is.text, by:"Data check", at:NOW.toISOString()
+  })));
+  DATA.radar.filter(r=>r.conflict).forEach(r => r.affects.forEach(id => {
+    const p = DATA.permits.find(x=>x.id===id);
+    S.queue.push({ id:"rad-"+r.id+"-"+id, source:"radar", module:"permit", recordId:id, recordName:p.country+" permit card",
+      field:"guide", current:"Procedure as verified "+fmtDate(p.updated), proposed:null,
+      evidence:r.title+" ("+fmtDate(r.date)+"). "+r.impact, by:"Regulatory radar", at:NOW.toISOString(), radar:r.id });
+  }));
+  store.set("queue", S.queue);
+}
+const saveQ = () => store.set("queue", S.queue);
+
+function verifOf(module, id, fallbackDate, fallbackBy){
+  const v = S.verif[module+":"+id];
+  if (v) return v;
+  return fallbackDate ? {by:fallbackBy, at:fallbackDate} : null;
+}
+function stamp(module, id, fallbackDate, fallbackBy, researched){
+  const v = verifOf(module, id, fallbackDate, fallbackBy);
+  if (!v){
+    return `<div class="stamp new"><div class="ticks">${"<i></i>".repeat(12)}</div><span>Researched from public sources · <b>to validate</b></span></div>`;
+  }
+  const m = monthsSince(v.at), on = Math.min(12, Math.max(1, Math.ceil(m)));
+  const cls = m < 6 ? "ok" : m < 12 ? "warn" : "bad";
+  const ticks = Array.from({length:12}, (_,i)=>`<i class="${i<on?"on":""}"></i>`).join("");
+  return `<div class="stamp ${cls}" title="Verified ${fmtDate(v.at)}"><div class="ticks" aria-hidden="true">${ticks}</div><span>Verified <b>${ago(v.at)}</b> · ${esc(v.by)}</span></div>`;
+}
+function freshClass(p){ const v = verifOf("permit", p.id, p.updated, p.owner); const m = monthsSince(v.at); return m<6?"ok":m<12?"warn":"bad"; }
+function confirmValid(module, id, label){
+  S.verif[module+":"+id] = {by:ME, at:NOW.toISOString()};
+  store.set("verif", S.verif);
+  toast(label + " confirmed as still valid");
+  render(); if (S.sheet) openSheet(S.sheet);
+}
+
+/* ---------- navigation ---------- */
+const VIEWS = [
+  {id:"home", label:"Home", icon:"home"},
+  {id:"permits", label:"Flight permits", short:"Permits", icon:"permits"},
+  {id:"map", label:"Map & weather", short:"Map", icon:"map"},
+  {id:"dir", label:"Directory", icon:"dir"},
+  {id:"radar", label:"Regulatory radar", short:"Radar", icon:"radar"},
+  {id:"chat", label:"Ask the assistant", short:"Assistant", icon:"chat"}
+];
+function renderNav(){
+  const pending = S.queue.length;
+  $("#nav").innerHTML = VIEWS.map(v => `<button data-go="${v.id}" ${S.view===v.id?'aria-current="page"':""}>${svg(v.icon)}<span>${v.label}</span>${v.id==="home"&&pending?`<span class="badge num">${pending}</span>`:""}</button>`).join("");
+  $("#tabbar").innerHTML = VIEWS.map(v => `<button data-go="${v.id}" ${S.view===v.id?'aria-current="page"':""}>${svg(v.icon)}<span>${v.short||v.label}</span>${v.id==="home"&&pending?`<span class="badge num">${pending}</span>`:""}</button>`).join("");
+}
+document.addEventListener("click", e => {
+  const g = e.target.closest("[data-go]"); if (g){ go(g.dataset.go, g.dataset.sub); return; }
+  const o = e.target.closest("[data-open]"); if (o){ openSheet(o.dataset.open); return; }
+  const c = e.target.closest("[data-copy]"); if (c){ copy(c, c.dataset.copy); return; }
+});
+function go(v, sub){ S.view = v; if (sub) S.dir = sub; S.q=""; closeSheet(); render(); window.scrollTo(0,0); if (v==="chat") setTimeout(()=>$("#msg")?.focus(),50); }
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const P = DATA.permits;
+  const overdue = P.filter(p => freshClass(p)==="bad").length;
+  const flagged = DATA.radar.filter(r=>r.conflict).length;
+  const toValidate = DATA.airports.length + DATA.mro.length + DATA.insurance.length + DATA.assets.length
+    - Object.keys(S.verif).filter(k=>!k.startsWith("permit:")).length;
+  const owners = {};
+  P.forEach(p => { (owners[p.owner] ||= []).push(p); });
+  const jorg = owners["Jörg Werti · BSF"] || [];
+  const q = S.queue;
+  return `
+  <div class="head"><div><div class="eyebrow">EAASI Aerial Operations Committee</div><h1>What needs attention</h1>
+  <p class="muted">Summit preview. Permit cards come from the current member area. Directory and radar entries were collected from public sources on 29 Sep 2026 and are waiting for member validation.</p></div></div>
+  <div class="kpis">
+    <button class="kpi bad" data-go="permits"><span class="v num">${overdue}<span class="muted small"> / ${P.length}</span></span><span class="l">Permit cards not verified in the last 12 months</span></button>
+    <button class="kpi warn" data-go="radar"><span class="v num">${flagged}</span><span class="l">Regulatory change that may affect a card</span></button>
+    <button class="kpi" onclick="document.getElementById('queue').scrollIntoView({behavior:'smooth'})"><span class="v num">${q.length}</span><span class="l">Items waiting for a validator</span></button>
+    <button class="kpi teal" data-go="dir"><span class="v num">${toValidate}</span><span class="l">Directory entries to validate</span></button>
+  </div>
+  <div class="grid2 section">
+    <div id="queue"><span class="eyebrow">Validation queue</span>
+      <div class="stack">${q.length ? q.map(qItem).join("") : `<div class="card empty">Nothing waiting. Corrections members send through the assistant land here.</div>`}</div>
+    </div>
+    <div><span class="eyebrow">What an owner receives on WhatsApp</span>
+      <div class="wa" aria-label="Example WhatsApp reminder">
+        <div class="from">Preview · EAASI Ops · monthly reminder</div>
+        <div class="bub">Hi Jörg 👋 You own ${jorg.length} permit cards on the EAASI Ops Hub:
+${jorg.map(p=>`• ${p.country} — verified ${ago(p.updated)}`).join("\n")}
+
+Reply 1 if they are all still valid.
+Reply 2 to update one of them.<span class="meta">09:00</span></div>
+        <div class="bub out">1<span class="meta">09:14 ✓✓</span></div>
+        <div class="bub">Thanks! Germany, Austria and Switzerland now show "Verified today · Jörg Werti".<span class="meta">09:14</span></div>
+      </div>
+      <p class="muted small" style="margin-top:8px">Confirming takes one reply. Changes go to the validation queue before anyone else sees them.</p>
+    </div>
+  </div>
+  <div class="section"><span class="eyebrow">Modules</span>
+    <div class="modgrid">
+      <button class="mod" data-go="permits"><span class="n num">${P.length}</span><b>Flight permits</b><span class="muted small">Country procedures</span></button>
+      <button class="mod" data-go="radar"><span class="n num">${DATA.radar.length}</span><b>Regulatory radar</b><span class="muted small">EASA and national changes</span></button>
+      <button class="mod" data-go="dir" data-sub="airports"><span class="n num">${DATA.airports.length}</span><b>Airports &amp; FBO</b><span class="muted small">Survey-friendly bases</span></button>
+      <button class="mod" data-go="dir" data-sub="mro"><span class="n num">${DATA.mro.length}</span><b>MRO &amp; Part-145</b><span class="muted small">Incl. camera-hatch STCs</span></button>
+      <button class="mod" data-go="dir" data-sub="insurance"><span class="n num">${DATA.insurance.length}</span><b>Insurance &amp; brokers</b><span class="muted small">Aerial work cover</span></button>
+      <button class="mod" data-go="dir" data-sub="assets"><span class="n num">${DATA.assets.length}</span><b>Member fleets</b><span class="muted small">Aircraft and sensors</span></button>
+    </div>
+  </div>`;
+}
+function qItem(it){
+  const src = it.source==="system" ? `<span class="tag bad">Data check</span>` : it.source==="radar" ? `<span class="tag warn">Regulatory radar</span>` : `<span class="tag teal">From ${esc(it.by)} via assistant</span>`;
+  const canApply = it.proposed != null && it.proposed !== "";
+  return `<div class="card qitem ${it.source==="system"?"sys":""}">
+    <div class="row">${src}<b style="color:var(--ink)">${esc(it.recordName)}</b><span class="muted small">field: ${esc(it.field)}</span></div>
+    <dl class="diff"><dt>Now</dt><dd>${esc(String(it.current ?? "—")).slice(0,160)}</dd>${canApply?`<dt>Proposed</dt><dd class="new">${esc(it.proposed)}</dd>`:""}<dt>Why</dt><dd>${esc(it.evidence)}</dd></dl>
+    <div class="actions">
+      ${canApply?`<button class="btn sm" onclick="resolveQ('${it.id}',true)">Approve change</button>`:`<button class="btn sm" onclick="resolveQ('${it.id}',true)">Ask owner to check</button>`}
+      <button class="btn sm quiet" onclick="resolveQ('${it.id}',false)">Dismiss</button>
+      <button class="btn sm ghost" data-open="${it.module}:${it.recordId}">Open card</button>
+    </div></div>`;
+}
+function resolveQ(id, ok){
+  const it = S.queue.find(x=>x.id===id); if(!it) return;
+  S.queue = S.queue.filter(x=>x.id!==id); saveQ();
+  if (ok && it.proposed != null && it.proposed !== "" && it.module==="permit"){
+    const p = DATA.permits.find(x=>x.id===it.recordId);
+    if (p && it.field in p){ p[it.field] = it.proposed; S.applied[`permit:${p.id}:${it.field}`]=it.proposed; store.set("applied",S.applied); }
+    if (p){ p.issues = (p.issues||[]).filter(i=>i.field!==it.field); }
+    S.verif["permit:"+it.recordId] = {by:ME, at:NOW.toISOString()}; store.set("verif",S.verif);
+    toast("Change approved and published");
+  } else if (ok){
+    const p = DATA.permits.find(x=>x.id===it.recordId);
+    toast(`Reminder queued for ${p?p.owner:"the owner"}`);
+  } else toast("Dismissed");
+  render();
+}
+
+/* ---------- PERMITS ---------- */
+const PF = [
+  ["all","All"],["local","Local entity required"],["defence","Defence approval"],["d1","Submit day before"],["stale","Not verified in 12 months"]
+];
+function renderPermits(){
+  let P = DATA.permits.slice();
+  const f = S.permitFilter, q = S.q.toLowerCase();
+  if (f==="local") P = P.filter(p=>p.localEntity);
+  if (f==="defence") P = P.filter(p=>p.defence!=="no");
+  if (f==="d1") P = P.filter(p=>p.dayBefore);
+  if (f==="stale") P = P.filter(p=>freshClass(p)==="bad");
+  if (q) P = P.filter(p => (p.country+" "+p.authority+" "+p.id).toLowerCase().includes(q));
+  return `
+  <div class="head"><div><div class="eyebrow">${DATA.permits.length} countries</div><h1>Flight permits</h1>
+  <p class="muted">How to get permission to fly survey missions in each country. Each card has an owner who confirms it is still correct.</p></div></div>
+  <div class="toolbar">
+    <label class="search">${svg("search")}<input id="q" placeholder="Search country or authority" value="${esc(S.q)}" aria-label="Search permits"></label>
+    <div class="chips">${PF.map(([k,l])=>`<button class="chip" aria-pressed="${f===k}" onclick="S.permitFilter='${k}';render()">${l}</button>`).join("")}</div>
+  </div>
+  <div class="card list">${P.length ? P.map(permitRow).join("") : `<div class="empty">No country matches. Try another filter.</div>`}</div>`;
+}
+function leadText(p){ return p.dayBefore ? "D-1" : p.lead ? p.lead+" d" : "—"; }
+function permitRow(p){
+  const flags = [];
+  if (p.localEntity) flags.push(`<span class="tag bad">Local entity required</span>`);
+  if (p.defence==="yes") flags.push(`<span class="tag warn">Defence approval</span>`);
+  if (p.defence==="zones") flags.push(`<span class="tag warn">Defence in restricted zones</span>`);
+  if (p.dayBefore) flags.push(`<span class="tag teal">Submit day before</span>`);
+  if (DATA.radar.some(r=>r.conflict && r.affects.includes(p.id))) flags.push(`<span class="tag warn">Radar: possible change</span>`);
+  if ((p.issues||[]).length) flags.push(`<span class="tag bad">${p.issues.length} data issue${p.issues.length>1?"s":""}</span>`);
+  return `<button class="item" data-open="permit:${p.id}">
+    <span class="cc">${p.id}</span>
+    <span class="main"><span class="title"><b>${esc(p.country)}</b><span class="muted small">${esc(p.authority)}</span></span>
+      ${flags.length?`<span class="facts">${flags.join("")}</span>`:""}
+      ${stamp("permit",p.id,p.updated,p.owner)}</span>
+    <span class="side"><span class="lead num">${leadText(p)}</span><span class="muted small">${p.dayBefore?"submit":"processing"}</span></span>
+  </button>`;
+}
+
+/* ---------- DIRECTORY ---------- */
+const DIRS = [["airports","Airports & FBO"],["mro","MRO & Part-145"],["insurance","Insurance & brokers"],["assets","Member fleets"]];
+S.af = {country:"all", avgas:false}; S.mf = {type:"all", mods:false}; S.inf = {aerial:false};
+function renderDir(){
+  const d = S.dir;
+  const body = d==="airports" ? dirAirports() : d==="mro" ? dirMro() : d==="insurance" ? dirIns() : dirAssets();
+  return `
+  <div class="head"><div><div class="eyebrow">Directory</div><h1>${DIRS.find(x=>x[0]===d)[1]}</h1>
+  <p class="muted">${{
+    airports:"Airports that work as survey bases: fuel, handling, hours and hangars. Collected from airport and handler websites.",
+    mro:"Maintenance and design organisations that know survey aircraft and camera-hatch modifications.",
+    insurance:"Brokers and insurers whose websites show general aviation or aerial work cover.",
+    assets:"Aircraft and sensors that members publish on their own websites. Availability for lease is not published: owners confirm it."}[d]}</p></div></div>
+  <div class="seg" role="tablist">${DIRS.map(([k,l])=>`<button aria-current="${d===k}" data-go="dir" data-sub="${k}">${l}</button>`).join("")}</div>
+  ${body}`;
+}
+function dirAirports(){
+  const cs = [...new Set(DATA.airports.map(a=>a.country))];
+  let A = DATA.airports.map((a,i)=>({...a,i}));
+  if (S.af.country!=="all") A = A.filter(a=>a.country===S.af.country);
+  if (S.af.avgas) A = A.filter(a=>(a.fuel||[]).some(f=>/AVGAS/i.test(f)));
+  if (S.q) A = A.filter(a=>(a.icao+" "+a.name+" "+a.city+" "+a.handler).toLowerCase().includes(S.q.toLowerCase()));
+  return `<div class="toolbar">
+    <label class="search">${svg("search")}<input id="q" placeholder="ICAO, city or handler" value="${esc(S.q)}" aria-label="Search airports"></label>
+    <select class="chip" aria-label="Country" onchange="S.af.country=this.value;render()"><option value="all">All countries</option>${cs.map(c=>`<option ${S.af.country===c?"selected":""}>${esc(c)}</option>`).join("")}</select>
+    <button class="chip" aria-pressed="${S.af.avgas}" onclick="S.af.avgas=!S.af.avgas;render()">Has AVGAS</button>
+  </div>
+  <div class="card list">${A.map(a=>`<button class="item" data-open="airport:${a.i}">
+    <span class="cc icao">${a.icao}</span>
+    <span class="main"><span class="title"><b>${esc(a.name)}</b><span class="muted small">${esc(a.country)}</span></span>
+      <span class="facts">${(a.fuel||[]).map(f=>`<span class="tag ${/AVGAS/.test(f)?"teal":""}">${esc(f)}</span>`).join("")}${a.hangar&&!/^None/.test(a.hangar)?`<span class="tag">Hangar</span>`:""}</span>
+      ${stamp("airport",a.i)}</span>
+    <span class="side"><span class="small" style="color:var(--ink);font-weight:700">${esc(a.hours.length>18?a.hours.split(/[;(]/)[0]:a.hours)}</span><span class="muted small">${esc(a.handler.split(/[;,]/)[0])}</span></span>
+  </button>`).join("") || `<div class="empty">No airport matches.</div>`}</div>`;
+}
+const TYPES = [["all","All types"],["C208","C208"],["P68","P68"],["PA-31","PA-31"],["DA4","DA42/62"],["King Air","King Air"]];
+function dirMro(){
+  let M = DATA.mro.map((m,i)=>({...m,i}));
+  if (S.mf.type!=="all") M = M.filter(m=>m.types.some(t=> S.mf.type==="DA4" ? /DA[46]2/.test(t) : S.mf.type==="PA-31" ? /Piper|PA-31/.test(t) : t.includes(S.mf.type)));
+  if (S.mf.mods) M = M.filter(m=>m.mods && /hatch|camera|sensor|LiDAR|STC/i.test(m.mods));
+  if (S.q) M = M.filter(m=>(m.name+" "+m.country+" "+m.city).toLowerCase().includes(S.q.toLowerCase()));
+  return `<div class="toolbar">
+    <label class="search">${svg("search")}<input id="q" placeholder="Company or country" value="${esc(S.q)}" aria-label="Search MRO"></label>
+    <div class="chips">${TYPES.map(([k,l])=>`<button class="chip" aria-pressed="${S.mf.type===k}" onclick="S.mf.type='${k}';render()">${l}</button>`).join("")}
+    <button class="chip" aria-pressed="${S.mf.mods}" onclick="S.mf.mods=!S.mf.mods;render()">Camera / sensor mods</button></div>
+  </div>
+  <div class="card list">${M.map(m=>`<button class="item" data-open="mro:${m.i}">
+    <span class="cc icao">${ccOf(m.country)}</span>
+    <span class="main"><span class="title"><b>${esc(m.name)}</b><span class="muted small">${esc([m.city,m.country].filter(Boolean).join(", "))}</span></span>
+      <span class="facts">${m.types.slice(0,5).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}${m.mods&&/hatch|camera|sensor|LiDAR/i.test(m.mods)?`<span class="tag teal">Survey mods</span>`:""}</span>
+      ${stamp("mro",m.i)}</span>
+    <span class="side"><span class="muted small">${esc((m.approvals.find(a=>/145/.test(a))||m.approvals[0]||"Approval not published").replace(/\s*\(.*\)/,""))}</span></span>
+  </button>`).join("") || `<div class="empty">No organisation matches.</div>`}</div>`;
+}
+function dirIns(){
+  let I = DATA.insurance.map((x,i)=>({...x,i}));
+  if (S.inf.aerial) I = I.filter(x=>x.aerial && /aerial work|aerial photography/i.test(x.aerial));
+  return `<div class="toolbar"><div class="chips"><button class="chip" aria-pressed="${S.inf.aerial}" onclick="S.inf.aerial=!S.inf.aerial;render()">Names aerial work on its site</button></div></div>
+  <div class="card list">${I.map(x=>`<button class="item" data-open="ins:${x.i}">
+    <span class="cc icao">${ccOf(x.country)}</span>
+    <span class="main"><span class="title"><b>${esc(x.name)}</b><span class="muted small">${esc(x.type)} · ${esc(x.country)}</span></span>
+      <span class="facts">${x.lines.map(l=>`<span class="tag">${esc(l)}</span>`).join("")}${x.aerial&&/aerial work|aerial photography/i.test(x.aerial)?`<span class="tag teal">Aerial work</span>`:""}</span>
+      ${stamp("ins",x.i)}</span>
+    <span class="side"><span class="muted small">${host(x.url)}</span></span>
+  </button>`).join("")}</div>
+  <p class="muted small" style="margin-top:10px">None of these sites names sensor or LiDAR cover explicitly. That is the question to ask members who already insure survey kit.</p>`;
+}
+function dirAssets(){
+  return `<div class="card list">${DATA.assets.map((a,i)=>`<button class="item" data-open="asset:${i}">
+    <span class="cc icao">${ccOf(a.country)}</span>
+    <span class="main"><span class="title"><b>${esc(a.company)}</b><span class="muted small">${esc(a.country)}</span></span>
+      <span class="facts">${a.aircraft.map(x=>`<span class="tag">${esc(x[0])}${x[1]&&/^SP-|^×/.test(x[1])?" "+esc(x[1]):""}</span>`).join("")}${a.sensors.slice(0,3).map(x=>`<span class="tag teal">${esc(x[0])}</span>`).join("")}${a.sensors.length>3?`<span class="tag teal">+${a.sensors.length-3}</span>`:""}</span>
+      ${stamp("asset",i)}</span>
+    <span class="side"><span class="lead num">${a.aircraft.length}·${a.sensors.length}</span><span class="muted small">aircraft · sensors</span></span>
+  </button>`).join("")}</div>`;
+}
+
+/* ---------- RADAR ---------- */
+S.rf = "all";
+function renderRadar(){
+  let R = DATA.radar.slice().sort((a,b)=>(b.conflict?1:0)-(a.conflict?1:0) || String(b.date).localeCompare(String(a.date)));
+  if (S.rf==="eu") R = R.filter(r=>r.scope==="EU");
+  if (S.rf==="nat") R = R.filter(r=>r.scope!=="EU");
+  if (S.rf==="prop") R = R.filter(r=>r.status==="Proposed");
+  return `
+  <div class="head"><div><div class="eyebrow">Regulatory radar</div><h1>What changed for survey operators</h1>
+  <p class="muted">EASA and national changes that affect manned aerial survey, newest first. Each entry links to the official source.</p></div></div>
+  <div class="toolbar"><div class="chips">${[["all","All"],["eu","EU / EASA"],["nat","National"],["prop","Still proposed"]].map(([k,l])=>`<button class="chip" aria-pressed="${S.rf===k}" onclick="S.rf='${k}';render()">${l}</button>`).join("")}</div></div>
+  <div class="stack">${R.map(r=>`<article class="card rad ${r.conflict?"flag":""}">
+    <div class="top"><span class="date">${/^\d{4}-\d{2}-\d{2}$/.test(r.date)?fmtDate(r.date):esc(r.date)}</span><span class="tag ${r.scope==="EU"?"teal":""}">${esc(r.scope)}</span><span class="tag">${esc(r.type)}</span>
+      <span class="tag ${r.status==="Proposed"?"warn":"ok"}">${esc(r.status)}</span>${r.confidence==="medium"?`<span class="tag" title="Some details come from secondary sources">Check details</span>`:""}</div>
+    <h3>${esc(r.title)}</h3>
+    <p class="small">${esc(r.summary)}</p>
+    <div class="impact"><b>Why it matters:</b> ${esc(r.impact)}</div>
+    <div class="actions">
+      ${r.affects.map(id=>{const p=DATA.permits.find(x=>x.id===id);return p?`<button class="btn sm ${r.conflict?"":"quiet"}" data-open="permit:${id}">${r.conflict?"Check ":""}${esc(p.country)} card</button>`:""}).join("")}
+      <a class="btn sm ghost" href="${r.url}" target="_blank" rel="noopener">${esc(r.source)} source ↗</a>
+    </div></article>`).join("")}</div>
+  <div class="section"><span class="eyebrow">How this list stays current</span>
+  <div class="pipeline">
+    <div><b>1 · Collect</b>EASA and EUR-Lex feeds, checked weekly</div>
+    <div><b>2 · Filter</b>An AI pass keeps what affects manned survey</div>
+    <div><b>3 · Validate</b>A committee rapporteur approves each entry</div>
+    <div><b>4 · Link</b>Entries that touch a permit card alert its owner</div>
+  </div></div>`;
+}
+
+/* ---------- SHEET (details) ---------- */
+function openSheet(ref){
+  S.sheet = ref;
+  const [m, id] = ref.split(":");
+  let title="", sub="", code="", body="";
+  if (m==="permit"){ const p = DATA.permits.find(x=>x.id===id); ({title,sub,code,body} = permitDetail(p)); }
+  if (m==="airport"){ const a = DATA.airports[+id]; title=a.name; sub=a.city+", "+a.country; code=a.icao; body=airportDetail(a,+id); }
+  if (m==="mro"){ const x = DATA.mro[+id]; title=x.name; sub=[x.city,x.country].filter(Boolean).join(", "); code=ccOf(x.country); body=mroDetail(x,+id); }
+  if (m==="ins"){ const x = DATA.insurance[+id]; title=x.name; sub=x.type+" · "+x.country; code=ccOf(x.country); body=insDetail(x,+id); }
+  if (m==="asset"){ const x = DATA.assets[+id]; title=x.company; sub=x.country; code=ccOf(x.country); body=assetDetail(x,+id); }
+  if (m==="radar"){ S.sheet=null; go("radar"); return; }
+  $("#sheetRoot").innerHTML = `<div class="scrim" onclick="closeSheet()"></div>
+  <aside class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}">
+    <header><span class="cc ${code.length>2?"icao":""}">${esc(code)}</span><div style="min-width:0"><h2>${esc(title)}</h2><div class="muted small">${esc(sub)}</div></div>
+    <button class="x" onclick="closeSheet()" aria-label="Close">${svg("x")}</button></header>
+    <div class="body">${body}</div></aside>`;
+  $(".sheet .x").focus();
+}
+function closeSheet(){ S.sheet=null; $("#sheetRoot").innerHTML=""; }
+document.addEventListener("keydown", e => { if (e.key==="Escape" && S.sheet) closeSheet(); });
+
+function contactRow(label, val, isUrl){
+  if (!val) return "";
+  const v = isUrl ? `<a href="${esc(val.startsWith("http")?val:"https://"+val)}" target="_blank" rel="noopener">${esc(host(val.startsWith("http")?val:"https://"+val))}</a>` : `<span class="val">${esc(val)}</span>`;
+  return `<div class="contact"><span>${label}</span>${v}${isUrl?"":`<button class="btn sm quiet" data-copy="${esc(val)}">Copy</button>`}</div>`;
+}
+function copy(btn, t){
+  const done = () => { btn.textContent="Copied"; setTimeout(()=>btn.textContent="Copy",1400); };
+  try { navigator.clipboard.writeText(t).then(done, ()=>toast("Select the text to copy it")); } catch(e){ toast("Select the text to copy it"); }
+}
+function permitDetail(p){
+  const rad = DATA.radar.filter(r=>r.affects.includes(p.id));
+  const fields = [["guide","Procedure"],["docs","Documents"],["lead","Processing time (days)"],["phone","Phone"],["contact","Contact email"],["submission","Submission"],["web","Website"],["online","Online submission"],["form","Application form"],["atcMail","ATC email"],["atcPhone","ATC phone"]];
+  const body = `
+    ${stamp("permit",p.id,p.updated,p.owner)}
+    ${rad.filter(r=>r.conflict).map(r=>`<div class="callout warn"><b>Radar: this procedure may have changed</b><span>${esc(r.title)} — ${fmtDate(r.date)}. ${esc(r.impact)}</span><a href="${r.url}" target="_blank" rel="noopener">Read the source ↗</a></div>`).join("")}
+    ${(p.issues||[]).map(i=>`<div class="callout bad"><b>Data check</b><span>${esc(i.text)}</span></div>`).join("")}
+    <dl class="facts-grid">
+      <div><dt>Processing</dt><dd class="num">${p.dayBefore?"Submit the day before":p.lead?p.lead+" days":"Not recorded"}</dd></div>
+      <div><dt>Local entity</dt><dd>${p.localEntity?"Required":"Not required"}</dd></div>
+      <div><dt>Defence approval</dt><dd>${p.defence==="yes"?"Required":p.defence==="zones"?"Only in restricted zones":"Not mentioned"}</dd></div>
+      <div><dt>Submission</dt><dd>${p.online?"Online":p.viaEmail||p.submission?"Email":"See procedure"}</dd></div>
+    </dl>
+    ${p.guide?`<div class="block"><h3>Procedure</h3><div class="prose">${linkify(p.guide.replace(/\n\s*\n+/g,"\n"))}</div></div>`:""}
+    ${p.docs?`<div class="block"><h3>Documents to prepare</h3><div class="prose">${linkify(p.docs.replace(/\n\s*\n+/g,"\n"))}</div></div>`:""}
+    ${p.zones?zonesBlock(p):""}
+    ${p.zone?lyr8Block(p):""}
+    <div class="block"><h3>Contacts</h3><div class="contacts">
+      ${contactRow("Website",p.web,true)}${contactRow("Email",p.contact)}${contactRow("Submit to",p.submission && /@/.test(p.submission)?p.submission:null)}
+      ${p.submission && !/@/.test(p.submission)?contactRow("Submit via",p.submission,true):""}
+      ${contactRow("Online form",p.online,true)}${contactRow("Phone",p.phone)}${contactRow("Application",p.form,true)}
+      ${contactRow("Restricted areas",p.restricted,true)}${contactRow("ATC website",p.atcWeb,true)}${contactRow("ATC email",p.atcMail)}${contactRow("ATC phone",p.atcPhone)}
+    </div></div>
+    <div class="block"><h3>Is this card still right?</h3>
+      <p class="small muted" style="margin-bottom:10px">Owner: <b style="color:var(--ink)">${esc(p.owner)}</b>. A confirmation resets the review clock. A correction goes to the validator first.</p>
+      <div class="actions"><button class="btn" onclick="confirmValid('permit','${p.id}','${esc(p.country)} card')">Still valid</button>
+      <button class="btn quiet" onclick="showFix('${p.id}')">Suggest a correction</button></div>
+      <form class="form" id="fix" hidden onsubmit="submitFix(event,'${p.id}')" style="margin-top:12px">
+        <label for="fixField">Field</label><select id="fixField">${fields.map(([k,l])=>`<option value="${k}">${l}</option>`).join("")}</select>
+        <label for="fixVal">Correct value</label><input id="fixVal" required placeholder="What it should say">
+        <label for="fixWhy">How do you know?</label><input id="fixWhy" placeholder="E.g. applied last month, authority website">
+        <div class="actions"><button class="btn" type="submit">Send to validator</button></div>
+      </form>
+    </div>
+    <p class="muted small">Card created ${fmtDate(p.created)} · last edited ${fmtDate(p.updated)}</p>`;
+  return {title:p.country, sub:p.authority, code:p.id, body};
+}
+function showFix(){ const f=$("#fix"); f.hidden=!f.hidden; if(!f.hidden) $("#fixVal").focus(); }
+function submitFix(e, id){
+  e.preventDefault();
+  const p = DATA.permits.find(x=>x.id===id), field=$("#fixField").value;
+  S.queue.unshift({id:"u-"+Date.now(), source:"member", module:"permit", recordId:id, recordName:p.country+" permit card", field,
+    current:p[field], proposed:$("#fixVal").value.trim(), evidence:$("#fixWhy").value.trim()||"No evidence given", by:ME, at:NOW.toISOString()});
+  saveQ(); toast("Sent to the validation queue"); closeSheet(); render();
+}
+function zonesBlock(p){
+  return `<div class="block"><h3>Sheets restricted to photogrammetric flight</h3>
+    <p class="small muted" style="margin-bottom:8px">${p.zones.length} MTN 1:25,000 sheets contain ZRVF areas. Type a sheet number or place name.</p>
+    <label class="search" style="max-width:none;margin-bottom:8px">${svg("search")}<input id="zq" placeholder="e.g. 0722 or Catarroja" oninput="filterZones(this.value)" aria-label="Search restricted sheets"></label>
+    <div class="zones" id="zlist">${zonesList(p.zones,"")}</div>
+    <p class="muted small" style="margin-top:6px">Source: ${esc(p.zonesSource)}</p></div>`;
+}
+function zonesList(z,q){
+  q=q.trim().toLowerCase();
+  const r = q ? z.filter(s=>s.sheet.includes(q)||s.name.toLowerCase().includes(q)) : z;
+  if (!r.length) return `<div><span class="muted">No restricted sheet matches "${esc(q)}". Your area is outside the ZRVF list.</span></div>`;
+  return r.map(s=>`<div><span class="code">${s.sheet}</span><span>${esc(s.name)}</span></div>`).join("");
+}
+function filterZones(q){ $("#zlist").innerHTML = zonesList(DATA.permits.find(p=>p.id==="ES").zones, q); }
+function lyr8Block(p){
+  const c = p.zone.coords, ap = DATA.airports.find(a=>a.icao==="LYBE");
+  const pts = c.concat(ap?[[ap.lon,ap.lat]]:[]);
+  const minX=Math.min(...pts.map(x=>x[0]))-.03, maxX=Math.max(...pts.map(x=>x[0]))+.03, minY=Math.min(...pts.map(x=>x[1]))-.02, maxY=Math.max(...pts.map(x=>x[1]))+.02;
+  const k = Math.cos(44.83*Math.PI/180), W=480, H=Math.round(W*(maxY-minY)/((maxX-minX)*k));
+  const X = x => ((x-minX)/(maxX-minX)*W).toFixed(1), Y = y => ((maxY-y)/(maxY-minY)*H).toFixed(1);
+  const grid = [];
+  for (let x=Math.ceil(minX*20)/20; x<maxX; x+=.05) grid.push(`<line x1="${X(x)}" y1="0" x2="${X(x)}" y2="${H}" stroke="var(--line)"/><text x="${+X(x)+3}" y="${H-5}" font-size="10" fill="var(--muted)">${x.toFixed(2)}°E</text>`);
+  for (let y=Math.ceil(minY*50)/50; y<maxY; y+=.02) grid.push(`<line x1="0" y1="${Y(y)}" x2="${W}" y2="${Y(y)}" stroke="var(--line)"/><text x="4" y="${+Y(y)-3}" font-size="10" fill="var(--muted)">${y.toFixed(2)}°N</text>`);
+  return `<div class="block"><h3>Restricted zone LY-R8 (Belgrade)</h3>
+    <div class="mapbox"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="LY-R8 polygon east of Belgrade Nikola Tesla airport">
+      ${grid.join("")}
+      <polygon points="${c.map(p=>X(p[0])+","+Y(p[1])).join(" ")}" fill="var(--bad-wash)" stroke="var(--bad)" stroke-width="2"/>
+      <text x="${X(20.45)}" y="${Y(44.826)}" text-anchor="middle" font-size="15" font-weight="700" fill="var(--bad)">LY-R8</text>
+      ${ap?`<circle cx="${X(ap.lon)}" cy="${Y(ap.lat)}" r="5" fill="var(--teal)" stroke="var(--ink)" stroke-width="1.5"/><text x="${+X(ap.lon)+9}" y="${+Y(ap.lat)+4}" font-size="12" font-weight="700" fill="var(--ink)">LYBE</text>`:""}
+    </svg></div>
+    <p class="muted small" style="margin-top:6px">Polygon from the member-supplied KMZ (${c.length} vertices). A separate Civil Aviation Directorate application is needed only inside LY-R8.</p></div>`;
+}
+function srcBlock(x){
+  const s = [...new Set([x.url, ...(x.sources||[])].filter(Boolean))];
+  return `<div class="block"><h3>Sources</h3><div class="srcs">${s.map(u=>`<a href="${u}" target="_blank" rel="noopener">${esc(host(u))} — ${esc(u.replace(/^https?:\/\/[^/]+/,"").slice(0,60)||"/")}</a>`).join("")}</div>
+    ${x.confidence==="medium"?`<p class="small muted" style="margin-top:8px">Some fields could not be confirmed on an official page. Please check before relying on them.</p>`:""}</div>`;
+}
+function validateBlock(module, i, label){
+  return `<div class="block"><h3>Validate this entry</h3><p class="small muted" style="margin-bottom:10px">Collected automatically from public sources. A member who has used this ${label} confirms it or sends a correction.</p>
+  <div class="actions"><button class="btn" onclick="confirmValid('${module}',${i},'Entry')">I confirm it's correct</button></div></div>`;
+}
+function airportDetail(a,i){
+  return `${stamp("airport",i)}
+  <dl class="facts-grid">
+    <div><dt>Fuel</dt><dd>${esc((a.fuel||["Not confirmed"]).join(", "))}</dd></div>
+    <div><dt>Hours</dt><dd>${esc(a.hours||"—")}</dd></div>
+    <div><dt>Customs</dt><dd>${a.customs?"Yes":a.customs===false?"No":"Not confirmed"}</dd></div>
+    <div><dt>Hangar</dt><dd>${esc(a.hangar||"Not confirmed")}</dd></div>
+  </dl>
+  <div class="actions"><button class="btn" onclick="showOnMap('airport',${i})">Show on map with weather</button></div>
+  <div class="block"><h3>Why survey crews use it</h3><p class="small">${esc(a.note)}</p>${a.ppr?`<p class="small" style="margin-top:6px"><b style="color:var(--ink)">PPR:</b> ${esc(a.ppr)}</p>`:""}</div>
+  <div class="block"><h3>Handling</h3><div class="contacts">${contactRow("Handler",a.handler)}${contactRow("Handler site",a.handlerUrl,true)}${contactRow("Airport",a.airportUrl,true)}</div></div>
+  ${srcBlock({url:a.airportUrl,sources:a.sources,confidence:a.confidence})}${validateBlock("airport",i,"airport")}
+  `;
+}
+function mroDetail(x,i){
+  return `${stamp("mro",i)}
+  <dl class="facts-grid"><div><dt>Approvals</dt><dd>${esc(x.approvals.join(" · ")||"Not published")}</dd></div><div><dt>Types</dt><dd>${esc(x.types.join(", ")||"Not listed")}</dd></div></dl>
+  ${x.mods?`<div class="block"><h3>Survey and special-mission work</h3><p class="small">${esc(x.mods)}</p></div>`:""}
+  <div class="block"><h3>Services</h3><div class="chips">${x.services.map(s=>`<span class="tag">${esc(s)}</span>`).join("")}</div></div>
+  ${x.lat?`<div class="actions"><button class="btn quiet" onclick="showOnMap('mro',${i})">Show on map</button></div>`:""}
+  ${srcBlock(x)}${validateBlock("mro",i,"organisation")}`;
+}
+function insDetail(x,i){
+  return `${stamp("ins",i)}
+  <dl class="facts-grid"><div><dt>Type</dt><dd>${esc(x.type)}</dd></div><div><dt>Lines on its site</dt><dd>${esc(x.lines.join(", ")||"Not listed")}</dd></div></dl>
+  <div class="block"><h3>Aerial work</h3><p class="small">${esc(x.aerial||"Aerial work and survey are not named on the pages checked.")}</p></div>
+  ${srcBlock(x)}${validateBlock("ins",i,"broker")}`;
+}
+function assetDetail(x,i){
+  const rows = (arr) => arr.map(r=>`<div class="contact"><span>${esc(r[1]||"")}</span><span class="val" style="user-select:text">${esc(r[0])}</span><span></span></div>`).join("");
+  return `${stamp("asset",i)}
+  <div class="callout teal"><b>Available to lease?</b><span>Not published. In the live platform the owner sets an availability window, and the listing expires after 90 days unless renewed.</span></div>
+  ${x.aircraft.length?`<div class="block"><h3>Aircraft</h3><div class="contacts">${rows(x.aircraft)}</div></div>`:""}
+  ${x.sensors.length?`<div class="block"><h3>Sensors</h3><div class="contacts">${rows(x.sensors)}</div></div>`:""}
+  ${srcBlock({url:x.url,sources:[],confidence:x.confidence})}${validateBlock("asset",i,"fleet listing")}`;
+}
+
+/* ---------- ASSISTANT ---------- */
+let sampleFn = null, sampleReady = false;
+(async () => {
+  try { sampleFn = window.claude?.use ? await window.claude.use("sample") : null; } catch(e){ sampleFn = null; }
+  sampleReady = true; if (S.view==="chat") updateMode();
+})();
+const SUGGEST = [
+  "What do I need to fly a survey in Serbia?",
+  "¿Qué aeropuertos con AVGAS hay cerca de Valencia?",
+  "Who can install a camera hatch on a P68?",
+  "Is sheet 0722 Catarroja restricted?",
+  "The Finland phone number looks wrong — it's the Dutch LVNL number."
+];
+function renderChat(){
+  return `<div class="chatwrap">
+    <div class="chathead"><span class="dot"><img src="${LOGO}" alt=""></span><div><b>EAASI Ops</b><small>WhatsApp assistant preview</small></div><span class="mode" id="mode">…</span></div>
+    <div class="chat" id="chat" aria-live="polite">${chatHtml()}</div>
+    <div class="suggest">${SUGGEST.map(s=>`<button onclick="ask(${esc(JSON.stringify(s))})">${esc(s)}</button>`).join("")}</div>
+    <form class="composer" onsubmit="event.preventDefault();ask($('#msg').value)">
+      <textarea id="msg" rows="1" placeholder="Ask in any language, or report a correction" aria-label="Message" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();ask(this.value)}"></textarea>
+      <button type="submit" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M3 20l18-8L3 4v6l12 2-12 2z"/></svg></button>
+    </form></div>`;
+}
+function updateMode(){
+  const m = $("#mode"); if (!m) return;
+  m.textContent = !sampleReady ? "Connecting…" : sampleFn ? "Answers by Claude" : "Offline search mode";
+}
+function chatHtml(){
+  const intro = `<div class="bub">Hi, I'm the EAASI Ops assistant. Ask me about flight permits, airports, MROs, insurance, member fleets or recent regulation. If something on a card is wrong, tell me and I'll send it to a validator.<span class="meta">now</span></div>`;
+  return intro + S.chat.map(m => {
+    if (m.role==="user") return `<div class="bub out">${esc(m.content)}<span class="meta">✓✓</span></div>`;
+    if (m.role==="sent") return `<div class="sent">📝 Sent to the validator: <b>${esc(m.recordName)}</b> · ${esc(m.field)}${m.proposed?` → “${esc(m.proposed)}”`:""}</div>`;
+    return `<div class="bub">${linkify(m.content)}${m.refs&&m.refs.length?`<div class="refs">${m.refs.map(r=>`<button data-open="${esc(r.id)}">${esc(r.label)}</button>`).join("")}</div>`:""}<span class="meta">EAASI Ops</span></div>`;
+  }).join("") + (S.busy?`<div class="bub"><span class="typing"><i></i><i></i><i></i></span></div>`:"");
+}
+function paintChat(){ const c=$("#chat"); if(!c) return; c.innerHTML = chatHtml(); c.scrollTop = c.scrollHeight; }
+
+function refLabel(id){
+  const [m,k] = id.split(":");
+  if (m==="permit"){ const p=DATA.permits.find(x=>x.id===k); return p?p.country+" permit":null; }
+  if (m==="airport"){ const a=DATA.airports[+k]; return a?a.icao+" "+a.name:null; }
+  if (m==="mro"){ const a=DATA.mro[+k]; return a?a.name:null; }
+  if (m==="ins"){ const a=DATA.insurance[+k]; return a?a.name:null; }
+  if (m==="asset"){ const a=DATA.assets[+k]; return a?a.company+" fleet":null; }
+  if (m==="radar"){ const r=DATA.radar.find(x=>x.id===k); return r?"Radar: "+r.title.slice(0,32)+"…":null; }
+  return null;
+}
+function knowledge(){
+  const P = DATA.permits.map(p=>({id:"permit:"+p.id,country:p.country,authority:p.authority,processingDays:p.lead,submitDayBefore:p.dayBefore,localEntityRequired:p.localEntity,defenceApproval:p.defence,
+    procedure:p.guide,documents:p.docs,web:p.web,email:p.contact,submitTo:p.submission,online:p.online,phone:p.phone,atcWeb:p.atcWeb,atcEmail:p.atcMail,atcPhone:p.atcPhone,
+    owner:p.owner,lastVerified:(verifOf("permit",p.id,p.updated,p.owner)||{}).at?.slice(0,10),knownIssues:(p.issues||[]).map(i=>i.text),
+    restrictedSheets:p.zones?p.zones.map(z=>z.sheet+" "+z.name).join("; "):undefined, restrictedZone:p.zone?"LY-R8 polygon lon 20.39–20.49E, lat 44.80–44.85N, east of LYBE":undefined}));
+  const A = DATA.airports.map((a,i)=>({id:"airport:"+i,icao:a.icao,name:a.name,city:a.city,country:a.country,fuel:a.fuel,hours:a.hours,handler:a.handler,customs:a.customs,hangar:a.hangar,ppr:a.ppr,note:a.note}));
+  const M = DATA.mro.map((m,i)=>({id:"mro:"+i,name:m.name,country:m.country,city:m.city,approvals:m.approvals,types:m.types,surveyMods:m.mods,services:m.services,url:m.url}));
+  const I = DATA.insurance.map((m,i)=>({id:"ins:"+i,name:m.name,type:m.type,country:m.country,lines:m.lines,aerialWork:m.aerial,url:m.url}));
+  const F = DATA.assets.map((m,i)=>({id:"asset:"+i,company:m.company,country:m.country,aircraft:m.aircraft.map(x=>x.filter(Boolean).join(" ")),sensors:m.sensors.map(x=>x.filter(Boolean).join(" ")),leaseAvailability:"not published"}));
+  const R = DATA.radar.map(r=>({id:"radar:"+r.id,date:r.date,scope:r.scope,type:r.type,title:r.title,status:r.status,summary:r.summary,impact:r.impact,url:r.url}));
+  return JSON.stringify({permits:P,airports:A,mro:M,insurance:I,fleets:F,radar:R});
+}
+function rules(){
+  return `You are "EAASI Ops", the WhatsApp assistant of the European Association of Aerial Surveying Industries (EAASI) for member companies that fly manned aerial survey missions. Today is ${NOW.toISOString().slice(0,10)}.
+
+Answer ONLY from the DATA below. If the answer is not in DATA, say so plainly and suggest asking the committee. Never invent contacts, numbers, deadlines or approvals. When a permit card was last verified more than 12 months ago, say so briefly so the member double-checks.
+Reply in the same language as the member's last message. WhatsApp style: short, plain text, no markdown headings or bold, bullets with "• ", at most about 120 words. Include the key contact or next step when relevant.
+
+If the member reports that something in DATA is wrong or has changed, do NOT treat it as fact. Thank them, say a validator will review it, and fill "proposal".
+
+Reply with ONLY one JSON object:
+{"reply": string, "refs": [ids from DATA you used, max 4, e.g. "permit:RS", "airport:0"], "proposal": null or {"recordId": id from DATA, "field": short field name, "proposed": new value or null if they did not give one, "evidence": what the member said}}
+
+DATA:
+${knowledge()}`;
+}
+async function ask(text){
+  text = String(text||"").trim(); if (!text || S.busy) return;
+  const box = $("#msg"); if (box) box.value = "";
+  S.chat.push({role:"user", content:text}); S.busy = true; paintChat();
+  let res = null;
+  if (sampleFn){
+    const turns = [{role:"user", content:rules()}];
+    S.chat.filter(m=>m.role==="user"||m.role==="bot").slice(-8).forEach(m => turns.push({role:m.role==="user"?"user":"assistant", content:m.content}));
+    try { res = await sampleFn.json(turns, {modelTier:"quick", cache:false}); }
+    catch(e){
+      if (["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"].includes(e?.code)){ sampleFn = null; updateMode(); }
+      else if (e?.code==="rate_limited"){ res = {reply:"Too many questions at once. Wait a moment and try again.", refs:[]}; }
+    }
+  }
+  if (!res) res = localAnswer(text);
+  S.busy = false;
+  const refs = (Array.isArray(res.refs)?res.refs:[]).map(String).map(id=>({id, label:refLabel(id)})).filter(r=>r.label).slice(0,4);
+  S.chat.push({role:"bot", content:String(res.reply||"Sorry, I could not answer that."), refs});
+  if (res.proposal && res.proposal.recordId){
+    const pr = res.proposal, label = refLabel(String(pr.recordId)) || String(pr.recordId);
+    const [mod, rid] = String(pr.recordId).split(":");
+    const item = {id:"u-"+Date.now(), source:"member", module:mod, recordId:rid, recordName:label, field:String(pr.field||"—"),
+      current: mod==="permit" ? (DATA.permits.find(p=>p.id===rid)||{})[pr.field] : null, proposed: pr.proposed ?? null,
+      evidence:String(pr.evidence||text), by:ME, at:NOW.toISOString()};
+    S.queue.unshift(item); saveQ(); renderNav();
+    S.chat.push({role:"sent", recordName:label, field:item.field, proposed:item.proposed});
+  }
+  paintChat();
+}
+
+/* offline fallback: keyword search over the same data */
+const ALIAS = {ES:["spain","españa","espana"],DE:["germany","alemania","deutschland"],AT:["austria"],CH:["switzerland","suiza"],NL:["netherlands","holanda","países bajos","paises bajos"],DK:["denmark","dinamarca"],SE:["sweden","suecia"],NO:["norway","noruega"],FI:["finland","finlandia"],IS:["iceland","islandia"],RS:["serbia"],MK:["macedonia"],ME:["montenegro"]};
+function localAnswer(text){
+  const t = text.toLowerCase();
+  const refs = [];
+  const fix = /(wrong|incorrect|outdated|changed|mal|error|equivocad|incorrect|actualiz|ya no)/.test(t);
+  const cc = Object.entries(ALIAS).find(([k,a])=>a.some(w=>t.includes(w)))?.[0];
+  if (fix && cc){
+    const p = DATA.permits.find(x=>x.id===cc);
+    const field = /phone|teléfono|telefono/.test(t)?"phone":/mail/.test(t)?"contact":/day|día|plazo|time/.test(t)?"lead":"guide";
+    return {reply:`Thanks. I've sent your note about the ${p.country} card to a validator. The card owner (${p.owner}) will be asked to confirm.`, refs:["permit:"+cc], proposal:{recordId:"permit:"+cc, field, proposed:null, evidence:text}};
+  }
+  const sheet = t.match(/\b(\d{4})(-\d)?\b/);
+  if (sheet && /sheet|hoja|restric/.test(t)){
+    const z = DATA.permits.find(p=>p.id==="ES").zones.filter(s=>s.sheet.startsWith(sheet[1]));
+    return {reply: z.length ? `Yes. MTN sheet${z.length>1?"s":""} ${z.map(s=>s.sheet+" "+s.name).join(", ")} ${z.length>1?"are":"is"} on the IGN list of zones restricted to photogrammetric flight. RCC forwards the request to CECAF.` : `Sheet ${sheet[1]} is not on the IGN restricted list.`, refs:["permit:ES"]};
+  }
+  if (cc){
+    const p = DATA.permits.find(x=>x.id===cc);
+    const bits = [`• Authority: ${p.authority}`];
+    if (p.localEntity) bits.push("• Only a locally registered legal entity can hold the permit");
+    if (p.defence==="yes") bits.push("• Defence approval is required first");
+    bits.push(`• Processing: ${p.dayBefore?"submit the day before":p.lead?p.lead+" days":"not recorded"}`);
+    if (p.submission||p.contact) bits.push(`• Contact: ${p.submission&&/@/.test(p.submission)?p.submission:p.contact}`);
+    const v = verifOf("permit",p.id,p.updated,p.owner);
+    return {reply:`${p.country}:\n${bits.join("\n")}\nLast verified ${ago(v.at)} by ${v.by}, so double-check before you apply.`, refs:["permit:"+cc]};
+  }
+  const types = ["p68","c208","caravan","pa-31","navajo","da42","da62","king air"];
+  const ty = types.find(x=>t.includes(x));
+  if (ty || /mro|145|maint|manten|hatch|trampilla|stc/.test(t)){
+    const k = ty ? ty.replace("caravan","c208").replace("navajo","pa-31") : null;
+    const M = DATA.mro.map((m,i)=>({m,i})).filter(({m})=>!k || m.types.join(" ").toLowerCase().includes(k.replace("da42","da42").replace("da62","da62")))
+      .filter(({m})=>!/hatch|trampilla|camera|cámara|stc/.test(t) || (m.mods && /hatch|camera|sensor|LiDAR|STC/i.test(m.mods)));
+    M.slice(0,4).forEach(({i})=>refs.push("mro:"+i));
+    return {reply: M.length ? `Organisations in the directory${k?" for "+k.toUpperCase():""}:\n${M.slice(0,4).map(({m})=>`• ${m.name} (${m.country})${m.mods?" — does survey mods":""}`).join("\n")}` : "I don't have a matching organisation in the directory yet.", refs};
+  }
+  if (/insur|segur|broker|corredor/.test(t)){
+    const I = DATA.insurance.map((x,i)=>({x,i})).filter(({x})=>x.aerial&&/aerial/i.test(x.aerial));
+    I.slice(0,3).forEach(({i})=>refs.push("ins:"+i));
+    return {reply:`Brokers whose sites mention aerial work:\n${I.slice(0,3).map(({x})=>`• ${x.name} (${x.country})`).join("\n")}\nNone names sensor cover explicitly, so ask about it.`, refs};
+  }
+  const city = DATA.airports.map((a,i)=>({a,i})).filter(({a})=>t.includes(a.city.toLowerCase().split(" ")[0]) || t.includes(a.icao.toLowerCase()) || t.includes(a.country.toLowerCase()) || (/valencia/.test(t)&&a.country==="Spain"));
+  if (city.length || /airport|aeropuert|fbo|avgas|fuel|combustible/.test(t)){
+    let A = city.length ? city : DATA.airports.map((a,i)=>({a,i}));
+    if (/avgas/.test(t)) A = A.filter(({a})=>(a.fuel||[]).some(f=>/AVGAS/.test(f)));
+    A.slice(0,4).forEach(({i})=>refs.push("airport:"+i));
+    return {reply:`${A.slice(0,4).map(({a})=>`• ${a.icao} ${a.name} — ${(a.fuel||[]).join(", ")}, ${a.hours}`).join("\n")}`, refs};
+  }
+  if (/regul|easa|norma|rule|gnss|part/.test(t)){
+    const R = DATA.radar.slice(0,3); R.forEach(r=>refs.push("radar:"+r.id));
+    return {reply:`Latest on the radar:\n${R.map(r=>`• ${r.title} (${r.status})`).join("\n")}`, refs};
+  }
+  return {reply:"I couldn't match that to a permit card, airport, MRO, broker, fleet or regulation. Try naming a country, airport, aircraft type or topic.", refs:[]};
+}
+
+
+/* ---------- MAP & WEATHER ---------- */
+const MAP = { map:null, live:null, layers:{}, markers:{}, sel:null, view:null, show:{airports:true, mro:true, clouds:false, radar:false}, cache:{} };
+const LIVE_HINT = "Live weather needs the installed app. This preview runs inside claude.ai, which blocks outside data.";
+async function probeLive(){
+  if (MAP.live !== null) return MAP.live;
+  const ctl = new AbortController(); const t = setTimeout(()=>ctl.abort(), 6000);
+  try {
+    const r = await fetch("https://api.open-meteo.com/v1/forecast?latitude=40&longitude=0&hourly=cloud_cover&forecast_days=1", {signal:ctl.signal});
+    MAP.live = r.ok;
+  } catch(e){ MAP.live = false; }
+  clearTimeout(t); return MAP.live;
+}
+function renderMap(){
+  const L2 = [["airports","Airports & FBO",'<span class="key" style="background:var(--teal)"></span>'],["mro","MRO & Part-145",'<span class="key" style="background:var(--navy-2);transform:rotate(45deg)"></span>'],["clouds","Clouds · satellite",""],["radar","Rain radar",""]];
+  return `
+  <div class="head"><div><div class="eyebrow">Map &amp; weather</div><h1>Survey bases and conditions</h1>
+  <p class="muted">Tap an airport for handling, the latest METAR and a three-day cloud forecast. Tap anywhere else to get the forecast for your survey block.</p></div></div>
+  <div class="mapwrap">
+    <div id="map" role="application" aria-label="Map of airports and maintenance organisations"></div>
+    <div class="mlayers">${L2.map(([k,l,key])=>`<button class="chip" id="lay-${k}" aria-pressed="${MAP.show[k]}" onclick="toggleLayer('${k}')">${key}${l}</button>`).join("")}</div>
+    <div class="mstatus" id="mstatus">Checking live weather…</div>
+    <div class="mpanel" id="mpanel" hidden></div>
+  </div>`;
+}
+function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+async function initMap(){
+  if (!window.L){ $("#mstatus").textContent = "The map library could not load."; return; }
+  const v = MAP.view || {c:[47,8], z:4};
+  const map = L.map("map", {zoomControl:true, attributionControl:true, worldCopyJump:false, minZoom:3, maxZoom:12}).setView(v.c, v.z);
+  MAP.map = map;
+  map.on("moveend", ()=>{ MAP.view = {c:map.getCenter(), z:map.getZoom()}; });
+  L.geoJSON(DATA.europe, {interactive:false, style:{color:css("--border-land"), weight:.8, fillColor:css("--land"), fillOpacity:1}}).addTo(map);
+  map.attributionControl.setPrefix(false).addAttribution("Borders: Natural Earth");
+  // airports
+  MAP.markers.airports = L.layerGroup(DATA.airports.map((a,i)=>{
+    const m = L.marker([a.lat,a.lon], {icon:L.divIcon({className:"", html:`<span class="pin" data-k="airport:${i}">${a.icao}</span>`, iconSize:[0,0]}), title:a.name, keyboard:true, riseOnHover:true, zIndexOffset:1000});
+    m.on("click", ()=>selectFeature("airport", i)); return m;
+  }));
+  MAP.markers.mro = L.layerGroup(DATA.mro.map((x,i)=>x.lat?(()=>{ const m=L.marker([x.lat,x.lon],{icon:L.divIcon({className:"",html:`<span class="mropin" data-k="mro:${i}"></span>`,iconSize:[0,0]}),title:x.name,keyboard:true}); m.on("click",()=>selectFeature("mro",i)); return m; })():null).filter(Boolean));
+  if (MAP.show.airports) MAP.markers.airports.addTo(map);
+  if (MAP.show.mro) MAP.markers.mro.addTo(map);
+  map.on("click", e => selectPoint(e.latlng.lat, e.latlng.lng));
+  const live = await probeLive();
+  if (MAP.map !== map) return;
+  if (live){
+    const dark = matchMedia("(prefers-color-scheme: dark)").matches && document.documentElement.dataset.theme!=="light" || document.documentElement.dataset.theme==="dark";
+    L.tileLayer(`https://{s}.basemaps.cartocdn.com/${dark?"dark_all":"light_all"}/{z}/{x}/{y}{r}.png`, {subdomains:"abcd", maxZoom:12, attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> © <a href="https://carto.com/attributions" target="_blank">CARTO</a>'}).addTo(map).bringToBack();
+  }
+  ["clouds","radar"].forEach(k => { const b=$("#lay-"+k); if (b){ b.disabled = !live; if(!live) b.title = LIVE_HINT; } });
+  if (live){ if (MAP.show.clouds) addWeatherLayer("clouds"); if (MAP.show.radar) addWeatherLayer("radar"); }
+  setStatus();
+  if (MAP.sel){ const s=MAP.sel; MAP.sel=null; s.kind==="point" ? selectPoint(s.lat,s.lon) : selectFeature(s.kind, s.i); }
+}
+function setStatus(extra){
+  const el = $("#mstatus"); if (!el) return;
+  el.innerHTML = MAP.live ? `<b>Live weather on</b>${extra?" · "+extra:""}` : `<b>Preview mode.</b> ${LIVE_HINT}`;
+}
+async function addWeatherLayer(k){
+  const map = MAP.map; if (!map) return;
+  if (k==="clouds"){
+    MAP.layers.clouds = L.tileLayer.wms("https://view.eumetsat.int/geoserver/wms", {layers:"mtg_fd:ir105_hrfi", format:"image/png", transparent:true, opacity:.6, version:"1.3.0", attribution:'Clouds © <a href="https://view.eumetsat.int" target="_blank">EUMETSAT</a>'}).addTo(map);
+    setStatus("Clouds: Meteosat infrared, latest image");
+  }
+  if (k==="radar"){
+    try{
+      const j = await (await fetch("https://api.rainviewer.com/public/weather-maps.json")).json();
+      const f = j.radar.past[j.radar.past.length-1];
+      MAP.layers.radar = L.tileLayer(`${j.host}${f.path}/256/{z}/{x}/{y}/2/1_1.png`, {opacity:.75, maxNativeZoom:7, maxZoom:12, attribution:'Weather data by <a href="https://www.rainviewer.com" target="_blank">RainViewer</a>'}).addTo(map);
+      setStatus("Radar "+new Date(f.time*1000).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}));
+    }catch(e){ toast("Rain radar is not available right now"); MAP.show.radar=false; $("#lay-radar")?.setAttribute("aria-pressed","false"); }
+  }
+}
+function toggleLayer(k){
+  MAP.show[k] = !MAP.show[k];
+  $("#lay-"+k).setAttribute("aria-pressed", MAP.show[k]);
+  const map = MAP.map; if (!map) return;
+  if (k==="airports"||k==="mro"){ MAP.show[k] ? MAP.markers[k].addTo(map) : map.removeLayer(MAP.markers[k]); return; }
+  if (MAP.show[k]) addWeatherLayer(k); else if (MAP.layers[k]){ map.removeLayer(MAP.layers[k]); MAP.layers[k]=null; setStatus(); }
+}
+function markSel(key){
+  document.querySelectorAll(".pin.sel,.mropin.sel").forEach(e=>e.classList.remove("sel"));
+  if (key) document.querySelector(`[data-k="${key}"]`)?.classList.add("sel");
+}
+function showOnMap(kind, i){ MAP.sel = {kind, i}; const x = kind==="airport"?DATA.airports[i]:DATA.mro[i]; MAP.view = {c:[x.lat,x.lon], z:7}; go("map"); }
+function panel(title, sub, code, body){
+  const p = $("#mpanel"); if (!p) return;
+  p.hidden = false;
+  p.innerHTML = `<header>${code?`<span class="cc icao" style="width:52px;height:34px">${esc(code)}</span>`:""}<div style="min-width:0"><h3>${esc(title)}</h3><div class="muted small">${esc(sub)}</div></div>
+  <button class="x" onclick="closePanel()" aria-label="Close">${svg("x")}</button></header><div class="body">${body}</div>`;
+}
+function closePanel(){ const p=$("#mpanel"); if(p){p.hidden=true;p.innerHTML="";} markSel(null); if (MAP.pt){ MAP.map?.removeLayer(MAP.pt); MAP.pt=null; } MAP.sel=null; }
+function selectFeature(kind, i){
+  if (MAP.pt){ MAP.map.removeLayer(MAP.pt); MAP.pt=null; }
+  MAP.sel = {kind, i}; markSel(kind+":"+i);
+  if (kind==="airport"){
+    const a = DATA.airports[i];
+    panel(a.name, a.city+", "+a.country, a.icao, `
+      <dl class="facts-grid"><div><dt>Fuel</dt><dd>${esc((a.fuel||["—"]).join(", "))}</dd></div><div><dt>Hours</dt><dd>${esc(a.hours)}</dd></div>
+      <div><dt>Customs</dt><dd>${a.customs?"Yes":"Not confirmed"}</dd></div><div><dt>Hangar</dt><dd>${esc(a.hangar||"Not confirmed")}</dd></div></dl>
+      <div class="block"><h3>FBO &amp; handling</h3><p class="small">${esc(a.handler)}</p>${a.ppr?`<p class="small muted" style="margin-top:4px">PPR: ${esc(a.ppr)}</p>`:""}
+        <div class="actions" style="margin-top:8px"><a class="btn sm quiet" href="${a.handlerUrl}" target="_blank" rel="noopener">Handler ↗</a><button class="btn sm ghost" data-open="airport:${i}">Full card</button></div></div>
+      ${MAP.live?`<div class="block"><h3>Latest METAR</h3><div id="wx-metar"><span class="muted small">Loading…</span></div></div>
+      <div class="block"><h3>Survey forecast · next 3 days</h3><div id="wx-fc"><span class="muted small">Loading…</span></div></div>`
+      :`<div class="block"><h3>METAR and 3-day forecast</h3>${wxFallback(a.lat,a.lon,a.icao)}</div>`}`);
+    if (MAP.live){ loadMetar(a.icao); loadForecast(a.lat, a.lon); }
+  } else {
+    const x = DATA.mro[i];
+    panel(x.name, [x.city,x.country].filter(Boolean).join(", "), ccOf(x.country), `
+      <dl class="facts-grid"><div><dt>Approvals</dt><dd>${esc(x.approvals.join(" · ")||"Not published")}</dd></div><div><dt>Types</dt><dd>${esc(x.types.join(", ")||"—")}</dd></div></dl>
+      ${x.mods?`<div class="block"><h3>Survey work</h3><p class="small">${esc(x.mods)}</p></div>`:""}
+      <p class="muted small">Pin placed at the company's city or home airfield.</p>
+      <div class="actions"><button class="btn sm" data-open="mro:${i}">Full card</button><a class="btn sm quiet" href="${x.url}" target="_blank" rel="noopener">Website ↗</a></div>`);
+  }
+}
+function nearest(lat, lon, n){
+  const R=3440.1, rad=Math.PI/180;
+  return DATA.airports.map((a,i)=>{ const dφ=(a.lat-lat)*rad, dλ=(a.lon-lon)*rad; const h=Math.sin(dφ/2)**2+Math.cos(lat*rad)*Math.cos(a.lat*rad)*Math.sin(dλ/2)**2; return {a,i,d:2*R*Math.asin(Math.sqrt(h))}; }).sort((x,y)=>x.d-y.d).slice(0,n);
+}
+function selectPoint(lat, lon){
+  markSel(null); MAP.sel = {kind:"point", lat, lon};
+  if (MAP.pt) MAP.map.removeLayer(MAP.pt);
+  MAP.pt = L.marker([lat,lon], {icon:L.divIcon({className:"",html:'<span class="ptpin"></span>',iconSize:[0,0]}), interactive:false}).addTo(MAP.map);
+  const nb = nearest(lat, lon, 3);
+  panel("Survey block", `${lat.toFixed(3)}°, ${lon.toFixed(3)}°`, "", `
+    <div class="block"><h3>Survey forecast · next 3 days</h3><div id="wx-fc">${MAP.live?`<span class="muted small">Loading…</span>`:wxFallback(lat,lon)}</div></div>
+    <div class="block"><h3>Nearest survey bases in the directory</h3><div class="near">${nb.map(({a,i,d})=>`<button onclick="selectFeature('airport',${i})"><span class="pin" style="transform:none">${a.icao}</span><span style="flex:1;min-width:0">${esc(a.name)}</span><span class="muted small num">${Math.round(d)} NM</span></button>`).join("")}</div></div>`);
+  if (MAP.live) loadForecast(lat, lon);
+}
+function wxFallback(lat, lon, icao){
+  return `<p class="small muted" style="margin-bottom:8px">${LIVE_HINT}</p><div class="actions">
+    ${icao?`<a class="btn sm quiet" href="https://aviationweather.gov/data/metar/?ids=${icao}&taf=1" target="_blank" rel="noopener">METAR/TAF ↗</a>`:""}
+    <a class="btn sm quiet" href="https://www.windy.com/?clouds,${lat.toFixed(3)},${lon.toFixed(3)},8" target="_blank" rel="noopener">Clouds on Windy ↗</a>
+    <a class="btn sm quiet" href="https://www.rainviewer.com/map.html?loc=${lat.toFixed(3)},${lon.toFixed(3)},8" target="_blank" rel="noopener">Rain radar ↗</a></div>`;
+}
+async function getJSON(url){
+  if (MAP.cache[url] && Date.now()-MAP.cache[url].t < 10*60e3) return MAP.cache[url].v;
+  const r = await fetch(url); if (!r.ok) throw new Error(r.status);
+  const v = await r.json(); MAP.cache[url] = {t:Date.now(), v}; return v;
+}
+async function loadMetar(icao){
+  const el = () => $("#wx-metar");
+  try{
+    const j = await getJSON(`https://aviationweather.gov/api/data/metar?ids=${icao}&format=json&taf=true`);
+    const m = j && j[0]; if (!el()) return;
+    if (!m){ el().innerHTML = `<p class="small muted">No recent METAR for ${icao}.</p>`; return; }
+    const obs = new Date((m.obsTime||0)*1000);
+    el().innerHTML = `<div class="actions" style="margin-bottom:6px;align-items:center">${m.fltCat?`<span class="fltcat ${m.fltCat}">${m.fltCat}</span>`:""}<span class="small muted">Observed ${obs.toISOString().slice(11,16)}Z · ${ago(obs)}</span></div>
+      <div class="metar">${esc(m.rawOb)}</div>${m.rawTaf?`<details style="margin-top:8px"><summary class="small" style="cursor:pointer;color:var(--teal-ink);font-weight:700">TAF</summary><div class="metar" style="margin-top:6px">${esc(m.rawTaf)}</div></details>`:""}
+      <p class="muted small" style="margin-top:6px">Source: aviationweather.gov</p>`;
+  }catch(e){ if (el()) el().innerHTML = `<p class="small muted" style="margin-bottom:6px">METAR could not be loaded.</p>`+wxFallback(0,0,icao).replace(/<a class="btn sm quiet" href="https:\/\/www\.(windy|rainviewer)[^]*?<\/a>/g,""); }
+}
+function cloudColor(c){ return c < 25 ? css("--ok") : c < 60 ? css("--warn") : css("--bad"); }
+async function loadForecast(lat, lon){
+  const el = () => $("#wx-fc");
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(3)}&longitude=${lon.toFixed(3)}&hourly=cloud_cover,cloud_cover_low,is_day&daily=cloud_cover_mean,precipitation_sum,wind_speed_10m_max,temperature_2m_max&forecast_days=3&timezone=auto&wind_speed_unit=kn`;
+  try{
+    const j = await getJSON(url); if (!el()) return;
+    const H = j.hourly, D = j.daily;
+    const days = D.time.map((t,di)=>{
+      const idx = H.time.map((h,k)=>k).filter(k=>H.time[k].startsWith(t));
+      const dayH = idx.filter(k=>H.is_day[k]===1);
+      const clear = dayH.filter(k=>H.cloud_cover[k] < 25).length;
+      return {t, clear, dayLen:dayH.length, cloud:D.cloud_cover_mean?.[di], rain:D.precipitation_sum[di], wind:D.wind_speed_10m_max[di], tmax:D.temperature_2m_max[di]};
+    });
+    const bars = H.cloud_cover.slice(0,72).map((c,k)=>`<i class="${H.is_day[k]?"":"night"}" style="height:${Math.max(8,c)}%;background:${cloudColor(c)}" title="${H.time[k].replace("T"," ")} · cloud ${c}% · low ${H.cloud_cover_low[k]}%"></i>`).join("");
+    el().innerHTML = `<div class="days">${days.map(d=>`<div class="day"><b>${new Date(d.t+"T12:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric"})}</b>
+        <span class="clear num ${d.clear>=4?"good":d.clear>=1?"some":"none"}">${d.clear} h</span><span class="muted">clear daylight</span>
+        <span class="num">cloud ${d.cloud ?? "—"}% · ${d.rain} mm</span><span class="num muted">wind ${Math.round(d.wind)} kt · ${Math.round(d.tmax)}°</span></div>`).join("")}</div>
+      <div style="margin-top:10px"><div class="strip" aria-label="Hourly cloud cover for 72 hours">${bars}</div>
+      <div class="striplab"><span>now</span><span>+24 h</span><span>+48 h</span><span>+72 h</span></div></div>
+      <div class="legend" style="margin-top:6px"><span><span class="key" style="background:var(--ok)"></span> under 25% cloud</span><span><span class="key" style="background:var(--warn)"></span> 25–60%</span><span><span class="key" style="background:var(--bad)"></span> over 60%</span><span>faded = night</span></div>
+      <p class="muted small" style="margin-top:6px">Clear daylight = daylight hours with total cloud under 25%. Forecast: Open-Meteo.</p>`;
+  }catch(e){ if (el()) el().innerHTML = `<p class="small muted" style="margin-bottom:6px">Forecast could not be loaded.</p>`+wxFallback(lat,lon); }
+}
+
+/* ---------- render ---------- */
+function render(){
+  renderNav();
+  const m = $("#main");
+  if (MAP.map && S.view!=="map"){ MAP.map.remove(); MAP.map=null; }
+  m.innerHTML = S.view==="home" ? renderHome() : S.view==="permits" ? renderPermits() : S.view==="map" ? renderMap() : S.view==="dir" ? renderDir() : S.view==="radar" ? renderRadar() : renderChat();
+  const q = $("#q");
+  if (q) q.addEventListener("input", e => { S.q = e.target.value; const pos=e.target.selectionStart; render(); const n=$("#q"); n.focus(); n.setSelectionRange(pos,pos); });
+  if (S.view==="chat"){ updateMode(); paintChat(); }
+  if (S.view==="map") initMap();
+}
+const hash = (location.hash||"").slice(1);
+if (["home","permits","map","dir","radar","chat"].includes(hash)) S.view = hash;
+render();
+</script>

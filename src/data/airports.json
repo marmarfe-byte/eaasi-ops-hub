@@ -1,0 +1,502 @@
+[
+{
+"icao": "LEVC",
+"name": "Valencia",
+"city": "Valencia (Manises)",
+"country": "Spain",
+"fuel": [
+"Jet A-1",
+"AVGAS 100LL"
+],
+"hours": "H24",
+"handler": "General Aviation Service; ExecuJet Valencia",
+"handlerUrl": "https://generalaviation.es/valencia/",
+"airportUrl": "https://www.aena.es/en/valencia.html",
+"customs": true,
+"hangar": null,
+"ppr": null,
+"note": "24-hour airport with a General Aviation Terminal, two GA handlers and both fuels. Well placed for the eastern Iberian coast.",
+"sources": [
+"https://generalaviation.es/valencia/",
+"https://www.execujet.com/locations/valencia-fbo-levc/"
+],
+"confidence": "high",
+"lat": 39.4892,
+"lon": -0.481
+},
+{
+"icao": "LEAL",
+"name": "Alicante-Elche",
+"city": "Alicante",
+"country": "Spain",
+"fuel": [
+"Jet A-1",
+"AVGAS 100LL"
+],
+"hours": "H24",
+"handler": "General Aviation Service (T2 GA Terminal)",
+"handlerUrl": "https://generalaviation.es/alicante/",
+"airportUrl": "https://www.aena.es/en/alicante-elche.html",
+"customs": true,
+"hangar": null,
+"ppr": null,
+"note": "Open 24 hours with its own GA terminal and handler and both fuels. Covers south-east Spain.",
+"sources": [
+"https://generalaviation.es/alicante/",
+"https://acukwik.com/Airport-Info/LEAL"
+],
+"confidence": "high",
+"lat": 38.2822,
+"lon": -0.5582
+},
+{
+"icao": "LEGE",
+"name": "Girona-Costa Brava",
+"city": "Girona",
+"country": "Spain",
+"fuel": [
+"Jet A-1",
+"AVGAS"
+],
+"hours": "H24 (ExecuJet on request)",
+"handler": "ExecuJet Gerona; General Aviation Service",
+"handlerUrl": "https://www.execujet.com/locations/gerona-fbo-lege/",
+"airportUrl": "https://www.aena.es/en/girona-costa-brava.html",
+"customs": true,
+"hangar": null,
+"ppr": null,
+"note": "Regional airport with two GA handlers and both fuels. Quick access to the Pyrenees and the French border.",
+"sources": [
+"https://www.execujet.com/locations/gerona-fbo-lege/",
+"https://acukwik.com/Airport-Info/LEGE"
+],
+"confidence": "high",
+"lat": 41.9046,
+"lon": 2.7618
+},
+{
+"icao": "LERS",
+"name": "Reus",
+"city": "Reus (Tarragona)",
+"country": "Spain",
+"fuel": [
+"Jet A-1",
+"AVGAS 100LL"
+],
+"hours": "Summer 0600–2200Z, winter 0700–2100Z",
+"handler": "General Aviation Service",
+"handlerUrl": "https://generalaviation.es/reus/",
+"airportUrl": "https://www.aena.es/en/reus.html",
+"customs": true,
+"hangar": null,
+"ppr": "Outside published hours: 1 h PPR",
+"note": "Quiet regional airport with both fuels. A lower-traffic alternative to Barcelona for Catalonia and the Ebro area.",
+"sources": [
+"https://generalaviation.es/reus/",
+"https://acukwik.com/Airport-Info/LERS"
+],
+"confidence": "high",
+"lat": 41.1475,
+"lon": 1.1684
+},
+{
+"icao": "LPCS",
+"name": "Cascais (Tires)",
+"city": "Lisbon",
+"country": "Portugal",
+"fuel": [
+"Jet A-1",
+"AVGAS"
+],
+"hours": "08:00–sunset; extended hours PPR",
+"handler": "ExecuJet Cascais; Blue Aviation",
+"handlerUrl": "https://www.execujet.com/locations/cascais-fbo-lpcs/",
+"airportUrl": "https://cascaisairport.pt/en/airport/",
+"customs": true,
+"hangar": null,
+"ppr": "PPR 07:00–07:59 and sunset–23:59",
+"note": "GA-focused aerodrome 20 km from Lisbon with both fuels. Avoids slots and congestion at Lisbon.",
+"sources": [
+"https://cascaisairport.pt/en/airport/",
+"https://www.execujet.com/locations/cascais-fbo-lpcs/"
+],
+"confidence": "high",
+"lat": 38.7256,
+"lon": -9.3553
+},
+{
+"icao": "LFLY",
+"name": "Lyon-Bron",
+"city": "Lyon",
+"country": "France",
+"fuel": [
+"Jet A-1",
+"AVGAS 100LL"
+],
+"hours": "07:00–20:00 local, extended on request",
+"handler": "Lyon Airports Executive Handling; Jetex",
+"handlerUrl": "https://businessaviation.lyonaeroports.com/en/lyon-bron",
+"airportUrl": "https://businessaviation.lyonaeroports.com/en/lyon-bron",
+"customs": true,
+"hangar": "Heated hangars for rent, one-off or annual",
+"ppr": "Customs 24 h PNR",
+"note": "General-aviation-only airport with hangars for rent. Strong option for multi-week campaigns in south-east France.",
+"sources": [
+"https://businessaviation.lyonaeroports.com/en/hangars-and-aircraft-storage",
+"https://acukwik.com/Airport-Info/LFLY"
+],
+"confidence": "high",
+"lat": 45.7294,
+"lon": 4.9389
+},
+{
+"icao": "LIPE",
+"name": "Bologna",
+"city": "Bologna",
+"country": "Italy",
+"fuel": [
+"Jet A-1",
+"AVGAS 100LL"
+],
+"hours": "H24 (restricted); GA services 24/7",
+"handler": "TAG Bologna; Italy FBO",
+"handlerUrl": "https://www.tagbologna.com/",
+"airportUrl": "http://www.bologna-airport.it/",
+"customs": true,
+"hangar": "Hangar run by TAG Bologna",
+"ppr": null,
+"note": "Dedicated GA terminal and hangar, central in the Po Valley for northern Italy.",
+"sources": [
+"https://www.tagbologna.com/",
+"https://acukwik.com/Airport-Info/LIPE"
+],
+"confidence": "medium",
+"lat": 44.5354,
+"lon": 11.2887
+},
+{
+"icao": "EDMA",
+"name": "Augsburg",
+"city": "Augsburg",
+"country": "Germany",
+"fuel": [
+"Jet A-1",
+"AVGAS 100LL"
+],
+"hours": "Mon–Sat 07:00–21:00, Sun 09:00–21:00",
+"handler": "Augsburger Flughafen GmbH",
+"handlerUrl": "https://www.augsburg-airport.de/geschaeftsflieger/",
+"airportUrl": "https://www.augsburg-airport.de",
+"customs": true,
+"hangar": null,
+"ppr": "Paid PPR outside opening hours",
+"note": "Almost entirely GA and business traffic, ILS runway and permanent customs. A Bavarian base without Munich's congestion.",
+"sources": [
+"https://www.augsburg-airport.de/flughafen/flughafendaten/",
+"https://www.augsburg-airport.de/geschaeftsflieger/"
+],
+"confidence": "high",
+"lat": 48.4252,
+"lon": 10.9318
+},
+{
+"icao": "LOWL",
+"name": "Linz",
+"city": "Linz",
+"country": "Austria",
+"fuel": [
+"Jet A-1",
+"AVGAS"
+],
+"hours": "Mon–Fri 05:30–23:00, Sat–Sun 06:00–23:00",
+"handler": "Linz Airport General Aviation Center; MAGNUM FBO",
+"handlerUrl": "https://www.linz-airport.com/en/General-Aviation",
+"airportUrl": "https://www.linz-airport.com",
+"customs": true,
+"hangar": null,
+"ppr": null,
+"note": "Airport-run GA centre with customs and long hours. Suits Upper Austria and southern Bohemia.",
+"sources": [
+"https://www.linz-airport.com/en/General-Aviation",
+"https://acukwik.com/Airport-Info/LOWL"
+],
+"confidence": "medium",
+"lat": 48.2354,
+"lon": 14.1881
+},
+{
+"icao": "LSZB",
+"name": "Bern",
+"city": "Bern",
+"country": "Switzerland",
+"fuel": [
+"Jet A-1",
+"AVGAS 100LL",
+"MOGAS"
+],
+"hours": "08:00–19:00 LT (under 3.5 t until 20:00/21:00)",
+"handler": "General Aviation Center Bern",
+"handlerUrl": "https://www.bernairport.ch/en/aviation/general-aviation/allgemeine-informationen",
+"airportUrl": "https://www.bernairport.ch",
+"customs": true,
+"hangar": "On request",
+"ppr": "Fuel truck after hours: 3 h notice",
+"note": "GA-friendly airport with self-service AVGAS and hangar space on request. Central to the Swiss Plateau and the Alps.",
+"sources": [
+"https://www.bernairport.ch/en/aviation/general-aviation/allgemeine-informationen",
+"https://www.bernairport.ch/en/aviation/flugbetrieb/betriebszeiten"
+],
+"confidence": "high",
+"lat": 46.9122,
+"lon": 7.4994
+},
+{
+"icao": "EHRD",
+"name": "Rotterdam The Hague",
+"city": "Rotterdam",
+"country": "Netherlands",
+"fuel": [
+"Jet A-1",
+"AVGAS 100LL"
+],
+"hours": "0600–2200Z; FBO 24 h",
+"handler": "Jet Aviation Rotterdam",
+"handlerUrl": "https://www.jetaviation.com/location/rotterdam-the-hague-netherlands/",
+"airportUrl": "https://www.rotterdamthehagueairport.nl",
+"customs": true,
+"hangar": "Via Jet Aviation",
+"ppr": "Confirmed handling mandatory for GA",
+"note": "24-hour FBO with customs on site and both fuels. Base for the Randstad and the Dutch delta.",
+"sources": [
+"https://www.jetaviation.com/location/rotterdam-the-hague-netherlands/",
+"https://acukwik.com/Airport-Info/EHRD"
+],
+"confidence": "high",
+"lat": 51.9569,
+"lon": 4.4372
+},
+{
+"icao": "EKRK",
+"name": "Copenhagen Roskilde",
+"city": "Roskilde",
+"country": "Denmark",
+"fuel": [
+"Jet A-1",
+"AVGAS"
+],
+"hours": "H24",
+"handler": "FCG OPS Copenhagen Handling",
+"handlerUrl": "https://fcgops.aero/airports/ekrk/",
+"airportUrl": "https://www.rke.dk",
+"customs": true,
+"hangar": null,
+"ppr": "Handling mandatory over 3 t; customs 1 h PNR",
+"note": "Denmark's main GA airport, H24, close to Copenhagen without hub fees.",
+"sources": [
+"https://fcgops.aero/airports/ekrk/",
+"https://acukwik.com/Airport-Info/EKRK"
+],
+"confidence": "medium",
+"lat": 55.5856,
+"lon": 12.1314
+},
+{
+"icao": "ESMS",
+"name": "Malmö",
+"city": "Malmö",
+"country": "Sweden",
+"fuel": [
+"Jet A-1",
+"AVGAS 100LL"
+],
+"hours": "H24; FBO 07:00–18:00 LT",
+"handler": "Allied Aero Services Sweden",
+"handlerUrl": "https://www.alliedaero.se",
+"airportUrl": "https://www.swedavia.com/malmo/",
+"customs": true,
+"hangar": null,
+"ppr": "FBO after hours: prior notice",
+"note": "H24 airport of entry with a GA/executive FBO. Covers Skåne and the Öresund region.",
+"sources": [
+"https://www.alliedaero.se",
+"https://acukwik.com/Airport-Info/ESMS"
+],
+"confidence": "medium",
+"lat": 55.5356,
+"lon": 13.3763
+},
+{
+"icao": "ENTO",
+"name": "Sandefjord Torp",
+"city": "Sandefjord",
+"country": "Norway",
+"fuel": [
+"Jet A-1",
+"AVGAS"
+],
+"hours": "Tower 0500–2200Z; FBO 24/7",
+"handler": "Access Oslo Executive Handling; Sundt Air",
+"handlerUrl": "https://accessoslo.no/sandefjord-torp-fbo/",
+"airportUrl": "https://www.torp.no",
+"customs": true,
+"hangar": "FBO hangar next to the lounge",
+"ppr": "Customs 90 min PNR",
+"note": "About an hour south of Oslo with a 24/7 FBO and hangar. Oslofjord and southern Norway.",
+"sources": [
+"https://accessoslo.no/sandefjord-torp-fbo/",
+"https://acukwik.com/Airport-Info/ENTO"
+],
+"confidence": "medium",
+"lat": 59.1867,
+"lon": 10.2586
+},
+{
+"icao": "EFTP",
+"name": "Tampere-Pirkkala",
+"city": "Tampere",
+"country": "Finland",
+"fuel": [
+"Jet A-1",
+"AVGAS"
+],
+"hours": "H24",
+"handler": "FCG OPS Tampere; Airpro",
+"handlerUrl": "https://fcgops.aero/airports/eftp/",
+"airportUrl": "https://www.finavia.fi/en/airports/tampere-pirkkala",
+"customs": true,
+"hangar": null,
+"ppr": "Customs 4 h PNR",
+"note": "H24 airport of entry with both fuels, central to southern and western Finland.",
+"sources": [
+"https://fcgops.aero/airports/eftp/",
+"https://acukwik.com/Airport-Info/EFTP"
+],
+"confidence": "medium",
+"lat": 61.4153,
+"lon": 23.5878
+},
+{
+"icao": "EPPO",
+"name": "Poznań-Ławica",
+"city": "Poznań",
+"country": "Poland",
+"fuel": [
+"Jet A-1",
+"AVGAS"
+],
+"hours": "H24",
+"handler": "Excel Handling",
+"handlerUrl": "https://www.excel-handling.com",
+"airportUrl": "https://poznanairport.pl",
+"customs": true,
+"hangar": null,
+"ppr": null,
+"note": "H24 airport of entry in western Poland with both fuels and a local GA handler.",
+"sources": [
+"https://acukwik.com/Airport-Info/EPPO",
+"https://www.excel-handling.com"
+],
+"confidence": "medium",
+"lat": 52.4216,
+"lon": 16.8234
+},
+{
+"icao": "LKTB",
+"name": "Brno-Tuřany",
+"city": "Brno",
+"country": "Czechia",
+"fuel": [
+"Jet A-1",
+"AVGAS 100LL"
+],
+"hours": "H24",
+"handler": "Letiště Brno GA handling; Euro Jet",
+"handlerUrl": "https://www.brno-airport.cz/en/ga-business-aviation",
+"airportUrl": "https://www.brno-airport.cz/en/",
+"customs": true,
+"hangar": "Door 17.0 × 5.3 m, depth 16.5 m",
+"ppr": null,
+"note": "Airport-run H24 GA handling and hangars sized for twin-engine survey aircraft.",
+"sources": [
+"https://www.brno-airport.cz/en/ga-business-aviation",
+"https://acukwik.com/Airport-Info/LKTB"
+],
+"confidence": "high",
+"lat": 49.1513,
+"lon": 16.694
+},
+{
+"icao": "LDZA",
+"name": "Zagreb",
+"city": "Zagreb",
+"country": "Croatia",
+"fuel": [
+"Jet A-1",
+"AVGAS"
+],
+"hours": "H24",
+"handler": "FCG OPS Zagreb (GAT); Euro Jet",
+"handlerUrl": "https://fcgops.aero/airports/ldza/",
+"airportUrl": "https://www.zagreb-airport.hr/en",
+"customs": true,
+"hangar": "None (per FCG OPS)",
+"ppr": "No PPR (per FCG OPS)",
+"note": "H24 airport of entry with a GA terminal and both fuels, central to inland Croatia.",
+"sources": [
+"https://fcgops.aero/airports/ldza/",
+"https://acukwik.com/Airport-Info/LDZA"
+],
+"confidence": "medium",
+"lat": 45.7429,
+"lon": 16.0688
+},
+{
+"icao": "LYBE",
+"name": "Belgrade Nikola Tesla",
+"city": "Belgrade",
+"country": "Serbia",
+"fuel": [
+"Jet A-1",
+"AVGAS"
+],
+"hours": "H24",
+"handler": "FCG OPS Belgrade; Aero Elite Services; Euro Jet",
+"handlerUrl": "https://fcgops.aero/airports/lybe/",
+"airportUrl": "http://www.beg.aero/",
+"customs": true,
+"hangar": null,
+"ppr": "No PPR (per FCG OPS)",
+"note": "The practical entry point for survey work in Serbia. The LY-R8 restricted zone lies just east of the airport.",
+"sources": [
+"https://fcgops.aero/airports/lybe/",
+"https://acukwik.com/Airport-Info/LYBE"
+],
+"confidence": "medium",
+"lat": 44.8184,
+"lon": 20.3091
+},
+{
+"icao": "LGTS",
+"name": "Thessaloniki",
+"city": "Thessaloniki",
+"country": "Greece",
+"fuel": [
+"Jet A-1"
+],
+"hours": "H24",
+"handler": "JetSet Aviation; ExecuJet Thessaloniki",
+"handlerUrl": "https://www.jetsetaviation.gr/",
+"airportUrl": "https://www.skg-airport.gr/en",
+"customs": true,
+"hangar": null,
+"ppr": null,
+"note": "Jet fuel only per AC-U-KWIK, so it suits turbine types (C208, King Air) rather than AVGAS piston twins.",
+"sources": [
+"https://acukwik.com/Airport-Info/LGTS",
+"https://www.jetsetaviation.gr/"
+],
+"confidence": "medium",
+"lat": 40.5193,
+"lon": 22.97
+}
+]

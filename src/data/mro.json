@@ -1,0 +1,508 @@
+[
+{
+"name": "Airborne Technologies",
+"country": "Austria",
+"city": "Wiener Neustadt",
+"approvals": [
+"Part-21J EASA.21J.630",
+"Part-21G AT.21G.0021",
+"Part-145 AT.145.092"
+],
+"types": [
+"P68",
+"DA62 MPP",
+"DHC-6"
+],
+"mods": "Special-mission conversion house with design, production and maintenance approvals and many EASA STCs. Builds retractable camera/gimbal lifts through a fuselage opening, the SCAR-Pod sensor pod and operator workstations. Has integrated LiDAR, multispectral and aeromagnetic kits on P68 and DA62 MPP.",
+"services": [
+"Design (21J)",
+"STC",
+"Production (21G)",
+"Airframe",
+"Mission systems"
+],
+"url": "https://www.airbornetechnologies.at/en/",
+"sources": [
+"https://www.airbornetechnologies.at/en/easa-certifications/",
+"https://www.airbornetechnologies.at/en/mission-solutions/camera-lifts/"
+],
+"confidence": "high",
+"lat": 47.843,
+"lon": 16.26
+},
+{
+"name": "Diamond Aircraft — Special Mission",
+"country": "Austria",
+"city": "Wiener Neustadt",
+"approvals": [
+"Part-145",
+"Part-CAO",
+"Part-147"
+],
+"types": [
+"DA42 MPP",
+"DA62 MPP",
+"DA40",
+"DA50"
+],
+"mods": "Manufacturer. The DA62 MPP survey configuration replaces the right operator seat with a survey hatch for a Vexcel UltraCam on a SOMAG mount, plus a RIEGL LiDAR nose pod. The DA42 MPP GeoStar carries LiDAR and a medium-format camera in a nose pod.",
+"services": [
+"Airframe",
+"Engine (Austro)",
+"Avionics",
+"CAO",
+"Mission design & certification"
+],
+"url": "https://www.diamondaircraft.com/en/service-and-support/factory-maintenance/",
+"sources": [
+"https://www.diamondaircraft.com/en/service-and-support/factory-maintenance/",
+"https://www.avbuyer.com/articles/special-missions-aircraft/check-out-the-new-da62-mpp-survey-concept-112651"
+],
+"confidence": "high",
+"lat": 47.836,
+"lon": 16.227
+},
+{
+"name": "Urbe Aero",
+"country": "Austria",
+"city": "Wiener Neustadt · Rome",
+"approvals": [
+"Part-145",
+"Part-21J",
+"CAMO"
+],
+"types": [
+"C208",
+"King Air 90",
+"PC-12",
+"PC-6",
+"TBM"
+],
+"mods": "Own design approval for avionics and cabin changes. No survey-hatch work confirmed.",
+"services": [
+"Airframe",
+"Avionics",
+"CAMO",
+"Design"
+],
+"url": "https://service.urbe.aero/",
+"sources": [
+"https://service.urbe.aero/"
+],
+"confidence": "medium",
+"lat": 47.85,
+"lon": 16.25
+},
+{
+"name": "Aerodata AG",
+"country": "Germany",
+"city": "Braunschweig",
+"approvals": [
+"Part-145 DE.145.0140",
+"CAMO+",
+"Part-21J",
+"Part-21G"
+],
+"types": [
+"C208",
+"King Air",
+"B1900",
+"Do 228",
+"PC-12"
+],
+"mods": "Special-mission integrator with design and production approval. Retrofits mission systems on turboprops such as the King Air, Caravan and Do 228.",
+"services": [
+"Airframe",
+"Avionics",
+"CAMO",
+"Mission integration",
+"Design (21J)"
+],
+"url": "https://www.aerodata.de/en/mro-services/",
+"sources": [
+"https://www.aerodata.de/en/mro-services/"
+],
+"confidence": "high",
+"lat": 52.319,
+"lon": 10.556
+},
+{
+"name": "Rheinland Air Service",
+"country": "Germany",
+"city": "Mönchengladbach",
+"approvals": [
+"Part-145 DE.145.0048",
+"CAMO DE.CAMO.0008",
+"Part-21J EASA.21J.353"
+],
+"types": [
+"King Air",
+"B1900",
+"PC-12",
+"PC-6",
+"TBM"
+],
+"mods": "Own design approval and a Special Mission Aircraft division. Specific survey-hatch STCs not confirmed.",
+"services": [
+"Airframe",
+"Avionics",
+"CAMO",
+"Design (21J)"
+],
+"url": "https://ras.de/en/",
+"sources": [
+"https://ras.de/en/certificates/"
+],
+"confidence": "high",
+"lat": 51.23,
+"lon": 6.504
+},
+{
+"name": "Textron Aviation Düsseldorf",
+"country": "Germany",
+"city": "Düsseldorf",
+"approvals": [],
+"types": [
+"C208",
+"King Air",
+"Citation"
+],
+"mods": null,
+"services": [
+"Airframe",
+"Engine",
+"Avionics",
+"Parts hub"
+],
+"url": "https://txtav.com/service/dusseldorf-service-center",
+"sources": [
+"https://txtav.com/service/dusseldorf-service-center"
+],
+"confidence": "high",
+"lat": 51.281,
+"lon": 6.757
+},
+{
+"name": "EAC² / Piper + Jet Maintenance",
+"country": "Germany",
+"city": "Calden (Kassel)",
+"approvals": [
+"Part-145",
+"CAMO"
+],
+"types": [
+"PA-31",
+"Cessna 400-series",
+"C208",
+"Diamond",
+"PC-12"
+],
+"mods": null,
+"services": [
+"Airframe",
+"Engine incl. PT6",
+"Avionics",
+"CAMO"
+],
+"url": "https://www.eac2.de/en/",
+"sources": [
+"https://www.eac2.de/en/airframe-engine/"
+],
+"confidence": "medium",
+"lat": 51.408,
+"lon": 9.378
+},
+{
+"name": "PORTA Air Service",
+"country": "Germany",
+"city": "Porta Westfalica",
+"approvals": [
+"Part-145"
+],
+"types": [
+"C208",
+"King Air",
+"TBM",
+"PA-46"
+],
+"mods": null,
+"services": [
+"Airframe",
+"Engine (PT6 upgrades)",
+"Avionics"
+],
+"url": "https://www.porta.aero/",
+"sources": [
+"https://www.porta.aero/"
+],
+"confidence": "medium",
+"lat": 52.221,
+"lon": 8.86
+},
+{
+"name": "Aerowest Flugzeugtechnik",
+"country": "Germany",
+"city": "Hannover",
+"approvals": [
+"Part-145 DE.145.0247"
+],
+"types": [
+"PA-31T",
+"C441",
+"Citation"
+],
+"mods": null,
+"services": [
+"Airframe",
+"Engine",
+"Avionics"
+],
+"url": "https://aerowest.net/technik/?lang=en",
+"sources": [
+"https://aerowest.net/technik/?lang=en"
+],
+"confidence": "medium",
+"lat": 52.461,
+"lon": 9.685
+},
+{
+"name": "Textron Aviation Valencia",
+"country": "Spain",
+"city": "Valencia (LEVC)",
+"approvals": [],
+"types": [
+"C208",
+"King Air",
+"Citation"
+],
+"mods": "Engineering, sheet-metal fabrication and modifications. No survey-specific STC listed.",
+"services": [
+"Airframe",
+"Avionics",
+"Engineering",
+"Sheet metal"
+],
+"url": "https://txtav.com/service/valencia-service-center",
+"sources": [
+"https://txtav.com/service/valencia-service-center"
+],
+"confidence": "high",
+"lat": 39.489,
+"lon": -0.481
+},
+{
+"name": "Aeronáutica Delgado",
+"country": "Spain",
+"city": "Córdoba",
+"approvals": [
+"Part-145 ES.145.169",
+"CAMO ES.MG.127"
+],
+"types": [
+"Piper",
+"Cessna"
+],
+"mods": null,
+"services": [
+"Airframe",
+"Structures",
+"Engine PT6A",
+"CAMO"
+],
+"url": "https://www.aeronauticadelgado.com/",
+"sources": [
+"https://www.aeronauticadelgado.com/"
+],
+"confidence": "medium",
+"lat": 37.842,
+"lon": -4.849
+},
+{
+"name": "Aerotecnia Ingeniería",
+"country": "Spain",
+"city": "Madrid (Cuatro Vientos)",
+"approvals": [
+"Part-21J EASA.21J.333"
+],
+"types": [],
+"mods": "Design organisation for mission-equipment installations: optronic cameras, antennas, GPS. No photogrammetric-hatch STC confirmed.",
+"services": [
+"Design (21J)"
+],
+"url": "https://www.aerotecnia.com/organizacion-de-diseno-doa-2/",
+"sources": [
+"https://www.aerotecnia.com/organizacion-de-diseno-doa-2/"
+],
+"confidence": "medium",
+"lat": 40.37,
+"lon": -3.785
+},
+{
+"name": "Vulcanair",
+"country": "Italy",
+"city": "Naples",
+"approvals": [
+"Part-21J",
+"Part-21G",
+"Part-145",
+"Part-147"
+],
+"types": [
+"P68",
+"P68 Observer"
+],
+"mods": "Manufacturer. The P68 Observer leaves the factory with a 63 × 46 cm photogrammetric belly hatch for mapping, thermal and laser-scanner sensors.",
+"services": [
+"OEM support",
+"Design",
+"Production",
+"Training"
+],
+"url": "https://www.vulcanair.com/aircraft/special-mission-p68-observer/",
+"sources": [
+"https://www.vulcanair.com/aircraft/special-mission-p68-observer/"
+],
+"confidence": "high",
+"lat": 40.886,
+"lon": 14.291
+},
+{
+"name": "Bromma Air Maintenance",
+"country": "Sweden",
+"city": "Stockholm",
+"approvals": [
+"Part-145",
+"Part-21J",
+"Part-21G",
+"CAMO"
+],
+"types": [
+"King Air",
+"B1900",
+"C208",
+"Cessna 400-series",
+"Do 228"
+],
+"mods": "Over 160 EASA-certified modifications, including 16+ camera and sensor installations and special-mission work.",
+"services": [
+"Airframe",
+"Engine PT6A",
+"Avionics",
+"CAMO",
+"Design (21J)"
+],
+"url": "https://bam.aero/",
+"sources": [
+"https://bam.aero/services/design-production/certified-aircraft-modifications/"
+],
+"confidence": "high",
+"lat": 59.354,
+"lon": 17.942
+},
+{
+"name": "AIR TEAM service",
+"country": "Czechia",
+"city": null,
+"approvals": [
+"Part-21J",
+"Part-145"
+],
+"types": [
+"P68",
+"Cessna",
+"Beechcraft",
+"Piper"
+],
+"mods": "Develops changes and STCs for mission sensors. Has installed terrain-mapping laser scanners on P68, plus hyperspectral, FLIR and EO/IR pods.",
+"services": [
+"Avionics",
+"Design",
+"STC",
+"Mission integration"
+],
+"url": "https://service.airteam.eu/en/mca-stc-development",
+"sources": [
+"https://service.airteam.eu/en/mca-stc-development"
+],
+"confidence": "medium"
+},
+{
+"name": "JB Aviation",
+"country": "Poland",
+"city": "Warsaw",
+"approvals": [
+"Part-145 PL.145.014"
+],
+"types": [
+"DA42",
+"DA62",
+"C208",
+"PC-12"
+],
+"mods": null,
+"services": [
+"Airframe",
+"Avionics",
+"CAMO"
+],
+"url": "https://www.jbi.com.pl/en/service-and-camo/maintenance",
+"sources": [
+"https://www.jbi.com.pl/en/service-and-camo/maintenance"
+],
+"confidence": "medium",
+"lat": 52.086,
+"lon": 21.116
+},
+{
+"name": "BAYO MRO",
+"country": "France",
+"city": "Clermont-Ferrand",
+"approvals": [
+"Part-145"
+],
+"types": [
+"King Air",
+"Baron 58",
+"Piper"
+],
+"mods": null,
+"services": [
+"Airframe",
+"Avionics retrofit",
+"Interiors"
+],
+"url": "https://www.bayo.com/content/6-atelier-part-145",
+"sources": [
+"https://www.bayo.com/content/6-atelier-part-145"
+],
+"confidence": "medium",
+"lat": 45.786,
+"lon": 3.169
+},
+{
+"name": "Gama Aviation Mission Systems",
+"country": "United Kingdom",
+"city": "Bournemouth",
+"approvals": [
+"UK CAA (not EASA)"
+],
+"types": [
+"King Air",
+"BN2-T Islander"
+],
+"mods": "Mission-systems design team. King Air special-mission re-roles and external pods for EO/IR and ISR installations.",
+"services": [
+"Airframe",
+"Avionics",
+"Mission design",
+"Pods"
+],
+"url": "https://www.gamaaviation.com/special-mission/mission-systems/",
+"sources": [
+"https://www.gamaaviation.com/special-mission/mission-systems/"
+],
+"confidence": "medium",
+"lat": 50.78,
+"lon": -1.842
+}
+]

@@ -1,0 +1,879 @@
+[
+{
+"id": "ES",
+"country": "Spain",
+"authority": "Instituto Geográfico Nacional",
+"web": "https://www.ign.es/web/ign/portal/permiso-vuelo-fotogrametrico",
+"contact": "rcc@transportes.gob.es",
+"submission": "rcc@transportes.gob.es",
+"online": null,
+"viaEmail": false,
+"phone": "+34 638 231 622",
+"guide": "Manned Photogrammetric Flight Permit\n\nDownload and fill the official application form from the IGN:\n\nDefine the mission scope clearly, including equipment (camera/sensor, height, overlaps, GSD).\n\nThe form and procedure are published on the IGN website \n\nhttps://www.ign.es/web/permiso-vuelo-fotogrametrico\n\nInclude a croquis on MTN 1:25,000 indicating the sheet number, area polygon, UTM or geographic coordinates, and flight lines\n\nSubmission\n\nSubmit form and map to Registro Central de Cartografía (RCC) via email:\nrcc@transportes.gob.es \nign.es\n.\n\nRestricted Zone Handling\n\nRCC checks for Zonas Reservadas al Vuelo Fotogramétrico (ZRVF). \nIf found, RCC forwards to CECAF, who grants permission and contacts applicant. It is not needed to contact CECAF directly.\n\nAirspace Coordination\n\nFor operations in controlled airspace, coordinate separately in parallel via ENAIRE’s “Planea” platform.\n\nhttps://planea.enaire.es/\n\nENAIRE Typical timeline: 10 days, or up to 20 days in complex zones near airports.",
+"docs": "Pilot(s)’ licenses\n\nAircraft registration\n\nAirworthiness certificate (ARC)\n\nOperator’s declaration (AESA/EASA, EU Reg. 965/2012)\n\nLiability insurance\n\nRadio station license\n\n(If ZRVF applies): additional information as requested by CECAF",
+"lead": null,
+"form": "https://www.ign.es/web/resources/docs/IGNCnig/Impreso_vuelos_fotogrametricos.pdf",
+"restricted": null,
+"restrictedForm": "https://insignia.enaire.es/",
+"atcWeb": "https://planea.enaire.es/",
+"atcMail": "cop@enaire.es",
+"atcPhone": "+34 900 929 220",
+"created": "2025-08-06",
+"updated": "2025-08-06",
+"owner": "Marcos Martínez",
+"localEntity": false,
+"defence": "zones",
+"dayBefore": false,
+"issues": [],
+"zones": [
+{
+"sheet": "0006-4",
+"name": "San Salvador de Serantes"
+},
+{
+"sheet": "0059-4",
+"name": "Veguilla"
+},
+{
+"sheet": "0084-2",
+"name": "Bárcenas"
+},
+{
+"sheet": "0119-4",
+"name": "Porto do Son"
+},
+{
+"sheet": "0129-2",
+"name": "La Robla"
+},
+{
+"sheet": "0161-2",
+"name": "León"
+},
+{
+"sheet": "0161-4",
+"name": "Armunia"
+},
+{
+"sheet": "0167-3",
+"name": "Huérmeces"
+},
+{
+"sheet": "0185-3",
+"name": "Marín"
+},
+{
+"sheet": "0201-3",
+"name": "Atapuerca"
+},
+{
+"sheet": "0259-1",
+"name": "Roses"
+},
+{
+"sheet": "0312-1",
+"name": "Venta de Baños"
+},
+{
+"sheet": "0322-2",
+"name": "Castejón de Valdejasa"
+},
+{
+"sheet": "0342-4",
+"name": "Peñaflor de Hornija"
+},
+{
+"sheet": "0343-3",
+"name": "Villanubla"
+},
+{
+"sheet": "0354-3",
+"name": "Pinseque"
+},
+{
+"sheet": "0354-4",
+"name": "Utebo"
+},
+{
+"sheet": "0364-2",
+"name": "Montseny"
+},
+{
+"sheet": "0373-1",
+"name": "Quintanilla de Onésimo"
+},
+{
+"sheet": "0373-3",
+"name": "Montemayor de Pililla"
+},
+{
+"sheet": "0383-1",
+"name": "Dehesa el Boalar"
+},
+{
+"sheet": "0383-2",
+"name": "Zaragoza"
+},
+{
+"sheet": "0383-4",
+"name": "María de Huerva"
+},
+{
+"sheet": "0410-3",
+"name": "El Frasno"
+},
+{
+"sheet": "0460-1",
+"name": "Bustares"
+},
+{
+"sheet": "0508-3",
+"name": "Cercedilla"
+},
+{
+"sheet": "0509-3",
+"name": "Los Rancajales"
+},
+{
+"sheet": "0535-3",
+"name": "Daganzo de Arriba"
+},
+{
+"sheet": "0558-1",
+"name": "Navalagamella"
+},
+{
+"sheet": "0559-1",
+"name": "Madrid Noroeste"
+},
+{
+"sheet": "0559-3",
+"name": "Madrid Suroeste"
+},
+{
+"sheet": "0560-1",
+"name": "Alcalá de Henares"
+},
+{
+"sheet": "0560-2",
+"name": "Villalbilla"
+},
+{
+"sheet": "0582-1",
+"name": "Getafe"
+},
+{
+"sheet": "0583-2",
+"name": "Valdilecha"
+},
+{
+"sheet": "0602-1",
+"name": "Navamorcuende"
+},
+{
+"sheet": "0627-1",
+"name": "Talavera de la Reina"
+},
+{
+"sheet": "0631-4",
+"name": "Villatobas"
+},
+{
+"sheet": "0646-2",
+"name": "Alaior"
+},
+{
+"sheet": "0647-3",
+"name": "Maó"
+},
+{
+"sheet": "0670-2",
+"name": "Sóller"
+},
+{
+"sheet": "0671-3",
+"name": "Inca"
+},
+{
+"sheet": "0696-1",
+"name": "Bétera"
+},
+{
+"sheet": "0698-2",
+"name": "Santa María del Camí"
+},
+{
+"sheet": "0698-3",
+"name": "Sant Agustí"
+},
+{
+"sheet": "0699-1",
+"name": "Sencelles"
+},
+{
+"sheet": "0699-4",
+"name": "Porreres"
+},
+{
+"sheet": "0707-1",
+"name": "Berzocana"
+},
+{
+"sheet": "0722-3",
+"name": "Catarroja"
+},
+{
+"sheet": "0750-4",
+"name": "Bótoa"
+},
+{
+"sheet": "0776-3",
+"name": "Talavera la Real"
+},
+{
+"sheet": "0785-1",
+"name": "Base de Almagro"
+},
+{
+"sheet": "0785-2",
+"name": "Santuario de Nuestra Sra. de las Nieves"
+},
+{
+"sheet": "0786-1",
+"name": "Manzanares"
+},
+{
+"sheet": "0790-2",
+"name": "Albacete"
+},
+{
+"sheet": "0791-1",
+"name": "Chinchilla de Monte-Aragón"
+},
+{
+"sheet": "0791-2",
+"name": "Hoya-Gonzalo"
+},
+{
+"sheet": "0798-2",
+"name": "Sant Rafel"
+},
+{
+"sheet": "0831-4",
+"name": "Sierra de los Frontoncillos"
+},
+{
+"sheet": "0847-2",
+"name": "Relleu"
+},
+{
+"sheet": "0901-2",
+"name": "Villaharta"
+},
+{
+"sheet": "0901-4",
+"name": "Villaviciosa de Córdoba"
+},
+{
+"sheet": "0905-2",
+"name": "Linares"
+},
+{
+"sheet": "0914-4",
+"name": "La Mata"
+},
+{
+"sheet": "0920-2",
+"name": "San Nicolás del Puerto"
+},
+{
+"sheet": "0932-4",
+"name": "Sierra de Espuña"
+},
+{
+"sheet": "0933-2",
+"name": "Alcantarilla"
+},
+{
+"sheet": "0955-2",
+"name": "Roldán"
+},
+{
+"sheet": "0955-4",
+"name": "Torre-Pacheco"
+},
+{
+"sheet": "0956-1",
+"name": "San Javier"
+},
+{
+"sheet": "0969-1",
+"name": "Valdepeñas de Jaén"
+},
+{
+"sheet": "0977-1",
+"name": "Canteras"
+},
+{
+"sheet": "0977-2",
+"name": "Cartagena"
+},
+{
+"sheet": "0984-4",
+"name": "Sevilla"
+},
+{
+"sheet": "1003-4",
+"name": "San Jorge de Algarvejo"
+},
+{
+"sheet": "1009-4",
+"name": "Granada Norte"
+},
+{
+"sheet": "1017-1",
+"name": "Mazagón"
+},
+{
+"sheet": "1017-4",
+"name": "Matalascañas Norte"
+},
+{
+"sheet": "1020-2",
+"name": "La Gironda"
+},
+{
+"sheet": "1023-3",
+"name": "Bobadilla-Estación"
+},
+{
+"sheet": "1026-2",
+"name": "Granada Sur"
+},
+{
+"sheet": "1034-4",
+"name": "Laguna de los Tollos"
+},
+{
+"sheet": "1039-1",
+"name": "Villanueva del Rosario"
+},
+{
+"sheet": "1044-4",
+"name": "Felix"
+},
+{
+"sheet": "1045-3",
+"name": "Almería"
+},
+{
+"sheet": "1048-2",
+"name": "Gibalbín"
+},
+{
+"sheet": "1053-3",
+"name": "Málaga"
+},
+{
+"sheet": "1056-3",
+"name": "Castell de Ferro"
+},
+{
+"sheet": "1058-3",
+"name": "San Agustín"
+},
+{
+"sheet": "1061-1",
+"name": "Rota"
+},
+{
+"sheet": "1061-2",
+"name": "El Puerto de Santa María"
+},
+{
+"sheet": "1065-4",
+"name": "Marbella"
+},
+{
+"sheet": "1068-2",
+"name": "San Fernando"
+},
+{
+"sheet": "1070-2",
+"name": "Patrite"
+},
+{
+"sheet": "1071-2",
+"name": "Casares"
+},
+{
+"sheet": "1073-1",
+"name": "Conil de la Frontera"
+},
+{
+"sheet": "1073-4",
+"name": "Barbate"
+},
+{
+"sheet": "1074-4",
+"name": "Zanona"
+},
+{
+"sheet": "1075-2",
+"name": "Guadiaro"
+},
+{
+"sheet": "1075-3",
+"name": "San Roque"
+},
+{
+"sheet": "1075-4",
+"name": "La Línea de la Concepción-Norte"
+},
+{
+"sheet": "1077-1",
+"name": "Facinas"
+},
+{
+"sheet": "1077-2",
+"name": "Cañada de la Jara"
+},
+{
+"sheet": "1077-3",
+"name": "El Lentiscal"
+},
+{
+"sheet": "1077-4",
+"name": "Tarifa"
+},
+{
+"sheet": "1078-1",
+"name": "Algeciras"
+},
+{
+"sheet": "1078-3",
+"name": "Pelayo"
+},
+{
+"sheet": "1080-4",
+"name": "Haría"
+},
+{
+"sheet": "1082-3",
+"name": "Tías"
+},
+{
+"sheet": "1088-4",
+"name": "Santa Cruz de Tenerife"
+},
+{
+"sheet": "1090-2",
+"name": "Tetir"
+},
+{
+"sheet": "1098-4",
+"name": "Las Palmas de Gran Canaria"
+},
+{
+"sheet": "1104-1",
+"name": "Teror"
+},
+{
+"sheet": "1104-2",
+"name": "Santa Brígida"
+},
+{
+"sheet": "1104-3",
+"name": "Vega de San Mateo"
+},
+{
+"sheet": "1104-4",
+"name": "Telde"
+},
+{
+"sheet": "1107-3",
+"name": "El Tablero"
+},
+{
+"sheet": "1109-1",
+"name": "Playa del Inglés"
+},
+{
+"sheet": "1110-3",
+"name": "Ceuta"
+}
+],
+"zonesSource": "IGN — Zonas restringidas al vuelo fotogramétrico (PDF, 27 Feb 2025)"
+},
+{
+"id": "DE",
+"country": "Germany",
+"authority": "Deutsche Flugsicherung (DFS)",
+"web": "https://dfs.de/homepage/en/",
+"contact": "bnl@dfs.de",
+"submission": null,
+"online": "https://ais.dfs.de/pilotservice/home.jsp",
+"viaEmail": false,
+"phone": "+49 6103 707 5500",
+"guide": "https://ais.dfs.de/pilotservice/home.jsp",
+"docs": null,
+"lead": 14,
+"form": null,
+"restricted": "https://aip.dfs.de/basicAIP/",
+"restrictedForm": "https://www.baf.bund.de/DE/Themen/Luftraum_Flugverfahren_Recht/Flugbeschraenkungsgebiete_UAS/Flugbeschraenkungsgebiete_UAS.html?nn=137242#doc137274bodyText3",
+"atcWeb": "https://dfs.de/homepage/en/",
+"atcMail": null,
+"atcPhone": null,
+"created": "2025-05-01",
+"updated": "2025-05-01",
+"owner": "Jörg Werti · BSF",
+"atcNote": "Published supervisor contact",
+"localEntity": false,
+"defence": "no",
+"dayBefore": false,
+"issues": []
+},
+{
+"id": "AT",
+"country": "Austria",
+"authority": "Austro Control",
+"web": "https://www.austrocontrol.at/",
+"contact": "amc@austrocontrol.at",
+"submission": "amc@austrocontrol.at",
+"online": null,
+"viaEmail": false,
+"phone": "+43 5 1703 2154",
+"guide": "https://www.austrocontrol.at/jart/prj3/ac/data/dokumente/LO_Circ_2024_A_03_en_2024-01-31_1001561.pdf",
+"docs": null,
+"lead": 5,
+"form": null,
+"restricted": "https://eaip.austrocontrol.at/",
+"restrictedForm": "flightpermissions@austrocontrol.at",
+"atcWeb": "https://www.austrocontrol.at/",
+"atcMail": null,
+"atcPhone": null,
+"created": "2025-05-01",
+"updated": "2025-05-01",
+"owner": "Jörg Werti · BSF",
+"atcNote": "Published supervisor contact",
+"localEntity": false,
+"defence": "no",
+"dayBefore": false,
+"issues": []
+},
+{
+"id": "CH",
+"country": "Switzerland",
+"authority": "Skyguide",
+"web": "https://www.skyguide.ch/",
+"contact": "info@skyguide.ch",
+"submission": null,
+"online": "https://sfo.skyguide.ch",
+"viaEmail": false,
+"phone": "+41 43 931 61 11",
+"guide": "https://www.skyguide.ch/de/dienstleistungen/spezialfluge",
+"docs": null,
+"lead": 10,
+"form": null,
+"restricted": "https://www.skybriefing.com/de/prices/evfr-manual",
+"restrictedForm": null,
+"atcWeb": "https://www.skyguide.ch/",
+"atcMail": null,
+"atcPhone": null,
+"created": "2025-05-01",
+"updated": "2025-05-01",
+"owner": "Jörg Werti · BSF",
+"atcNote": "Published supervisor contact",
+"localEntity": false,
+"defence": "no",
+"dayBefore": false,
+"issues": []
+},
+{
+"id": "NL",
+"country": "Netherlands",
+"authority": "LVNL Air Traffic Control The Netherlands",
+"web": "https://en.lvnl.nl/services/survey-projects",
+"contact": "ops_helpdesk@lvnl.nl",
+"submission": "ops_helpdesk@lvnl.nl",
+"online": null,
+"viaEmail": true,
+"phone": "+31204062201",
+"guide": "Applications to be submitted in advance to Ops Helpdesk email with KML and ICAO map with flight lines with one of the application forms found here: https://en.lvnl.nl/services/survey-projects",
+"docs": null,
+"lead": null,
+"form": null,
+"restricted": null,
+"restrictedForm": null,
+"atcWeb": null,
+"atcMail": null,
+"atcPhone": null,
+"created": "2025-05-19",
+"updated": "2025-05-19",
+"owner": "Marcos Martínez",
+"localEntity": false,
+"defence": "no",
+"dayBefore": false,
+"issues": []
+},
+{
+"id": "DK",
+"country": "Denmark",
+"authority": "Trafikstyrelsen Danish Civil Aviation and Railway Authority",
+"web": "https://www.en.trafikstyrelsen.dk/civil-aviation",
+"contact": "info@trafikstyrelsen.dk",
+"submission": "supa@naviair.dk",
+"online": null,
+"viaEmail": true,
+"phone": "+4532481933",
+"guide": "Application template available from Danish Supervisor to be submitted the day before operation to Copenhagen supervisor",
+"docs": null,
+"lead": 1,
+"form": null,
+"restricted": null,
+"restrictedForm": null,
+"atcWeb": "https://www.naviair.dk/home-page",
+"atcMail": "naviair@naviair.dk",
+"atcPhone": "+45 32 47 80 00",
+"created": "2025-05-19",
+"updated": "2025-05-19",
+"owner": "Marcos Martínez",
+"localEntity": false,
+"defence": "no",
+"dayBefore": true,
+"issues": []
+},
+{
+"id": "SE",
+"country": "Sweden",
+"authority": "Luftfartsverket",
+"web": "https://lfv.se/en",
+"contact": "lfv@lfv.se",
+"submission": "wsatcc.stockholm@lfv.se",
+"online": null,
+"viaEmail": true,
+"phone": "+4685854700",
+"guide": "Applications to be submitted the day before operation to the area supervisor controlling the mission area",
+"docs": null,
+"lead": 1,
+"form": null,
+"restricted": null,
+"restrictedForm": null,
+"atcWeb": "https://lfv.se/en",
+"atcMail": "lfv@lfv.se",
+"atcPhone": "+46 11 19 20 00",
+"created": "2025-05-19",
+"updated": "2025-05-19",
+"owner": "Marcos Martínez",
+"localEntity": false,
+"defence": "no",
+"dayBefore": true,
+"issues": []
+},
+{
+"id": "NO",
+"country": "Norway",
+"authority": "CAA Norway",
+"web": "https://www.luftfartstilsynet.no/en/",
+"contact": "gmc@caa.no",
+"submission": "www.luftfartstilsynet.no",
+"online": null,
+"viaEmail": true,
+"phone": "+47 75 58 50 00",
+"guide": "Applications to be submitted the day before operation to the area supervisor controlling the mission area.",
+"docs": null,
+"lead": null,
+"form": "https://avinor.no/globalassets/_microsite/ais-portal/aic/en_circ_2015_a_004_en.pdf",
+"restricted": null,
+"restrictedForm": null,
+"atcWeb": null,
+"atcMail": null,
+"atcPhone": null,
+"created": "2025-05-19",
+"updated": "2025-05-19",
+"owner": "Marcos Martínez",
+"localEntity": false,
+"defence": "no",
+"dayBefore": true,
+"issues": [
+{
+"field": "submission",
+"text": "Submission contact is a website, not an email address."
+}
+]
+},
+{
+"id": "FI",
+"country": "Finland",
+"authority": "Finnish Transport and Communications Agency",
+"web": "https://www.traficom.fi/en",
+"contact": "liikenneluvat@traficom.fi",
+"submission": "permit.defcom@mil.fi",
+"online": null,
+"viaEmail": true,
+"phone": "+31204062201",
+"guide": "Applications to be made to Defence Command Finland / Joint Operations Centre / J3   https://puolustusvoimat.fi/en/forms",
+"docs": null,
+"lead": null,
+"form": null,
+"restricted": "https://puolustusvoimat.fi/en/instructions-for-aerial-photographers",
+"restrictedForm": null,
+"atcWeb": "https://www.fintraffic.fi/en/ans/ans-services/atc-services/pre-flight-information-services",
+"atcMail": null,
+"atcPhone": "+358 20 4284 000",
+"created": "2025-05-19",
+"updated": "2025-05-19",
+"owner": "Marcos Martínez",
+"localEntity": false,
+"defence": "yes",
+"dayBefore": false,
+"issues": [
+{
+"field": "phone",
+"text": "Phone +31 20 406 2201 is the LVNL (Netherlands) number — likely copied from the NL card."
+}
+]
+},
+{
+"id": "IS",
+"country": "Iceland",
+"authority": "Iceland Transport Authority",
+"web": "http://www.icetra.is",
+"contact": "samgongustofa@samgongustofa.is",
+"submission": "samgongustofa@samgongustofa.is",
+"online": "https://island.is/en/specialised-operations-spo",
+"viaEmail": false,
+"phone": "+3544806000",
+"guide": "Applications for acceptance of EASA SPO to be submitted prior to contacting ATC supervisors to coordinate flight approval",
+"docs": null,
+"lead": null,
+"form": null,
+"restricted": null,
+"restrictedForm": null,
+"atcWeb": "https://ans.isavia.is/en/c-preflight-information",
+"atcMail": "fpl@isavia.is",
+"atcPhone": "+354 424 5000",
+"created": "2025-05-19",
+"updated": "2025-05-19",
+"owner": "Marcos Martínez",
+"localEntity": false,
+"defence": "no",
+"dayBefore": false,
+"issues": []
+},
+{
+"id": "RS",
+"country": "Serbia",
+"authority": "Ministry of Defense of Republic of Serbia",
+"web": "https://www.mod.gov.rs/eng/16744/postupak-za-podnosenje-zahteva-za-izdavanje-odobrenja-za-snimanje-iz-vazduha-teritorije-republike-srbije-16744",
+"contact": "info@mod.gov.rs",
+"submission": "gt.ckkt@vs.rs",
+"online": null,
+"viaEmail": false,
+"phone": "+381 11/2063-897",
+"guide": "•\tApplication should be submitted to Ministry of Defense of Republic of Serbia\n•\tDetails about application are given at website: https://www.mod.gov.rs/eng/16744/postupak-za-podnosenje-zahteva-za-izdavanje-odobrenja-za-snimanje-iz-vazduha-teritorije-republike-srbije-16744\n•\tDocument at this link attached to this email (PDF)\n•\tNote: flight permission may be granted ONLY to state institutions, companies or other legal entities REGISTERED IN THE REPUBLIC OF SERBIA. In other words, application must be submitted not by flying company (EAASI member), but Serbian legal entity.\n•\tMinistry will forward request to Civil Aviation Directorate (CAD) for internal approval\n•\tSeparate application must be submitted to Civil Aviation Directorate only if one would fly within LY R8 zone (restricted zone, KMZ in attachment). More information (in Serbian, to be translated): http://demo.paragraf.rs/demo/combined/Old/t/t2014_07/t07_0263.htm \n•\tBoundary of LY R8 restricted zone given in attachment (KMZ)",
+"docs": "Application to CAD should be sent to flight-permissions@cad.gov.rs with the following information:\n•\tcertificate of competence for providing aerial services \n•\tflight personnel licenses for aircraft crew members\n•\taircraft registration certificate\n•\tairworthiness certificate and valid aircraft airworthiness review certificate\n•\tinsurance certificate on liability for damage caused to passengers and third parties\n•\tlicense to operate a radio station.",
+"lead": 15,
+"form": "https://www.mod.gov.rs/eng/16744/postupak-za-podnosenje-zahteva-za-izdavanje-odobrenja-za-snimanje-iz-vazduha-teritorije-republike-srbije-16744",
+"restricted": null,
+"restrictedForm": "http://demo.paragraf.rs/demo/combined/Old/t/t2014_07/t07_0263.htm",
+"atcWeb": "https://www.cad.gov.rs/en/",
+"atcMail": "info@mod.gov.rs",
+"atcPhone": "+381 11 2927000",
+"created": "2025-03-03",
+"updated": "2025-05-19",
+"owner": "Igor Nedeljkovic · MAPSOFT",
+"localEntity": true,
+"defence": "yes",
+"dayBefore": false,
+"issues": [],
+"zone": {
+"name": "LY-R8",
+"coords": [
+[
+20.41138843104979,
+44.85000079754958
+],
+[
+20.39472229184846,
+44.83333333308391
+],
+[
+20.41139049568055,
+44.81667180460997
+],
+[
+20.44472243826827,
+44.80000154071685
+],
+[
+20.4947223676264,
+44.80000085336589
+],
+[
+20.49472270360163,
+44.83333608013842
+],
+[
+20.4280632305611,
+44.85000880822143
+]
+],
+"ceiling": "840 (as in KMZ)"
+}
+},
+{
+"id": "MK",
+"country": "North Macedonia",
+"authority": "Ministry of Defense of Republic of North Macedonia",
+"web": null,
+"contact": "fisnik.alimi@mod.gov.mk",
+"submission": "kabinetMO@mod.gov.mk",
+"online": null,
+"viaEmail": false,
+"phone": "+389 71266914",
+"guide": "•\tApplication should be submitted to Ministry of Defense of Republic of North Macedonia\n•\tEmail to be sent, with the following information: Name and address of the airline, Type of aircraft, Registration marks, Airport of departure and arrival, Purpose of flight, Date of operations, Flying height, Equipment, Information about the Contractor (North Macedonian legal entity), KML and JPEG of the area of interest, airplane certification, airwothiness and insurance,  flight crew license and pilot medical certificate\n•\tNote: flight permission may be granted ONLY to legal entities REGISTERED IN THE REPUBLIC OF NORTH MACEDONIA. In other words, flying company can submit application, but permission will be granted to North Macedonia legal entity.\n•\tSeparate application must be submitted to Civil Aviation Agency Republic of North Macedonia (contact person: Atanas Gramatikov, agramatikov@caa.gov.mk, +389 (2) 3119-381). Information to be sent the same as for the Ministry of Defense \n•\tCivil Aviation Agency Republic of North Macedonia will issue permission ONLY if permission is granted by Ministry of Defense",
+"docs": null,
+"lead": 30,
+"form": null,
+"restricted": null,
+"restrictedForm": null,
+"atcWeb": "https://mnavigation.m-nav.info/?page_id=91&lang=en",
+"atcMail": "aismac@mnavigation.mk",
+"atcPhone": "+389 (0) 2 3148159",
+"created": "2025-05-19",
+"updated": "2025-05-19",
+"owner": "Marcos Martínez",
+"localEntity": true,
+"defence": "yes",
+"dayBefore": false,
+"issues": []
+},
+{
+"id": "ME",
+"country": "Montenegro",
+"authority": "Montenegro Ministry of Defense",
+"web": "https://www.gov.me/en/mod",
+"contact": "kabinet@mod.gov.me",
+"submission": "arhiva@mod.gov.me",
+"online": null,
+"viaEmail": false,
+"phone": "382 20 483 348",
+"guide": "•\tApplication should be submitted to Ministry of Defense of Montenegro\n•\tApplication must be submitted by legal company registered in Montenegro, with information about end user, purpose of the flight, contact person, information about airplane (registration, airworthiness, insurance), period of flying\n•\tSeparate application must be submitted to Civil Aviation Agency (acv@caa.me, arhiva@caa.me) using given Application form\n•\tCivil Aviation Agency  will issue permission ONLY if permission is granted by Ministry of Defense",
+"docs": "Given in Application form",
+"lead": 30,
+"form": "https://www.caa.me/sites/default/files/application_for_approval_of_aerial_work_operations_performed_by_foreign_operators_in_the_montenegro.pdf",
+"restricted": null,
+"restrictedForm": null,
+"atcWeb": "https://www.caa.me/en",
+"atcMail": null,
+"atcPhone": null,
+"created": "2025-05-19",
+"updated": "2025-08-06",
+"owner": "Marcos Martínez",
+"localEntity": true,
+"defence": "yes",
+"dayBefore": false,
+"issues": []
+}
+]
