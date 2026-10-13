@@ -810,7 +810,7 @@ main{min-width:0;padding:28px 32px 60px;max-width:1080px;width:100%}
 .bub{max-width:88%;padding:8px 11px 6px;border-radius:10px;background:var(--bubble-in);box-shadow:0 1px 1px rgba(0,0,0,.08);font-size:.92rem;white-space:pre-wrap;overflow-wrap:anywhere}
 .bub.out{align-self:flex-end;background:var(--bubble-out)}
 .bub .meta{display:block;text-align:right;font-size:.7rem;color:var(--muted);margin-top:2px}
-.modgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.modgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
 .mod{padding:14px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:var(--r);display:flex;flex-direction:column;gap:4px}
 .mod:hover{border-color:var(--teal)}
 .mod b{color:var(--ink)}
@@ -1191,7 +1191,7 @@ function renderHome(){
   const P = DATA.permits;
   const overdue = P.filter(p => freshClass(p)==="bad").length;
   const flagged = DATA.radar.filter(r=>r.conflict).length;
-  const toValidate = DATA.airports.length + DATA.mro.length + DATA.insurance.length + DATA.assets.length
+  const toValidate = DATA.airports.length + DATA.mro.length + DATA.insurance.length
     - Object.keys(S.verif).filter(k=>!k.startsWith("permit:")).length;
   const owners = {};
   P.forEach(p => { (owners[p.owner] ||= []).push(p); });
@@ -1231,7 +1231,6 @@ Reply 2 to update one of them.<span class="meta">09:00</span></div>
       <button class="mod" data-go="dir" data-sub="airports"><span class="n num">${fmtN(AP.length)}</span><b>Airports &amp; FBO</b><span class="muted small">${DATA.airports.length} with handling info</span></button>
       <button class="mod" data-go="dir" data-sub="mro"><span class="n num">${DATA.mro.length}</span><b>MRO &amp; Part-145</b><span class="muted small">Incl. camera-hatch STCs</span></button>
       <button class="mod" data-go="dir" data-sub="insurance"><span class="n num">${DATA.insurance.length}</span><b>Insurance &amp; brokers</b><span class="muted small">Aerial work cover</span></button>
-      <button class="mod" data-go="dir" data-sub="assets"><span class="n num">${DATA.assets.length}</span><b>Member fleets</b><span class="muted small">Aircraft and sensors</span></button>
     </div>
   </div>`;
 }
@@ -1305,9 +1304,10 @@ function permitRow(p){
 }
 
 /* ---------- DIRECTORY ---------- */
-const DIRS = [["airports","Airports & FBO"],["mro","MRO & Part-145"],["insurance","Insurance & brokers"],["assets","Member fleets"]];
+const DIRS = [["airports","Airports & FBO"],["mro","MRO & Part-145"],["insurance","Insurance & brokers"]];
 S.at = {country:"all", type:"all", rwy:0, sort:"pri", dir:1, n:100}; S.mf = {type:"all", mods:false}; S.inf = {aerial:false};
 function renderDir(){
+  if (!DIRS.some(x => x[0]===S.dir)) S.dir = "airports";
   const d = S.dir;
   const body = d==="airports" ? dirAirports() : d==="mro" ? dirMro() : d==="insurance" ? dirIns() : dirAssets();
   return `
@@ -1662,7 +1662,7 @@ function updateMode(){
   m.textContent = !sampleReady ? "Connecting…" : sampleFn ? "Answers by Claude" : "Offline search mode";
 }
 function chatHtml(){
-  const intro = `<div class="bub">Hi, I'm the EAASI Ops assistant. Ask me about flight permits, airports, MROs, insurance, member fleets or recent regulation. If something on a card is wrong, tell me and I'll send it to a validator.<span class="meta">now</span></div>`;
+  const intro = `<div class="bub">Hi, I'm the EAASI Ops assistant. Ask me about flight permits, airports, MROs, insurance or recent regulation. If something on a card is wrong, tell me and I'll send it to a validator.<span class="meta">now</span></div>`;
   return intro + S.chat.map(m => {
     if (m.role==="user") return `<div class="bub out">${esc(m.content)}<span class="meta">✓✓</span></div>`;
     if (m.role==="sent") return `<div class="sent">📝 Sent to the validator: <b>${esc(m.recordName)}</b> · ${esc(m.field)}${m.proposed?` → “${esc(m.proposed)}”`:""}</div>`;
@@ -1692,7 +1692,7 @@ function knowledge(){
   const I = DATA.insurance.map((m,i)=>({id:"ins:"+i,name:m.name,type:m.type,country:m.country,lines:m.lines,aerialWork:m.aerial,url:m.url}));
   const F = DATA.assets.map((m,i)=>({id:"asset:"+i,company:m.company,country:m.country,aircraft:m.aircraft.map(x=>x.filter(Boolean).join(" ")),sensors:m.sensors.map(x=>x.filter(Boolean).join(" ")),leaseAvailability:"not published"}));
   const R = DATA.radar.map(r=>({id:"radar:"+r.id,date:r.date,scope:r.scope,type:r.type,title:r.title,status:r.status,summary:r.summary,impact:r.impact,url:r.url}));
-  return JSON.stringify({permits:P,airports:A,mro:M,insurance:I,fleets:F,radar:R});
+  return JSON.stringify({permits:P,airports:A,mro:M,insurance:I,radar:R});
 }
 function rules(){
   return `You are "EAASI Ops", the WhatsApp assistant of the European Association of Aerial Surveying Industries (EAASI) for member companies that fly manned aerial survey missions. Today is ${NOW.toISOString().slice(0,10)}.
