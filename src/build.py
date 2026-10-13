@@ -6,7 +6,7 @@ SRC = pathlib.Path(__file__).resolve().parent
 ROOT = SRC.parent
 tpl = (SRC / "app.template.html").read_text(encoding="utf-8")
 data = {k: json.loads((SRC / "data" / f"{k}.json").read_text(encoding="utf-8"))
-        for k in ["permits", "radar", "airports", "mro", "insurance", "assets", "europe", "allairports"]}
+        for k in ["permits", "radar", "airports", "mro", "insurance", "assets", "europe", "allairports", "radarmeta"]}
 logo = "data:image/png;base64," + base64.b64encode((SRC / "eaasi_logo_dark.png").read_bytes()).decode()
 body = (tpl.replace("/*__DATA__*/null", json.dumps(data, ensure_ascii=False, separators=(",", ":")))
            .replace("__LOGO__", logo)

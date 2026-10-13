@@ -287,6 +287,24 @@ main{min-width:0;padding:28px 32px 60px;max-width:1080px;width:100%}
 .near{display:flex;flex-direction:column}
 .near button{display:flex;gap:8px;align-items:center;border:0;border-bottom:1px solid var(--line);background:none;padding:7px 0;text-align:left}
 .near button:last-child{border-bottom:0}
+.tbar{position:absolute;left:10px;right:10px;bottom:22px;z-index:550;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:6px 10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.mapwrap:has(.mpanel:not([hidden])) .tbar{right:380px}
+.tplay{width:34px;height:34px;border-radius:50%;border:0;background:var(--teal);display:grid;place-items:center;flex:none}
+.tplay svg{width:15px;height:15px;fill:#062C2C}
+.tbar .seg{margin:0;padding:2px;flex:none}
+.tbar .seg button{padding:5px 10px;font-size:.8rem}
+.tbar input[type=range]{flex:1 1 160px;min-width:110px;accent-color:var(--teal)}
+.tlabel{font-size:.8rem;color:var(--ink);font-weight:700;white-space:nowrap;min-width:150px}
+.tlabel small{display:block;font-weight:400;color:var(--muted);font-size:.72rem}
+.mstatus.up{bottom:84px}
+@media (max-width:900px){.mapwrap:has(.mpanel:not([hidden])) .tbar{right:10px}}
+@media (max-width:640px){.tbar{bottom:24px;gap:6px 8px}.tbar input[type=range],.tlabel{flex:1 1 100%;min-width:0}.mstatus.up{display:none}}
+.pastdays{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+.pastdays div{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:5px 4px;text-align:center;font-size:.72rem;line-height:1.25}
+.pastdays b,.pastdays span{display:block}
+.pastdays b{color:var(--ink);font-size:.74rem}
+.pastdays .c{font-size:.95rem;font-weight:700}
+.pastdays .c.good{color:var(--ok)} .pastdays .c.some{color:var(--warn)} .pastdays .c.none{color:var(--bad)}
 .leaflet-clouds-pane{filter:var(--cloud-filter);mix-blend-mode:var(--cloud-blend)}
 .leaflet-osm-pane{filter:var(--osm-filter)}
 .leaflet-land-pane,.leaflet-borders-pane{pointer-events:none}
@@ -714,18 +732,21 @@ function dirAssets(){
 
 /* ---------- RADAR ---------- */
 S.rf = "all";
+const isNewRadar = r => !!r.added && (new Date(DATA.radarmeta.lastReviewed) - new Date(r.added)) < 10*864e5;   // new = added in the last weekly review
 function renderRadar(){
   let R = DATA.radar.slice().sort((a,b)=>(b.conflict?1:0)-(a.conflict?1:0) || String(b.date).localeCompare(String(a.date)));
+  if (S.rf==="new") R = R.filter(r=>isNewRadar(r) || r.updated===DATA.radarmeta.lastReviewed);
   if (S.rf==="eu") R = R.filter(r=>r.scope==="EU");
   if (S.rf==="nat") R = R.filter(r=>r.scope!=="EU");
-  if (S.rf==="prop") R = R.filter(r=>r.status==="Proposed");
+  if (S.rf==="prop") R = R.filter(r=>/^Proposed|scrutiny|Consultation/i.test(r.status));
   return `
   <div class="head"><div><div class="eyebrow">Regulatory radar</div><h1>What changed for survey operators</h1>
-  <p class="muted">EASA and national changes that affect manned aerial survey, newest first. Each entry links to the official source.</p></div></div>
-  <div class="toolbar"><div class="chips">${[["all","All"],["eu","EU / EASA"],["nat","National"],["prop","Still proposed"]].map(([k,l])=>`<button class="chip" aria-pressed="${S.rf===k}" onclick="S.rf='${k}';render()">${l}</button>`).join("")}</div></div>
+  <p class="muted">EASA and national changes that affect manned aerial survey, newest first. Each entry links to the official source.</p>
+  <p class="small" style="margin-top:6px"><b style="color:var(--ink)">Last reviewed ${fmtDate(DATA.radarmeta.lastReviewed)}</b> · reviewed ${DATA.radarmeta.cadence} · ${DATA.radar.filter(isNewRadar).length} new, ${DATA.radar.filter(r=>r.updated===DATA.radarmeta.lastReviewed).length} updated</p></div></div>
+  <div class="toolbar"><div class="chips">${[["all","All"],["new","New"],["eu","EU / EASA"],["nat","National"],["prop","Still proposed"]].map(([k,l])=>`<button class="chip" aria-pressed="${S.rf===k}" onclick="S.rf='${k}';render()">${l}</button>`).join("")}</div></div>
   <div class="stack">${R.map(r=>`<article class="card rad ${r.conflict?"flag":""}">
     <div class="top"><span class="date">${/^\d{4}-\d{2}-\d{2}$/.test(r.date)?fmtDate(r.date):esc(r.date)}</span><span class="tag ${r.scope==="EU"?"teal":""}">${esc(r.scope)}</span><span class="tag">${esc(r.type)}</span>
-      <span class="tag ${r.status==="Proposed"?"warn":"ok"}">${esc(r.status)}</span>${r.confidence==="medium"?`<span class="tag" title="Some details come from secondary sources">Check details</span>`:""}</div>
+      <span class="tag ${/^Proposed|scrutiny|Consultation/i.test(r.status)?"warn":"ok"}">${esc(r.status)}</span>${isNewRadar(r)?`<span class="tag bad">New</span>`:r.updated===DATA.radarmeta.lastReviewed?`<span class="tag teal">Updated</span>`:""}${r.confidence==="medium"?`<span class="tag" title="Some details come from secondary sources">Check details</span>`:""}</div>
     <h3>${esc(r.title)}</h3>
     <p class="small">${esc(r.summary)}</p>
     <div class="impact"><b>Why it matters:</b> ${esc(r.impact)}</div>
@@ -1123,6 +1144,7 @@ function renderMap(){
     <div id="map" role="application" aria-label="Map of airports and maintenance organisations"></div>
     <div class="mlayers">${L2.map(([k,l,key])=>`<button class="chip" id="lay-${k}" aria-pressed="${MAP.show[k]}" onclick="toggleLayer('${k}')">${key}${l}</button>`).join("")}</div>
     <div class="mstatus" id="mstatus">Checking live weather…</div>
+    <div class="tbar" id="tbar" hidden></div>
     <div class="mpanel" id="mpanel" hidden></div>
   </div>`;
 }
@@ -1131,7 +1153,7 @@ async function initMap(){
   if (!window.L){ $("#mstatus").textContent = "The map library could not load."; return; }
   const v = MAP.view || {c:[48,10], z:4};
   const map = L.map("map", {zoomControl:true, attributionControl:true, minZoom:3, maxZoom:13}).setView(v.c, v.z);
-  MAP.map = map; MAP.ap = new Map();
+  MAP.map = map; MAP.ap = new Map(); resetTimeline();
   // Layer order, bottom to top: land fill · detailed base (zoom 7+) · clouds · radar · borders · markers
   [["land",150],["osm",190],["clouds",250],["radar",260],["borders",380]].forEach(([n,z]) => { map.createPane(n).style.zIndex = z; });
   L.geoJSON(DATA.europe, {pane:"land", interactive:false, style:{stroke:false, fillColor:css("--land"), fillOpacity:1}}).addTo(map);
@@ -1150,8 +1172,8 @@ async function initMap(){
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {pane:"osm", minZoom:7, maxZoom:13, attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(map);
   }
   ["clouds","radar"].forEach(k => { const b=$("#lay-"+k); if (b){ b.disabled = !live; if(!live) b.title = LIVE_HINT; } });
-  if (live){ if (MAP.show.clouds) addWeatherLayer("clouds"); if (MAP.show.radar) addWeatherLayer("radar"); }
   setStatus();
+  if (live && (MAP.show.clouds || MAP.show.radar)) weatherChanged();
   if (MAP.sel){ const s=MAP.sel; MAP.sel=null; s.kind==="point" ? selectPoint(s.lat,s.lon) : s.kind==="ap" ? selectAirport(s.icao) : selectFeature(s.kind, s.i); }
 }
 /* Declutter: walk airports in priority order (directory, international, regional, airfield) and skip any that would sit
@@ -1185,22 +1207,148 @@ function placeAirports(){
 }
 function setStatus(extra){
   const el = $("#mstatus"); if (!el) return;
-  el.innerHTML = MAP.live ? `<b>Live weather on</b>${extra?" · "+extra:""}` : `<b>Preview mode.</b> ${LIVE_HINT}`;
+  el.innerHTML = MAP.live ? `<b>Live weather on</b>${extra ? " · "+extra : (MAP.show.clouds||MAP.show.radar) ? "" : " · turn on clouds or rain to see the last 2 hours or past 6 days"}` : `<b>Preview mode.</b> ${LIVE_HINT}`;
 }
-async function addWeatherLayer(k){
+/* ---------- weather timeline: loop of the last 2 hours, or the past 6 days ---------- */
+const CLOUD_WMS = "https://view.eumetsat.int/geoserver/wms", CLOUD_LAYER = "mtg_fd:ir105_hrfi";
+const IMERG = "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/IMERG_Precipitation_Rate/default/{T}/GoogleMapsCompatible_Level6/{z}/{y}/{x}.png";
+const ATTR = {
+  clouds:'Clouds © <a href="https://view.eumetsat.int" target="_blank" rel="noopener">EUMETSAT</a>',
+  rv:'Weather data by <a href="https://www.rainviewer.com" target="_blank" rel="noopener">RainViewer</a>',
+  im:'Rain estimate: <a href="https://gpm.nasa.gov/data/imerg" target="_blank" rel="noopener">NASA IMERG</a> via GIBS'
+};
+const OPA = {clouds:.85, radar:.8};
+const TL = { mode:"2h", frames:[], idx:0, playing:false, timer:null, wait:0, latest:null, latestAt:0, rv:null, rvAt:0, layers:{clouds:new Map(), radar:new Map()}, shown:{clouds:null, radar:null} };
+function resetTimeline(){
+  clearTimeout(TL.timer); TL.playing = false; TL.frames = []; TL.idx = 0;
+  TL.layers = {clouds:new Map(), radar:new Map()}; TL.shown = {clouds:null, radar:null};
+}
+const iso = d => new Date(d).toISOString().replace(/\.\d{3}Z$/, "Z");
+async function cloudLatest(){
+  if (TL.latest && Date.now()-TL.latestAt < 5*60e3) return TL.latest;
+  let t = null;
+  try {
+    const ctl = new AbortController(), to = setTimeout(()=>ctl.abort(), 5000);
+    const x = await (await fetch("https://view.eumetsat.int/geoserver/mtg_fd/ir105_hrfi/ows?service=WMS&request=GetCapabilities&version=1.3.0", {signal:ctl.signal})).text();
+    clearTimeout(to);
+    const m = x.match(/name="time"[^>]*default="([^"]+)"/) || x.match(/default="([^"]+)"[^>]*name="time"/);
+    if (m) t = new Date(m[1]);
+  } catch(e){}
+  if (!t || isNaN(t)) t = new Date(Math.floor((Date.now()-40*60e3)/600e3)*600e3);   // typical latency ~30 min
+  TL.latest = t; TL.latestAt = Date.now(); return t;
+}
+async function radarIndex(){
+  if (TL.rv && Date.now()-TL.rvAt < 5*60e3) return TL.rv;
+  try { const j = await (await fetch("https://api.rainviewer.com/public/weather-maps.json")).json(); TL.rv = {host:j.host, past:j.radar.past}; TL.rvAt = Date.now(); }
+  catch(e){ TL.rv = null; }
+  return TL.rv;
+}
+async function buildFrames(){
+  let end = await cloudLatest();
+  if (TL.mode==="2h" && MAP.show.radar){
+    const rv = await radarIndex();
+    if (rv && rv.past.length){ const r = new Date(rv.past[rv.past.length-1].time*1000); if (!MAP.show.clouds || r > end) end = r; }
+  }
+  const step = TL.mode==="2h" ? 10 : 60, span = TL.mode==="2h" ? 120 : 6*24*60;
+  if (TL.mode==="6d") end = new Date(Math.floor(end/3600e3)*3600e3);
+  TL.frames = [];
+  for (let m = span; m >= 0; m -= step) TL.frames.push(new Date(end - m*60e3));
+}
+function cloudKey(t){ const c = TL.latest && t > TL.latest ? TL.latest : t; return iso(Math.floor(c/600e3)*600e3); }
+function radarKey(t){
+  if (TL.mode==="2h"){
+    if (!TL.rv) return null;
+    let f = null; for (const p of TL.rv.past) if (p.time*1000 <= t.getTime() + 60e3) f = p;
+    return f ? "rv:" + f.path : null;
+  }
+  const d = Math.floor(t/1800e3)*1800e3;
+  return Date.now() - d < 6*3600e3 ? null : "im:" + iso(d);   // satellite rain estimate arrives ~4–6 h late
+}
+function makeLayer(type, key){
+  if (type==="clouds") return L.tileLayer.wms(CLOUD_WMS, {pane:"clouds", layers:CLOUD_LAYER, format:"image/png", transparent:true, version:"1.3.0", time:key, opacity:0, attribution:ATTR.clouds});
+  if (key.startsWith("rv:")) return L.tileLayer(`${TL.rv.host}${key.slice(3)}/256/{z}/{x}/{y}/2/1_1.png`, {pane:"radar", opacity:0, maxNativeZoom:7, maxZoom:13, attribution:ATTR.rv});
+  return L.tileLayer(IMERG.replace("{T}", key.slice(3)), {pane:"radar", opacity:0, maxNativeZoom:6, maxZoom:13, attribution:ATTR.im});
+}
+function ensureLayer(type, key){
+  const cache = TL.layers[type]; let lay = cache.get(key);
+  if (lay){ cache.delete(key); cache.set(key, lay); return lay; }          // refresh LRU position
+  lay = makeLayer(type, key); lay._ready = false; lay._err = 0;
+  lay.on("load", () => { lay._ready = true; });
+  lay.on("tileerror", () => { lay._err++; });
+  cache.set(key, lay); lay.addTo(MAP.map);
+  if (cache.size > 30){ for (const [k, l] of cache){ if (l !== TL.shown[type]){ MAP.map.removeLayer(l); cache.delete(k); break; } } }
+  return lay;
+}
+function showFrame(i){
+  if (!MAP.map || !TL.frames.length) return;
+  TL.idx = Math.max(0, Math.min(i, TL.frames.length-1));
+  const t = TL.frames[TL.idx];
+  for (const type of ["clouds","radar"]){
+    const key = MAP.show[type] ? (type==="clouds" ? cloudKey(t) : radarKey(t)) : null;
+    if (!key){ for (const l of TL.layers[type].values()) l.setOpacity(0); TL.shown[type] = null; continue; }
+    const lay = ensureLayer(type, key);
+    if (lay === TL.shown[type]) continue;
+    const had = !!TL.shown[type]; TL.shown[type] = lay;
+    const swap = () => { if (TL.shown[type] !== lay) return; for (const l of TL.layers[type].values()) l.setOpacity(l === lay ? OPA[type] : 0); };
+    if (lay._ready || !had) swap(); else lay.once("load", swap);
+  }
+  const n = TL.frames[(TL.idx+1) % TL.frames.length];               // preload the next frame
+  if (TL.playing && n){ if (MAP.show.clouds) ensureLayer("clouds", cloudKey(n)); const rk = MAP.show.radar && radarKey(n); if (rk) ensureLayer("radar", rk); }
+  paintTbar();
+}
+function tick(){
+  if (!TL.playing) return;
+  const ready = ["clouds","radar"].every(k => !TL.shown[k] || TL.shown[k]._ready);
+  if (ready || ++TL.wait > 8){ TL.wait = 0; showFrame((TL.idx+1) % TL.frames.length); }
+  TL.timer = setTimeout(tick, TL.idx === TL.frames.length-1 ? 1600 : TL.mode==="2h" ? 650 : 450);
+}
+function togglePlay(force){
+  TL.playing = force ?? !TL.playing; clearTimeout(TL.timer);
+  if (TL.playing){ if (TL.idx === TL.frames.length-1) showFrame(0); TL.timer = setTimeout(tick, 500); }
+  paintTbar();
+}
+function scrub(v){ if (TL.playing) togglePlay(false); showFrame(+v); }
+async function setMode(m){
+  if (TL.mode === m) return;
+  const was = TL.playing; togglePlay(false);
+  for (const type of ["clouds","radar"]){ for (const l of TL.layers[type].values()) MAP.map.removeLayer(l); TL.layers[type].clear(); TL.shown[type] = null; }
+  TL.mode = m; await buildFrames(); showFrame(TL.frames.length-1); if (was) togglePlay(true);
+}
+async function weatherChanged(k){
   const map = MAP.map; if (!map) return;
-  if (k==="clouds"){
-    MAP.layers.clouds = L.tileLayer.wms("https://view.eumetsat.int/geoserver/wms", {pane:"clouds", layers:"mtg_fd:ir105_hrfi", format:"image/png", transparent:true, opacity:.85, version:"1.3.0", attribution:'Clouds © <a href="https://view.eumetsat.int" target="_blank" rel="noopener">EUMETSAT</a>'}).addTo(map);
-    setStatus("Clouds: Meteosat infrared, latest image");
+  if (k && !MAP.show[k]){ for (const l of TL.layers[k].values()) map.removeLayer(l); TL.layers[k].clear(); TL.shown[k] = null; }
+  if (!MAP.show.clouds && !MAP.show.radar){ togglePlay(false); TL.frames = []; paintTbar(); setStatus(); return; }
+  if (MAP.show.radar && TL.mode==="2h" && !(await radarIndex())){ toast("Rain radar is not available right now"); MAP.show.radar = false; $("#lay-radar")?.setAttribute("aria-pressed","false"); }
+  const atEnd = !TL.frames.length || TL.idx === TL.frames.length-1;
+  await buildFrames();
+  showFrame(atEnd ? TL.frames.length-1 : TL.idx);
+  setStatus();
+}
+const PLAY_ICON = '<svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg>', PAUSE_ICON = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
+function paintTbar(){
+  const el = $("#tbar"); if (!el) return;
+  const on = (MAP.show.clouds || MAP.show.radar) && TL.frames.length > 0;
+  el.hidden = !on; $("#mstatus")?.classList.toggle("up", on);
+  if (!on) return;
+  if (!el.dataset.built){
+    el.innerHTML = `<button class="tplay" id="tplay" type="button" onclick="togglePlay()"></button>
+      <div class="seg" role="group" aria-label="Time span"><button type="button" data-m="2h" onclick="setMode('2h')">Last 2 h</button><button type="button" data-m="6d" onclick="setMode('6d')">Past 6 days</button></div>
+      <input type="range" id="trange" min="0" max="0" value="0" step="1" aria-label="Time" oninput="scrub(this.value)">
+      <span class="tlabel" id="tlabel" aria-live="polite"></span>`;
+    el.dataset.built = "1";
   }
-  if (k==="radar"){
-    try{
-      const j = await (await fetch("https://api.rainviewer.com/public/weather-maps.json")).json();
-      const f = j.radar.past[j.radar.past.length-1];
-      MAP.layers.radar = L.tileLayer(`${j.host}${f.path}/256/{z}/{x}/{y}/2/1_1.png`, {pane:"radar", opacity:.8, maxNativeZoom:7, maxZoom:13, attribution:'Weather data by <a href="https://www.rainviewer.com" target="_blank" rel="noopener">RainViewer</a>'}).addTo(map);
-      setStatus("Radar "+new Date(f.time*1000).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}));
-    }catch(e){ toast("Rain radar is not available right now"); MAP.show.radar=false; $("#lay-radar")?.setAttribute("aria-pressed","false"); }
-  }
+  const t = TL.frames[TL.idx];
+  $("#tplay").innerHTML = TL.playing ? PAUSE_ICON : PLAY_ICON;
+  $("#tplay").setAttribute("aria-label", TL.playing ? "Pause" : "Play");
+  el.querySelectorAll("[data-m]").forEach(b => b.setAttribute("aria-current", b.dataset.m === TL.mode));
+  const r = $("#trange"); r.max = TL.frames.length-1; r.value = TL.idx;
+  const when = TL.mode==="2h"
+    ? `${t.toISOString().slice(11,16)} UTC · ${TL.idx === TL.frames.length-1 ? "latest" : "−" + Math.round((TL.frames[TL.frames.length-1]-t)/60e3) + " min"}`
+    : `${t.toLocaleDateString("en-GB",{weekday:"short", day:"numeric", month:"short", timeZone:"UTC"})} · ${t.toISOString().slice(11,16)} UTC`;
+  let note = [];
+  if (MAP.show.clouds) note.push("Clouds: Meteosat IR");
+  if (MAP.show.radar) note.push(TL.mode==="2h" ? (radarKey(t) ? "Rain: radar" : "Rain: no radar frame") : (radarKey(t) ? "Rain: satellite estimate" : "Rain: not available yet"));
+  $("#tlabel").innerHTML = `${when}<small>${note.join(" · ")}</small>`;
 }
 function toggleLayer(k){
   MAP.show[k] = !MAP.show[k];
@@ -1208,7 +1356,7 @@ function toggleLayer(k){
   const map = MAP.map; if (!map) return;
   if (k==="airports"){ if (MAP.show[k]){ MAP.markers.airports.addTo(map); placeAirports(); } else map.removeLayer(MAP.markers.airports); return; }
   if (k==="mro"){ MAP.show[k] ? MAP.markers.mro.addTo(map) : map.removeLayer(MAP.markers.mro); return; }
-  if (MAP.show[k]) addWeatherLayer(k); else if (MAP.layers[k]){ map.removeLayer(MAP.layers[k]); MAP.layers[k]=null; setStatus(); }
+  weatherChanged(k);
 }
 function markSel(key){
   document.querySelectorAll(".pin.sel,.mropin.sel").forEach(e=>e.classList.remove("sel"));
@@ -1229,7 +1377,7 @@ function panel(title, sub, code, body){
 function closePanel(){ const p=$("#mpanel"); if(p){p.hidden=true;p.innerHTML="";} markSel(null); if (MAP.pt){ MAP.map?.removeLayer(MAP.pt); MAP.pt=null; } MAP.sel=null; }
 function wxBlocks(a){
   return MAP.live ? `<div class="block"><h3>Latest METAR</h3><div id="wx-metar"><span class="muted small">Loading…</span></div></div>
-    <div class="block"><h3>Survey forecast · next 3 days</h3><div id="wx-fc"><span class="muted small">Loading…</span></div></div>`
+    <div class="block"><h3>Survey weather · past 6 days and next 3</h3><div id="wx-fc"><span class="muted small">Loading…</span></div></div>`
     : `<div class="block"><h3>METAR and 3-day forecast</h3>${wxFallback(a.lat,a.lon,a.icao)}</div>`;
 }
 function selectAirport(icao){
@@ -1270,7 +1418,7 @@ function selectPoint(lat, lon){
   MAP.pt = L.marker([lat,lon], {icon:L.divIcon({className:"",html:'<span class="ptpin"></span>',iconSize:[0,0]}), interactive:false}).addTo(MAP.map);
   const nb = nearest(lat, lon, 5);
   panel("Survey block", `${lat.toFixed(3)}°, ${lon.toFixed(3)}°`, "", `
-    <div class="block"><h3>Survey forecast · next 3 days</h3><div id="wx-fc">${MAP.live?`<span class="muted small">Loading…</span>`:wxFallback(lat,lon)}</div></div>
+    <div class="block"><h3>Survey weather · past 6 days and next 3</h3><div id="wx-fc">${MAP.live?`<span class="muted small">Loading…</span>`:wxFallback(lat,lon)}</div></div>
     <div class="block"><h3>Nearest airports</h3><div class="near">${nb.map(({a,d})=>`<button onclick="selectAirport('${a.icao}')"><span class="pin ${a.cur!=null?"":"alt"}" style="transform:none">${a.icao}</span><span style="flex:1;min-width:0">${esc(a.cur!=null?DATA.airports[a.cur].name:a.name)}<span class="muted small" style="display:block">${a.rwy?fmtN(a.rwy)+" m runway":""}${a.cur!=null?" · EAASI directory":""}</span></span><span class="muted small num">${Math.round(d)} NM</span></button>`).join("")}</div></div>`);
   if (MAP.live) loadForecast(lat, lon);
 }
@@ -1298,25 +1446,33 @@ async function loadMetar(icao){
   }catch(e){ if (el()) el().innerHTML = `<p class="small muted" style="margin-bottom:6px">METAR could not be loaded.</p>`+wxFallback(0,0,icao).replace(/<a class="btn sm quiet" href="https:\/\/www\.(windy|rainviewer)[^]*?<\/a>/g,""); }
 }
 function cloudColor(c){ return c < 25 ? css("--ok") : c < 60 ? css("--warn") : css("--bad"); }
+function dayStats(H, D, di){
+  const t = D.time[di];
+  const idx = H.time.map((h,k)=>k).filter(k=>H.time[k].startsWith(t));
+  const dayH = idx.filter(k=>H.is_day[k]===1);
+  return {t, clear:dayH.filter(k=>H.cloud_cover[k] < 25).length, dayLen:dayH.length, cloud:D.cloud_cover_mean?.[di], rain:D.precipitation_sum[di], wind:D.wind_speed_10m_max[di], tmax:D.temperature_2m_max[di]};
+}
+const clearCls = n => n>=4 ? "good" : n>=1 ? "some" : "none";
+const dayName = (t, o) => new Date(t+"T12:00").toLocaleDateString("en-GB", o);
 async function loadForecast(lat, lon){
   const el = () => $("#wx-fc");
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(3)}&longitude=${lon.toFixed(3)}&hourly=cloud_cover,cloud_cover_low,is_day&daily=cloud_cover_mean,precipitation_sum,wind_speed_10m_max,temperature_2m_max&forecast_days=3&timezone=auto&wind_speed_unit=kn`;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(3)}&longitude=${lon.toFixed(3)}&hourly=cloud_cover,cloud_cover_low,is_day&daily=cloud_cover_mean,precipitation_sum,wind_speed_10m_max,temperature_2m_max&past_days=6&forecast_days=3&timezone=auto&wind_speed_unit=kn`;
   try{
     const j = await getJSON(url); if (!el()) return;
-    const H = j.hourly, D = j.daily;
-    const days = D.time.map((t,di)=>{
-      const idx = H.time.map((h,k)=>k).filter(k=>H.time[k].startsWith(t));
-      const dayH = idx.filter(k=>H.is_day[k]===1);
-      const clear = dayH.filter(k=>H.cloud_cover[k] < 25).length;
-      return {t, clear, dayLen:dayH.length, cloud:D.cloud_cover_mean?.[di], rain:D.precipitation_sum[di], wind:D.wind_speed_10m_max[di], tmax:D.temperature_2m_max[di]};
-    });
-    const bars = H.cloud_cover.slice(0,72).map((c,k)=>`<i class="${H.is_day[k]?"":"night"}" style="height:${Math.max(8,c)}%;background:${cloudColor(c)}" title="${H.time[k].replace("T"," ")} · cloud ${c}% · low ${H.cloud_cover_low[k]}%"></i>`).join("");
-    el().innerHTML = `<div class="days">${days.map(d=>`<div class="day"><b>${new Date(d.t+"T12:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric"})}</b>
-        <span class="clear num ${d.clear>=4?"good":d.clear>=1?"some":"none"}">${d.clear} h</span><span class="muted">clear daylight</span>
+    const H = j.hourly, D = j.daily, nPast = Math.max(0, D.time.length - 3);
+    const past = D.time.slice(0, nPast).map((t,di) => dayStats(H, D, di));
+    const days = D.time.slice(nPast).map((t,di) => dayStats(H, D, nPast+di));
+    const h0 = Math.max(0, H.time.findIndex(h => h.startsWith(D.time[nPast])));
+    const bars = H.cloud_cover.slice(h0, h0+72).map((c,k)=>`<i class="${H.is_day[h0+k]?"":"night"}" style="height:${Math.max(8,c)}%;background:${cloudColor(c)}" title="${H.time[h0+k].replace("T"," ")} · cloud ${c}% · low ${H.cloud_cover_low[h0+k]}%"></i>`).join("");
+    el().innerHTML = `<div class="days">${days.map(d=>`<div class="day"><b>${dayName(d.t,{weekday:"short",day:"numeric"})}</b>
+        <span class="clear num ${clearCls(d.clear)}">${d.clear} h</span><span class="muted">clear daylight</span>
         <span class="num">cloud ${d.cloud ?? "—"}% · ${d.rain} mm</span><span class="num muted">wind ${Math.round(d.wind)} kt · ${Math.round(d.tmax)}°</span></div>`).join("")}</div>
       <div style="margin-top:10px"><div class="strip" aria-label="Hourly cloud cover for 72 hours">${bars}</div>
-      <div class="striplab"><span>now</span><span>+24 h</span><span>+48 h</span><span>+72 h</span></div></div>
+      <div class="striplab"><span>today 00 h</span><span>+24 h</span><span>+48 h</span><span>+72 h</span></div></div>
       <div class="legend" style="margin-top:6px"><span><span class="key" style="background:var(--ok)"></span> under 25% cloud</span><span><span class="key" style="background:var(--warn)"></span> 25–60%</span><span><span class="key" style="background:var(--bad)"></span> over 60%</span><span>faded = night</span></div>
+      ${past.length ? `<h3 style="margin:14px 0 6px;font-size:.88rem">Past ${past.length} days</h3>
+      <div class="pastdays">${past.map(d=>`<div><b>${dayName(d.t,{weekday:"short"})} ${dayName(d.t,{day:"numeric"})}</b><span class="c num ${clearCls(d.clear)}">${d.clear} h</span><span class="muted num">${d.rain} mm</span></div>`).join("")}</div>
+      <p class="muted small" style="margin-top:4px">Clear daylight hours and rain per day, from the weather model's analysis. Useful to see whether a block could have been flown.</p>` : ""}
       <p class="muted small" style="margin-top:6px">Clear daylight = daylight hours with total cloud under 25%. Forecast: Open-Meteo.</p>`;
   }catch(e){ if (el()) el().innerHTML = `<p class="small muted" style="margin-bottom:6px">Forecast could not be loaded.</p>`+wxFallback(lat,lon); }
 }
