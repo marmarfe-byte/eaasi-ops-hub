@@ -10,6 +10,7 @@
   --teal:#3DBFBF; --teal-ink:#1C7A7A; --teal-wash:#E0F4F4; --navy:#1A2340; --navy-2:#2B3A67;
   --ok:#27702A; --ok-wash:#E4F1E4; --warn:#8C6200; --warn-wash:#FAF0D6; --bad:#A93628; --bad-wash:#F8E4E0;
   --chat-bg:#E4EBF2; --bubble-in:#FFFFFF; --bubble-out:#D6F0F0; --plate:#FFFFFF; --sea:#DCE6F0; --land:#F8FAFD; --border-land:#B9C7DA;
+  --cloud-filter:invert(1) contrast(1.6) brightness(1.05); --cloud-blend:multiply; --osm-filter:saturate(.35) brightness(1.02);
   --f-body:Calibri,"Carlito","Segoe UI",system-ui,sans-serif; --f-code:"Barlow Condensed","Arial Narrow",Calibri,sans-serif;
   --r:10px; --shadow:0 1px 2px rgba(26,35,64,.06),0 4px 14px rgba(26,35,64,.06);
 }
@@ -18,12 +19,14 @@
   --teal:#45C9C9; --teal-ink:#72D9D9; --teal-wash:#15384A; --navy:#0B1122; --navy-2:#22305A;
   --ok:#74C274; --ok-wash:#16301F; --warn:#E3B650; --warn-wash:#382C10; --bad:#F08476; --bad-wash:#3B1C1A;
   --chat-bg:#0B1122; --bubble-in:#1C2747; --bubble-out:#14424A; --plate:#FFFFFF; --sea:#0A1020; --land:#18223F; --border-land:#33436F;
+  --cloud-filter:contrast(1.6) brightness(.95); --cloud-blend:screen; --osm-filter:invert(1) hue-rotate(180deg) saturate(.35) brightness(.78) contrast(.95);
   --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25); color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0F1528; --surface:#161F3A; --surface-2:#1C2747; --ink:#E9EEF8; --text:#CAD3E4; --muted:#93A1BC; --line:#2A3760;
   --teal:#45C9C9; --teal-ink:#72D9D9; --teal-wash:#15384A; --navy:#0B1122; --navy-2:#22305A;
   --ok:#74C274; --ok-wash:#16301F; --warn:#E3B650; --warn-wash:#382C10; --bad:#F08476; --bad-wash:#3B1C1A;
   --chat-bg:#0B1122; --bubble-in:#1C2747; --bubble-out:#14424A; --plate:#FFFFFF; --sea:#0A1020; --land:#18223F; --border-land:#33436F;
+  --cloud-filter:contrast(1.6) brightness(.95); --cloud-blend:screen; --osm-filter:invert(1) hue-rotate(180deg) saturate(.35) brightness(.78) contrast(.95);
   --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25); color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -66,7 +69,9 @@ main{min-width:0;padding:28px 32px 60px;max-width:1080px;width:100%}
   .topbar{display:flex;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;align-items:center;gap:10px;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
   .topbar .plate img{height:24px}
   .topbar .t{font-weight:700;color:var(--ink);font-size:.95rem}
-  .topbar .avatar{margin-left:auto;width:28px;height:28px}
+  .topbar .avatar{width:28px;height:28px}
+  .topbar .themebtn{margin-left:auto;padding:5px 8px}
+  .topbar .themebtn span{display:none}
   main{padding:18px 16px 96px}
   .tabbar{display:grid;grid-template-columns:repeat(6,1fr);position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
   .tabbar button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.66rem;color:var(--muted);padding:4px 0;position:relative}
@@ -282,6 +287,31 @@ main{min-width:0;padding:28px 32px 60px;max-width:1080px;width:100%}
 .near{display:flex;flex-direction:column}
 .near button{display:flex;gap:8px;align-items:center;border:0;border-bottom:1px solid var(--line);background:none;padding:7px 0;text-align:left}
 .near button:last-child{border-bottom:0}
+.leaflet-clouds-pane{filter:var(--cloud-filter);mix-blend-mode:var(--cloud-blend)}
+.leaflet-osm-pane{filter:var(--osm-filter)}
+.leaflet-land-pane,.leaflet-borders-pane{pointer-events:none}
+.pin.alt{background:var(--surface);color:var(--ink);border-color:var(--muted);font-size:11px;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.pin.alt.small{font-size:10px;padding:0 3px}
+.pin.alt.sel,.pin.sel{background:var(--ink);color:var(--bg);border-color:var(--teal)}
+.themebtn{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:.82rem;color:var(--text);font-weight:700}
+.themebtn:hover{border-color:var(--teal)}
+.themebtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.rail .themebtn{align-self:flex-start;margin:auto 4px 12px}
+.rail .themebtn + .me{margin-top:0}
+.tablewrap{overflow-x:auto}
+table.apt{width:100%;border-collapse:collapse;font-size:.9rem}
+.apt th{background:var(--surface-2);text-align:left;border-bottom:1px solid var(--line);padding:0;white-space:nowrap}
+.apt th button,.apt th span{display:block;background:none;border:0;padding:10px 12px;font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;width:100%;text-align:left}
+.apt th button:hover{color:var(--ink)}
+.apt td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.apt tbody tr{cursor:pointer}
+.apt tbody tr:hover,.apt tbody tr:focus-visible{background:var(--surface-2)}
+.apt tbody tr:last-child td{border-bottom:0}
+.apt .code{font-family:var(--f-code);font-weight:700;font-size:1.05rem;color:var(--ink);letter-spacing:.02em}
+.apt .code.dirc{color:var(--teal-ink)}
+.apt td.r{text-align:right;white-space:nowrap}
+.apt td b{color:var(--ink)}
+@media (max-width:640px){.hide-s{display:none}}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-size:.9rem;z-index:60;box-shadow:var(--shadow)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -291,11 +321,13 @@ main{min-width:0;padding:28px 32px 60px;max-width:1080px;width:100%}
     <span class="plate"><img src="__LOGO__" alt="EAASI"></span>
     <div class="product">Ops Hub · Aerial Operations</div>
     <nav class="nav" id="nav"></nav>
+    <button class="themebtn" type="button" onclick="cycleTheme()"></button>
     <div class="me"><span class="avatar">MM</span><div><b style="color:var(--ink)">Marcos Martínez</b><div class="muted small">Validator · Secretary General</div></div></div>
   </aside>
   <header class="topbar">
     <span class="plate"><img src="__LOGO__" alt="EAASI"></span>
     <span class="t">Ops Hub</span>
+    <button class="themebtn" type="button" onclick="cycleTheme()"></button>
     <span class="avatar">MM</span>
   </header>
   <main id="main"></main>
@@ -349,6 +381,49 @@ const ICON = {
   x:'<path d="M6 6l12 12M18 6L6 18"/>'
 };
 const svg = (n) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON[n]}</svg>`;
+
+/* ---------- theme ---------- */
+const THEMES = ["auto","light","dark"], THEME_LABEL = {auto:"Auto", light:"Light", dark:"Dark"};
+const THEME_ICON = {
+  auto:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/>',
+  light:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/>',
+  dark:'<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>'
+};
+let THEME = store.get("theme", "auto");
+function applyTheme(t){
+  const r = document.documentElement;
+  if (t==="light" || t==="dark") r.dataset.theme = t; else delete r.dataset.theme;
+  THEME = t;
+  document.querySelectorAll(".themebtn").forEach(b => {
+    b.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${THEME_ICON[t]}</svg><span>${THEME_LABEL[t]}</span>`;
+    b.setAttribute("aria-label", `Theme: ${THEME_LABEL[t]}. Switch theme`);
+    b.title = t==="auto" ? "Theme follows your device. Click for light." : t==="light" ? "Light theme. Click for dark." : "Dark theme. Click to follow your device.";
+  });
+}
+function cycleTheme(){
+  const t = THEMES[(THEMES.indexOf(THEME)+1) % THEMES.length];
+  store.set("theme", t); applyTheme(t);
+  if (MAP.map){ MAP.map.remove(); MAP.map = null; }
+  render(); toast("Theme: " + THEME_LABEL[t]);
+}
+applyTheme(THEME);
+
+/* ---------- airports (OurAirports + EAASI directory) ---------- */
+const AP_TYPE = {L:"International", M:"Regional", S:"Airfield"};
+const fmtN = n => Number(n).toLocaleString("en-GB");
+const AP = (() => {
+  const src = DATA.allairports, f = src.fields, cur = {};
+  DATA.airports.forEach((a,i) => cur[a.icao] = i);
+  return src.rows.map(r => {
+    const o = {}; f.forEach((k,j) => o[k] = r[j]);
+    o.country = src.countries[o.cc] || o.cc;
+    o.cur = cur[o.icao] ?? null;
+    o.pri = o.cur!=null ? 0 : ({L:1, M:2, S:3})[o.type];
+    return o;
+  }).sort((a,b) => a.pri-b.pri || b.sched-a.sched || b.rwy-a.rwy);
+})();
+const AP_BY = {}; AP.forEach((a,i) => AP_BY[a.icao] = i);
+const apOf = icao => AP[AP_BY[icao]];
 
 /* ---------- state ---------- */
 const S = {
@@ -464,7 +539,7 @@ Reply 2 to update one of them.<span class="meta">09:00</span></div>
     <div class="modgrid">
       <button class="mod" data-go="permits"><span class="n num">${P.length}</span><b>Flight permits</b><span class="muted small">Country procedures</span></button>
       <button class="mod" data-go="radar"><span class="n num">${DATA.radar.length}</span><b>Regulatory radar</b><span class="muted small">EASA and national changes</span></button>
-      <button class="mod" data-go="dir" data-sub="airports"><span class="n num">${DATA.airports.length}</span><b>Airports &amp; FBO</b><span class="muted small">Survey-friendly bases</span></button>
+      <button class="mod" data-go="dir" data-sub="airports"><span class="n num">${fmtN(AP.length)}</span><b>Airports &amp; FBO</b><span class="muted small">${DATA.airports.length} with handling info</span></button>
       <button class="mod" data-go="dir" data-sub="mro"><span class="n num">${DATA.mro.length}</span><b>MRO &amp; Part-145</b><span class="muted small">Incl. camera-hatch STCs</span></button>
       <button class="mod" data-go="dir" data-sub="insurance"><span class="n num">${DATA.insurance.length}</span><b>Insurance &amp; brokers</b><span class="muted small">Aerial work cover</span></button>
       <button class="mod" data-go="dir" data-sub="assets"><span class="n num">${DATA.assets.length}</span><b>Member fleets</b><span class="muted small">Aircraft and sensors</span></button>
@@ -492,6 +567,8 @@ function resolveQ(id, ok){
     if (p){ p.issues = (p.issues||[]).filter(i=>i.field!==it.field); }
     S.verif["permit:"+it.recordId] = {by:ME, at:NOW.toISOString()}; store.set("verif",S.verif);
     toast("Change approved and published");
+  } else if (ok && it.module==="ap"){
+    toast("Approved. It joins the directory with the next data update");
   } else if (ok){
     const p = DATA.permits.find(x=>x.id===it.recordId);
     toast(`Reminder queued for ${p?p.owner:"the owner"}`);
@@ -540,38 +617,58 @@ function permitRow(p){
 
 /* ---------- DIRECTORY ---------- */
 const DIRS = [["airports","Airports & FBO"],["mro","MRO & Part-145"],["insurance","Insurance & brokers"],["assets","Member fleets"]];
-S.af = {country:"all", avgas:false}; S.mf = {type:"all", mods:false}; S.inf = {aerial:false};
+S.at = {country:"all", type:"all", rwy:0, sort:"pri", dir:1, n:100}; S.mf = {type:"all", mods:false}; S.inf = {aerial:false};
 function renderDir(){
   const d = S.dir;
   const body = d==="airports" ? dirAirports() : d==="mro" ? dirMro() : d==="insurance" ? dirIns() : dirAssets();
   return `
   <div class="head"><div><div class="eyebrow">Directory</div><h1>${DIRS.find(x=>x[0]===d)[1]}</h1>
   <p class="muted">${{
-    airports:"Airports that work as survey bases: fuel, handling, hours and hangars. Collected from airport and handler websites.",
+    airports:`${fmtN(AP.length)} European airports with runway, elevation and type from OurAirports. The ${DATA.airports.length} marked EAASI directory also have fuel, handling and hours collected from airport and handler websites.`,
     mro:"Maintenance and design organisations that know survey aircraft and camera-hatch modifications.",
     insurance:"Brokers and insurers whose websites show general aviation or aerial work cover.",
     assets:"Aircraft and sensors that members publish on their own websites. Availability for lease is not published: owners confirm it."}[d]}</p></div></div>
   <div class="seg" role="tablist">${DIRS.map(([k,l])=>`<button aria-current="${d===k}" data-go="dir" data-sub="${k}">${l}</button>`).join("")}</div>
   ${body}`;
 }
+function apFiltered(){
+  const t = S.at, q = S.q.trim().toLowerCase();
+  let A = AP;
+  if (t.country!=="all") A = A.filter(a => a.cc===t.country);
+  if (t.type==="dir") A = A.filter(a => a.cur!=null); else if (t.type!=="all") A = A.filter(a => a.type===t.type);
+  if (t.rwy) A = A.filter(a => a.rwy >= t.rwy);
+  if (q) A = A.filter(a => (a.icao+" "+a.iata+" "+a.name+" "+a.city+" "+a.country+" "+(a.cur!=null?DATA.airports[a.cur].handler:"")).toLowerCase().includes(q));
+  if (t.sort!=="pri") A = [...A].sort((x,y) => (t.sort==="rwy" ? x.rwy-y.rwy : String(x[t.sort]).localeCompare(String(y[t.sort]))) * t.dir);
+  return A;
+}
+function apSort(k){ const t = S.at; if (t.sort===k) t.dir = -t.dir; else { t.sort = k; t.dir = k==="rwy" ? -1 : 1; } render(); }
 function dirAirports(){
-  const cs = [...new Set(DATA.airports.map(a=>a.country))];
-  let A = DATA.airports.map((a,i)=>({...a,i}));
-  if (S.af.country!=="all") A = A.filter(a=>a.country===S.af.country);
-  if (S.af.avgas) A = A.filter(a=>(a.fuel||[]).some(f=>/AVGAS/i.test(f)));
-  if (S.q) A = A.filter(a=>(a.icao+" "+a.name+" "+a.city+" "+a.handler).toLowerCase().includes(S.q.toLowerCase()));
+  const t = S.at, A = apFiltered(), shown = A.slice(0, t.n);
+  const cs = Object.entries(DATA.allairports.countries).sort((a,b) => a[1].localeCompare(b[1]));
+  const th = (k, l, cls="") => `<th class="${cls}" aria-sort="${t.sort===k?(t.dir>0?"ascending":"descending"):"none"}"><button type="button" onclick="apSort('${k}')">${l}${t.sort===k?(t.dir>0?" ▲":" ▼"):""}</button></th>`;
+  const sel = (id, label, val, opts, key) => `<select class="chip" id="${id}" aria-label="${label}" onchange="S.at.${key}=${key==="rwy"?"+this.value":"this.value"};S.at.n=100;render()">${opts.map(([v,l])=>`<option value="${v}" ${String(val)===String(v)?"selected":""}>${esc(l)}</option>`).join("")}</select>`;
   return `<div class="toolbar">
-    <label class="search">${svg("search")}<input id="q" placeholder="ICAO, city or handler" value="${esc(S.q)}" aria-label="Search airports"></label>
-    <select class="chip" aria-label="Country" onchange="S.af.country=this.value;render()"><option value="all">All countries</option>${cs.map(c=>`<option ${S.af.country===c?"selected":""}>${esc(c)}</option>`).join("")}</select>
-    <button class="chip" aria-pressed="${S.af.avgas}" onclick="S.af.avgas=!S.af.avgas;render()">Has AVGAS</button>
+    <label class="search">${svg("search")}<input id="q" placeholder="ICAO, IATA, name or city" value="${esc(S.q)}" aria-label="Search airports"></label>
+    ${sel("fCountry","Country",t.country,[["all","All countries"],...cs],"country")}
+    ${sel("fType","Type",t.type,[["all","All types"],["dir","EAASI directory"],["L","International"],["M","Regional"],["S","Airfields"]],"type")}
+    ${sel("fRwy","Minimum runway",t.rwy,[[0,"Any runway"],[800,"Runway ≥ 800 m"],[1200,"Runway ≥ 1,200 m"],[1600,"Runway ≥ 1,600 m"],[2000,"Runway ≥ 2,000 m"]],"rwy")}
   </div>
-  <div class="card list">${A.map(a=>`<button class="item" data-open="airport:${a.i}">
-    <span class="cc icao">${a.icao}</span>
-    <span class="main"><span class="title"><b>${esc(a.name)}</b><span class="muted small">${esc(a.country)}</span></span>
-      <span class="facts">${(a.fuel||[]).map(f=>`<span class="tag ${/AVGAS/.test(f)?"teal":""}">${esc(f)}</span>`).join("")}${a.hangar&&!/^None/.test(a.hangar)?`<span class="tag">Hangar</span>`:""}</span>
-      ${stamp("airport",a.i)}</span>
-    <span class="side"><span class="small" style="color:var(--ink);font-weight:700">${esc(a.hours.length>18?a.hours.split(/[;(]/)[0]:a.hours)}</span><span class="muted small">${esc(a.handler.split(/[;,]/)[0])}</span></span>
-  </button>`).join("") || `<div class="empty">No airport matches.</div>`}</div>`;
+  <p class="muted small" style="margin:-4px 0 10px">${fmtN(A.length)} of ${fmtN(AP.length)} airports${t.sort==="pri"?" · directory and largest airports first":""}</p>
+  <div class="card tablewrap"><table class="apt">
+    <thead><tr>${th("icao","ICAO")}${th("name","Airport")}${th("country","Country","hide-s")}${th("rwy","Runway")}<th class="hide-s"><span>Handling</span></th></tr></thead>
+    <tbody>${shown.map(apRow).join("") || `<tr><td colspan="5" class="empty">No airport matches. Clear a filter or the search.</td></tr>`}</tbody>
+  </table></div>
+  ${A.length > t.n ? `<div class="actions" style="justify-content:center;margin-top:12px"><button class="btn quiet" onclick="S.at.n+=100;render()">Show ${Math.min(100, A.length-t.n)} more</button></div>` : ""}`;
+}
+function apRow(a){
+  const c = a.cur!=null ? DATA.airports[a.cur] : null;
+  return `<tr tabindex="0" data-open="${c ? "airport:"+a.cur : "ap:"+a.icao}">
+    <td><span class="code ${c?"dirc":""}">${a.icao}</span>${a.iata?`<div class="muted small">${a.iata}</div>`:""}</td>
+    <td><b>${esc(c ? c.name : a.name)}</b><div class="muted small">${esc([a.city, AP_TYPE[a.type]].filter(Boolean).join(" · "))}</div></td>
+    <td class="hide-s">${esc(a.country)}</td>
+    <td class="r num">${a.rwy ? fmtN(a.rwy)+" m" : "—"}<div class="muted small">${a.rwy ? (a.paved ? "paved" : "unpaved") : ""}</div></td>
+    <td class="hide-s">${c ? `<span class="tag teal">EAASI directory</span><div class="muted small" style="margin-top:3px">${esc(c.handler.split(/[;,]/)[0])}</div>` : `<span class="muted small">—</span>`}</td>
+  </tr>`;
 }
 const TYPES = [["all","All types"],["C208","C208"],["P68","P68"],["PA-31","PA-31"],["DA4","DA42/62"],["King Air","King Air"]];
 function dirMro(){
@@ -651,6 +748,7 @@ function openSheet(ref){
   const [m, id] = ref.split(":");
   let title="", sub="", code="", body="";
   if (m==="permit"){ const p = DATA.permits.find(x=>x.id===id); ({title,sub,code,body} = permitDetail(p)); }
+  if (m==="ap"){ const a = apOf(id); if (!a) return; title=a.name; sub=[a.city,a.country].filter(Boolean).join(", "); code=a.icao; body=apDetail(a); }
   if (m==="airport"){ const a = DATA.airports[+id]; title=a.name; sub=a.city+", "+a.country; code=a.icao; body=airportDetail(a,+id); }
   if (m==="mro"){ const x = DATA.mro[+id]; title=x.name; sub=[x.city,x.country].filter(Boolean).join(", "); code=ccOf(x.country); body=mroDetail(x,+id); }
   if (m==="ins"){ const x = DATA.insurance[+id]; title=x.name; sub=x.type+" · "+x.country; code=ccOf(x.country); body=insDetail(x,+id); }
@@ -664,7 +762,10 @@ function openSheet(ref){
   $(".sheet .x").focus();
 }
 function closeSheet(){ S.sheet=null; $("#sheetRoot").innerHTML=""; }
-document.addEventListener("keydown", e => { if (e.key==="Escape" && S.sheet) closeSheet(); });
+document.addEventListener("keydown", e => {
+  if (e.key==="Escape" && S.sheet) closeSheet();
+  if (e.key==="Enter" && e.target.matches && e.target.matches("tr[data-open]")) openSheet(e.target.dataset.open);
+});
 
 function contactRow(label, val, isUrl){
   if (!val) return "";
@@ -761,6 +862,48 @@ function validateBlock(module, i, label){
   return `<div class="block"><h3>Validate this entry</h3><p class="small muted" style="margin-bottom:10px">Collected automatically from public sources. A member who has used this ${label} confirms it or sends a correction.</p>
   <div class="actions"><button class="btn" onclick="confirmValid('${module}',${i},'Entry')">I confirm it's correct</button></div></div>`;
 }
+function apFacts(a){
+  return `<dl class="facts-grid">
+    <div><dt>Longest runway</dt><dd class="num">${a.rwy ? fmtN(a.rwy)+" m" : "—"}<span class="muted small" style="display:block;font-weight:400">${[a.rwyId, a.rwy?(a.paved?"paved":"unpaved"):"", a.nRwy>1?a.nRwy+" runways":""].filter(Boolean).join(" · ")}</span></dd></div>
+    <div><dt>Elevation</dt><dd class="num">${a.elev!=null ? fmtN(a.elev)+" ft" : "—"}</dd></div>
+    <div><dt>Type</dt><dd>${AP_TYPE[a.type]}</dd></div>
+    <div><dt>Scheduled flights</dt><dd>${a.sched ? "Yes" : "No"}</dd></div>
+  </dl>`;
+}
+function apLinks(a){
+  const L = [[a.web,"Airport website"],[a.wiki,"Wikipedia"],["https://ourairports.com/airports/"+a.icao+"/","OurAirports"]].filter(x=>x[0]);
+  return `<div class="block"><h3>Links</h3><div class="actions">${L.map(([u,l])=>`<a class="btn sm quiet" href="${esc(u)}" target="_blank" rel="noopener">${l} ↗</a>`).join("")}</div>
+    <p class="muted small" style="margin-top:8px">Runway and elevation from OurAirports (public domain). Check the AIP before planning.</p></div>`;
+}
+function apSuggestForm(icao){
+  return `<div class="block"><h3>FBO &amp; handling</h3>
+    <p class="small muted" style="margin-bottom:10px">Not in the EAASI directory yet. If your crew has used this airport, share what you know. A validator checks it before other members see it.</p>
+    <form class="form" onsubmit="submitAirport(event,'${icao}')">
+      <label for="sg-h">Handler or FBO</label><input id="sg-h" placeholder="e.g. Skyserv, aeroclub, self-handling">
+      <span class="small muted" style="font-weight:700">Fuel</span>
+      <div class="chips">${["Jet A-1","AVGAS 100LL","UL91"].map(f=>`<label class="chip"><input type="checkbox" name="sg-f" value="${f}" style="width:auto;padding:0;margin:0 5px 0 0">${f}</label>`).join("")}</div>
+      <label for="sg-o">Opening hours</label><input id="sg-o" placeholder="e.g. H24, or 07:00–21:00 LT">
+      <label for="sg-n">Notes for survey crews</label><textarea id="sg-n" rows="2" placeholder="Hangar, customs, PPR, fees"></textarea>
+      <div class="actions"><button class="btn" type="submit">Send to validator</button></div>
+    </form></div>`;
+}
+function submitAirport(e, icao){
+  e.preventDefault();
+  const a = apOf(icao), fuel = [...document.querySelectorAll('input[name="sg-f"]:checked')].map(x=>x.value);
+  const parts = [["Handler",$("#sg-h").value],["Fuel",fuel.join(", ")],["Hours",$("#sg-o").value],["Notes",$("#sg-n").value]]
+    .filter(p => p[1] && p[1].trim()).map(p => p[0]+": "+p[1].trim());
+  if (!parts.length){ toast("Add at least one detail before sending"); return; }
+  S.queue.unshift({id:"u-"+Date.now(), source:"member", module:"ap", recordId:icao, recordName:icao+" "+a.name, field:"handling",
+    current:null, proposed:parts.join(" · "), evidence:"Shared by a member who has operated there", by:ME, at:NOW.toISOString()});
+  saveQ(); renderNav(); toast("Sent to the validator");
+  e.target.closest(".block").innerHTML = `<h3>FBO &amp; handling</h3><p class="small">Thanks. Your details are waiting for a validator.</p>`;
+}
+function apDetail(a){
+  return `${apFacts(a)}
+  <div class="actions"><button class="btn" onclick="showOnMap('ap','${a.icao}')">Show on map with weather</button></div>
+  ${apSuggestForm(a.icao)}
+  ${apLinks(a)}`;
+}
 function airportDetail(a,i){
   return `${stamp("airport",i)}
   <dl class="facts-grid">
@@ -769,7 +912,8 @@ function airportDetail(a,i){
     <div><dt>Customs</dt><dd>${a.customs?"Yes":a.customs===false?"No":"Not confirmed"}</dd></div>
     <div><dt>Hangar</dt><dd>${esc(a.hangar||"Not confirmed")}</dd></div>
   </dl>
-  <div class="actions"><button class="btn" onclick="showOnMap('airport',${i})">Show on map with weather</button></div>
+  ${apOf(a.icao) ? apFacts(apOf(a.icao)) : ""}
+  <div class="actions"><button class="btn" onclick="showOnMap('ap','${a.icao}')">Show on map with weather</button></div>
   <div class="block"><h3>Why survey crews use it</h3><p class="small">${esc(a.note)}</p>${a.ppr?`<p class="small" style="margin-top:6px"><b style="color:var(--ink)">PPR:</b> ${esc(a.ppr)}</p>`:""}</div>
   <div class="block"><h3>Handling</h3><div class="contacts">${contactRow("Handler",a.handler)}${contactRow("Handler site",a.handlerUrl,true)}${contactRow("Airport",a.airportUrl,true)}</div></div>
   ${srcBlock({url:a.airportUrl,sources:a.sources,confidence:a.confidence})}${validateBlock("airport",i,"airport")}
@@ -839,6 +983,7 @@ function refLabel(id){
   const [m,k] = id.split(":");
   if (m==="permit"){ const p=DATA.permits.find(x=>x.id===k); return p?p.country+" permit":null; }
   if (m==="airport"){ const a=DATA.airports[+k]; return a?a.icao+" "+a.name:null; }
+  if (m==="ap"){ const a=apOf(k); return a?a.icao+" "+a.name:null; }
   if (m==="mro"){ const a=DATA.mro[+k]; return a?a.name:null; }
   if (m==="ins"){ const a=DATA.insurance[+k]; return a?a.name:null; }
   if (m==="asset"){ const a=DATA.assets[+k]; return a?a.company+" fleet":null; }
@@ -958,7 +1103,7 @@ function localAnswer(text){
 
 
 /* ---------- MAP & WEATHER ---------- */
-const MAP = { map:null, live:null, layers:{}, markers:{}, sel:null, view:null, show:{airports:true, mro:true, clouds:false, radar:false}, cache:{} };
+const MAP = { map:null, live:null, layers:{}, markers:{}, ap:new Map(), sel:null, view:null, show:{airports:true, mro:true, clouds:false, radar:false}, cache:{} };
 const LIVE_HINT = "Live weather needs the installed app. This preview runs inside claude.ai, which blocks outside data.";
 async function probeLive(){
   if (MAP.live !== null) return MAP.live;
@@ -970,10 +1115,10 @@ async function probeLive(){
   clearTimeout(t); return MAP.live;
 }
 function renderMap(){
-  const L2 = [["airports","Airports & FBO",'<span class="key" style="background:var(--teal)"></span>'],["mro","MRO & Part-145",'<span class="key" style="background:var(--navy-2);transform:rotate(45deg)"></span>'],["clouds","Clouds · satellite",""],["radar","Rain radar",""]];
+  const L2 = [["airports","Airports",'<span class="key" style="background:var(--teal)"></span>'],["mro","MRO & Part-145",'<span class="key" style="background:var(--navy-2);transform:rotate(45deg)"></span>'],["clouds","Clouds · satellite",""],["radar","Rain radar",""]];
   return `
   <div class="head"><div><div class="eyebrow">Map &amp; weather</div><h1>Survey bases and conditions</h1>
-  <p class="muted">Tap an airport for handling, the latest METAR and a three-day cloud forecast. Tap anywhere else to get the forecast for your survey block.</p></div></div>
+  <p class="muted">${fmtN(AP.length)} airports. Zoom in to see more of them. Teal labels are in the EAASI directory with handling information. Tap an airport for the latest METAR and a three-day cloud forecast, or tap anywhere else for the forecast over your survey block.</p></div></div>
   <div class="mapwrap">
     <div id="map" role="application" aria-label="Map of airports and maintenance organisations"></div>
     <div class="mlayers">${L2.map(([k,l,key])=>`<button class="chip" id="lay-${k}" aria-pressed="${MAP.show[k]}" onclick="toggleLayer('${k}')">${key}${l}</button>`).join("")}</div>
@@ -984,31 +1129,59 @@ function renderMap(){
 function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
 async function initMap(){
   if (!window.L){ $("#mstatus").textContent = "The map library could not load."; return; }
-  const v = MAP.view || {c:[47,8], z:4};
-  const map = L.map("map", {zoomControl:true, attributionControl:true, worldCopyJump:false, minZoom:3, maxZoom:12}).setView(v.c, v.z);
-  MAP.map = map;
-  map.on("moveend", ()=>{ MAP.view = {c:map.getCenter(), z:map.getZoom()}; });
-  L.geoJSON(DATA.europe, {interactive:false, style:{color:css("--border-land"), weight:.8, fillColor:css("--land"), fillOpacity:1}}).addTo(map);
-  map.attributionControl.setPrefix(false).addAttribution("Borders: Natural Earth");
-  // airports
-  MAP.markers.airports = L.layerGroup(DATA.airports.map((a,i)=>{
-    const m = L.marker([a.lat,a.lon], {icon:L.divIcon({className:"", html:`<span class="pin" data-k="airport:${i}">${a.icao}</span>`, iconSize:[0,0]}), title:a.name, keyboard:true, riseOnHover:true, zIndexOffset:1000});
-    m.on("click", ()=>selectFeature("airport", i)); return m;
-  }));
+  const v = MAP.view || {c:[48,10], z:4};
+  const map = L.map("map", {zoomControl:true, attributionControl:true, minZoom:3, maxZoom:13}).setView(v.c, v.z);
+  MAP.map = map; MAP.ap = new Map();
+  // Layer order, bottom to top: land fill · detailed base (zoom 7+) · clouds · radar · borders · markers
+  [["land",150],["osm",190],["clouds",250],["radar",260],["borders",380]].forEach(([n,z]) => { map.createPane(n).style.zIndex = z; });
+  L.geoJSON(DATA.europe, {pane:"land", interactive:false, style:{stroke:false, fillColor:css("--land"), fillOpacity:1}}).addTo(map);
+  L.geoJSON(DATA.europe, {pane:"borders", interactive:false, style:{color:css("--border-land"), weight:.9, opacity:.9, fill:false}}).addTo(map);
+  map.attributionControl.setPrefix(false).addAttribution('Borders: Natural Earth · Airports: <a href="https://ourairports.com" target="_blank" rel="noopener">OurAirports</a>');
   MAP.markers.mro = L.layerGroup(DATA.mro.map((x,i)=>x.lat?(()=>{ const m=L.marker([x.lat,x.lon],{icon:L.divIcon({className:"",html:`<span class="mropin" data-k="mro:${i}"></span>`,iconSize:[0,0]}),title:x.name,keyboard:true}); m.on("click",()=>selectFeature("mro",i)); return m; })():null).filter(Boolean));
+  MAP.markers.airports = L.layerGroup();
   if (MAP.show.airports) MAP.markers.airports.addTo(map);
   if (MAP.show.mro) MAP.markers.mro.addTo(map);
+  map.on("moveend", () => { MAP.view = {c:map.getCenter(), z:map.getZoom()}; placeAirports(); });
+  placeAirports();
   map.on("click", e => selectPoint(e.latlng.lat, e.latlng.lng));
   const live = await probeLive();
   if (MAP.map !== map) return;
   if (live){
-    const dark = matchMedia("(prefers-color-scheme: dark)").matches && document.documentElement.dataset.theme!=="light" || document.documentElement.dataset.theme==="dark";
-    L.tileLayer(`https://{s}.basemaps.cartocdn.com/${dark?"dark_all":"light_all"}/{z}/{x}/{y}{r}.png`, {subdomains:"abcd", maxZoom:12, attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> © <a href="https://carto.com/attributions" target="_blank">CARTO</a>'}).addTo(map).bringToBack();
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {pane:"osm", minZoom:7, maxZoom:13, attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(map);
   }
   ["clouds","radar"].forEach(k => { const b=$("#lay-"+k); if (b){ b.disabled = !live; if(!live) b.title = LIVE_HINT; } });
   if (live){ if (MAP.show.clouds) addWeatherLayer("clouds"); if (MAP.show.radar) addWeatherLayer("radar"); }
   setStatus();
-  if (MAP.sel){ const s=MAP.sel; MAP.sel=null; s.kind==="point" ? selectPoint(s.lat,s.lon) : selectFeature(s.kind, s.i); }
+  if (MAP.sel){ const s=MAP.sel; MAP.sel=null; s.kind==="point" ? selectPoint(s.lat,s.lon) : s.kind==="ap" ? selectAirport(s.icao) : selectFeature(s.kind, s.i); }
+}
+/* Declutter: walk airports in priority order (directory, international, regional, airfield) and skip any that would sit
+   too close on screen to one already placed. Fewer per country when zoomed out, all of them when zoomed in. */
+function apGap(z){ return z<=3 ? 120 : z===4 ? 90 : z===5 ? 64 : z===6 ? 48 : z===7 ? 38 : z===8 ? 28 : 0; }
+function apCap(z){ return z<=4 ? 2 : z===5 ? 6 : Infinity; }
+function placeAirports(){
+  const map = MAP.map; if (!map || !MAP.show.airports) return;
+  const grp = MAP.markers.airports, z = map.getZoom(), gap = apGap(z), cap = apCap(z), b = map.getBounds().pad(0.2);
+  const selIcao = MAP.sel && MAP.sel.kind==="ap" ? MAP.sel.icao : null;
+  const placed = [], per = {}, want = new Set();
+  const order = selIcao && apOf(selIcao) ? [apOf(selIcao), ...AP] : AP;
+  for (const a of order){
+    if (want.has(a.icao) || !b.contains([a.lat, a.lon])) continue;
+    const p = map.latLngToLayerPoint([a.lat, a.lon]);
+    if (a.icao !== selIcao){
+      if ((per[a.cc]||0) >= cap) continue;
+      if (gap && placed.some(q => Math.abs(q.x-p.x) < gap && Math.abs(q.y-p.y) < gap*0.55)) continue;
+    }
+    placed.push(p); per[a.cc] = (per[a.cc]||0) + 1; want.add(a.icao);
+  }
+  for (const [icao, m] of MAP.ap) if (!want.has(icao)){ grp.removeLayer(m); MAP.ap.delete(icao); }
+  for (const icao of want) if (!MAP.ap.has(icao)){
+    const a = apOf(icao);
+    const cls = a.cur!=null ? "pin" : a.type==="S" ? "pin alt small" : "pin alt";
+    const m = L.marker([a.lat, a.lon], {icon:L.divIcon({className:"", html:`<span class="${cls}${icao===selIcao?" sel":""}" data-k="ap:${icao}">${icao}</span>`, iconSize:[0,0]}),
+      title:a.name, keyboard:true, riseOnHover:true, zIndexOffset: a.cur!=null ? 1000 : (3-a.pri)*100});
+    m.on("click", () => selectAirport(icao));
+    grp.addLayer(m); MAP.ap.set(icao, m);
+  }
 }
 function setStatus(extra){
   const el = $("#mstatus"); if (!el) return;
@@ -1017,14 +1190,14 @@ function setStatus(extra){
 async function addWeatherLayer(k){
   const map = MAP.map; if (!map) return;
   if (k==="clouds"){
-    MAP.layers.clouds = L.tileLayer.wms("https://view.eumetsat.int/geoserver/wms", {layers:"mtg_fd:ir105_hrfi", format:"image/png", transparent:true, opacity:.6, version:"1.3.0", attribution:'Clouds © <a href="https://view.eumetsat.int" target="_blank">EUMETSAT</a>'}).addTo(map);
+    MAP.layers.clouds = L.tileLayer.wms("https://view.eumetsat.int/geoserver/wms", {pane:"clouds", layers:"mtg_fd:ir105_hrfi", format:"image/png", transparent:true, opacity:.85, version:"1.3.0", attribution:'Clouds © <a href="https://view.eumetsat.int" target="_blank" rel="noopener">EUMETSAT</a>'}).addTo(map);
     setStatus("Clouds: Meteosat infrared, latest image");
   }
   if (k==="radar"){
     try{
       const j = await (await fetch("https://api.rainviewer.com/public/weather-maps.json")).json();
       const f = j.radar.past[j.radar.past.length-1];
-      MAP.layers.radar = L.tileLayer(`${j.host}${f.path}/256/{z}/{x}/{y}/2/1_1.png`, {opacity:.75, maxNativeZoom:7, maxZoom:12, attribution:'Weather data by <a href="https://www.rainviewer.com" target="_blank">RainViewer</a>'}).addTo(map);
+      MAP.layers.radar = L.tileLayer(`${j.host}${f.path}/256/{z}/{x}/{y}/2/1_1.png`, {pane:"radar", opacity:.8, maxNativeZoom:7, maxZoom:13, attribution:'Weather data by <a href="https://www.rainviewer.com" target="_blank" rel="noopener">RainViewer</a>'}).addTo(map);
       setStatus("Radar "+new Date(f.time*1000).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}));
     }catch(e){ toast("Rain radar is not available right now"); MAP.show.radar=false; $("#lay-radar")?.setAttribute("aria-pressed","false"); }
   }
@@ -1033,14 +1206,20 @@ function toggleLayer(k){
   MAP.show[k] = !MAP.show[k];
   $("#lay-"+k).setAttribute("aria-pressed", MAP.show[k]);
   const map = MAP.map; if (!map) return;
-  if (k==="airports"||k==="mro"){ MAP.show[k] ? MAP.markers[k].addTo(map) : map.removeLayer(MAP.markers[k]); return; }
+  if (k==="airports"){ if (MAP.show[k]){ MAP.markers.airports.addTo(map); placeAirports(); } else map.removeLayer(MAP.markers.airports); return; }
+  if (k==="mro"){ MAP.show[k] ? MAP.markers.mro.addTo(map) : map.removeLayer(MAP.markers.mro); return; }
   if (MAP.show[k]) addWeatherLayer(k); else if (MAP.layers[k]){ map.removeLayer(MAP.layers[k]); MAP.layers[k]=null; setStatus(); }
 }
 function markSel(key){
   document.querySelectorAll(".pin.sel,.mropin.sel").forEach(e=>e.classList.remove("sel"));
   if (key) document.querySelector(`[data-k="${key}"]`)?.classList.add("sel");
 }
-function showOnMap(kind, i){ MAP.sel = {kind, i}; const x = kind==="airport"?DATA.airports[i]:DATA.mro[i]; MAP.view = {c:[x.lat,x.lon], z:7}; go("map"); }
+function showOnMap(kind, i){
+  if (kind==="airport"){ kind = "ap"; i = DATA.airports[i].icao; }
+  if (kind==="ap"){ const a = apOf(i); MAP.sel = {kind:"ap", icao:i}; MAP.view = {c:[a.lat,a.lon], z:8}; }
+  else { MAP.sel = {kind, i}; const x = DATA.mro[i]; MAP.view = {c:[x.lat,x.lon], z:7}; }
+  go("map");
+}
 function panel(title, sub, code, body){
   const p = $("#mpanel"); if (!p) return;
   p.hidden = false;
@@ -1048,41 +1227,51 @@ function panel(title, sub, code, body){
   <button class="x" onclick="closePanel()" aria-label="Close">${svg("x")}</button></header><div class="body">${body}</div>`;
 }
 function closePanel(){ const p=$("#mpanel"); if(p){p.hidden=true;p.innerHTML="";} markSel(null); if (MAP.pt){ MAP.map?.removeLayer(MAP.pt); MAP.pt=null; } MAP.sel=null; }
+function wxBlocks(a){
+  return MAP.live ? `<div class="block"><h3>Latest METAR</h3><div id="wx-metar"><span class="muted small">Loading…</span></div></div>
+    <div class="block"><h3>Survey forecast · next 3 days</h3><div id="wx-fc"><span class="muted small">Loading…</span></div></div>`
+    : `<div class="block"><h3>METAR and 3-day forecast</h3>${wxFallback(a.lat,a.lon,a.icao)}</div>`;
+}
+function selectAirport(icao){
+  const a = apOf(icao); if (!a) return;
+  if (MAP.pt){ MAP.map.removeLayer(MAP.pt); MAP.pt=null; }
+  MAP.sel = {kind:"ap", icao};
+  if (!MAP.ap.has(icao)) placeAirports();
+  markSel("ap:"+icao);
+  const c = a.cur!=null ? DATA.airports[a.cur] : null;
+  panel(c ? c.name : a.name, [a.city, a.country].filter(Boolean).join(", "), icao, `
+    ${apFacts(a)}
+    ${c ? `<dl class="facts-grid"><div><dt>Fuel</dt><dd>${esc((c.fuel||["—"]).join(", "))}</dd></div><div><dt>Hours</dt><dd>${esc(c.hours)}</dd></div>
+      <div><dt>Customs</dt><dd>${c.customs?"Yes":"Not confirmed"}</dd></div><div><dt>Hangar</dt><dd>${esc(c.hangar||"Not confirmed")}</dd></div></dl>
+      <div class="block"><h3>FBO &amp; handling</h3><p class="small">${esc(c.handler)}</p>${c.ppr?`<p class="small muted" style="margin-top:4px">PPR: ${esc(c.ppr)}</p>`:""}
+        <div class="actions" style="margin-top:8px"><a class="btn sm quiet" href="${c.handlerUrl}" target="_blank" rel="noopener">Handler ↗</a><button class="btn sm ghost" data-open="airport:${a.cur}">Full card</button></div></div>`
+      : `<div class="block"><h3>FBO &amp; handling</h3><p class="small muted">Not in the EAASI directory yet.</p><div class="actions" style="margin-top:8px"><button class="btn sm quiet" data-open="ap:${icao}">Add handling info</button></div></div>`}
+    ${wxBlocks(a)}`);
+  if (MAP.live){ loadMetar(icao); loadForecast(a.lat, a.lon); }
+}
 function selectFeature(kind, i){
+  if (kind==="airport") return selectAirport(DATA.airports[i].icao);
   if (MAP.pt){ MAP.map.removeLayer(MAP.pt); MAP.pt=null; }
   MAP.sel = {kind, i}; markSel(kind+":"+i);
-  if (kind==="airport"){
-    const a = DATA.airports[i];
-    panel(a.name, a.city+", "+a.country, a.icao, `
-      <dl class="facts-grid"><div><dt>Fuel</dt><dd>${esc((a.fuel||["—"]).join(", "))}</dd></div><div><dt>Hours</dt><dd>${esc(a.hours)}</dd></div>
-      <div><dt>Customs</dt><dd>${a.customs?"Yes":"Not confirmed"}</dd></div><div><dt>Hangar</dt><dd>${esc(a.hangar||"Not confirmed")}</dd></div></dl>
-      <div class="block"><h3>FBO &amp; handling</h3><p class="small">${esc(a.handler)}</p>${a.ppr?`<p class="small muted" style="margin-top:4px">PPR: ${esc(a.ppr)}</p>`:""}
-        <div class="actions" style="margin-top:8px"><a class="btn sm quiet" href="${a.handlerUrl}" target="_blank" rel="noopener">Handler ↗</a><button class="btn sm ghost" data-open="airport:${i}">Full card</button></div></div>
-      ${MAP.live?`<div class="block"><h3>Latest METAR</h3><div id="wx-metar"><span class="muted small">Loading…</span></div></div>
-      <div class="block"><h3>Survey forecast · next 3 days</h3><div id="wx-fc"><span class="muted small">Loading…</span></div></div>`
-      :`<div class="block"><h3>METAR and 3-day forecast</h3>${wxFallback(a.lat,a.lon,a.icao)}</div>`}`);
-    if (MAP.live){ loadMetar(a.icao); loadForecast(a.lat, a.lon); }
-  } else {
-    const x = DATA.mro[i];
-    panel(x.name, [x.city,x.country].filter(Boolean).join(", "), ccOf(x.country), `
-      <dl class="facts-grid"><div><dt>Approvals</dt><dd>${esc(x.approvals.join(" · ")||"Not published")}</dd></div><div><dt>Types</dt><dd>${esc(x.types.join(", ")||"—")}</dd></div></dl>
-      ${x.mods?`<div class="block"><h3>Survey work</h3><p class="small">${esc(x.mods)}</p></div>`:""}
-      <p class="muted small">Pin placed at the company's city or home airfield.</p>
-      <div class="actions"><button class="btn sm" data-open="mro:${i}">Full card</button><a class="btn sm quiet" href="${x.url}" target="_blank" rel="noopener">Website ↗</a></div>`);
-  }
+  const x = DATA.mro[i];
+  panel(x.name, [x.city,x.country].filter(Boolean).join(", "), ccOf(x.country), `
+    <dl class="facts-grid"><div><dt>Approvals</dt><dd>${esc(x.approvals.join(" · ")||"Not published")}</dd></div><div><dt>Types</dt><dd>${esc(x.types.join(", ")||"—")}</dd></div></dl>
+    ${x.mods?`<div class="block"><h3>Survey work</h3><p class="small">${esc(x.mods)}</p></div>`:""}
+    <p class="muted small">Pin placed at the company's city or home airfield.</p>
+    <div class="actions"><button class="btn sm" data-open="mro:${i}">Full card</button><a class="btn sm quiet" href="${x.url}" target="_blank" rel="noopener">Website ↗</a></div>`);
 }
 function nearest(lat, lon, n){
   const R=3440.1, rad=Math.PI/180;
-  return DATA.airports.map((a,i)=>{ const dφ=(a.lat-lat)*rad, dλ=(a.lon-lon)*rad; const h=Math.sin(dφ/2)**2+Math.cos(lat*rad)*Math.cos(a.lat*rad)*Math.sin(dλ/2)**2; return {a,i,d:2*R*Math.asin(Math.sqrt(h))}; }).sort((x,y)=>x.d-y.d).slice(0,n);
+  return AP.map(a=>{ const dφ=(a.lat-lat)*rad, dλ=(a.lon-lon)*rad; const h=Math.sin(dφ/2)**2+Math.cos(lat*rad)*Math.cos(a.lat*rad)*Math.sin(dλ/2)**2; return {a,d:2*R*Math.asin(Math.sqrt(h))}; }).sort((x,y)=>x.d-y.d).slice(0,n);
 }
 function selectPoint(lat, lon){
   markSel(null); MAP.sel = {kind:"point", lat, lon};
   if (MAP.pt) MAP.map.removeLayer(MAP.pt);
   MAP.pt = L.marker([lat,lon], {icon:L.divIcon({className:"",html:'<span class="ptpin"></span>',iconSize:[0,0]}), interactive:false}).addTo(MAP.map);
-  const nb = nearest(lat, lon, 3);
+  const nb = nearest(lat, lon, 5);
   panel("Survey block", `${lat.toFixed(3)}°, ${lon.toFixed(3)}°`, "", `
     <div class="block"><h3>Survey forecast · next 3 days</h3><div id="wx-fc">${MAP.live?`<span class="muted small">Loading…</span>`:wxFallback(lat,lon)}</div></div>
-    <div class="block"><h3>Nearest survey bases in the directory</h3><div class="near">${nb.map(({a,i,d})=>`<button onclick="selectFeature('airport',${i})"><span class="pin" style="transform:none">${a.icao}</span><span style="flex:1;min-width:0">${esc(a.name)}</span><span class="muted small num">${Math.round(d)} NM</span></button>`).join("")}</div></div>`);
+    <div class="block"><h3>Nearest airports</h3><div class="near">${nb.map(({a,d})=>`<button onclick="selectAirport('${a.icao}')"><span class="pin ${a.cur!=null?"":"alt"}" style="transform:none">${a.icao}</span><span style="flex:1;min-width:0">${esc(a.cur!=null?DATA.airports[a.cur].name:a.name)}<span class="muted small" style="display:block">${a.rwy?fmtN(a.rwy)+" m runway":""}${a.cur!=null?" · EAASI directory":""}</span></span><span class="muted small num">${Math.round(d)} NM</span></button>`).join("")}</div></div>`);
   if (MAP.live) loadForecast(lat, lon);
 }
 function wxFallback(lat, lon, icao){
